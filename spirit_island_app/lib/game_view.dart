@@ -3,37 +3,65 @@ import 'package:flutter/material.dart';
 
 
 class GameView extends StatefulWidget {
-  final gameName = 'Spirit Island';
-  final phaseCount = _getPhaseCount('Spirit Island');
-  final playerCount = 2;
 
   @override
   _GameViewState createState() => _GameViewState();
 }
 
 class _GameViewState extends State<GameView> {
+  final gameName = 'Spirit Island';
+  final phaseCount = _getPhaseCount('Spirit Island');
+  final playerCount = 2;
+
   bool readyPlayer1 = false;
   bool readyPlayer2 = false;
+  List<bool> checksPlayer1 = [false, false, false];
+  List<bool> checksPlayer2 = [false, false, false];
   int currentPhase = 1;
 
   /// Toggle Ready button and check if all players are ready.
   void _toggleReadiness(playerNum) {
     setState(() {
       switch (playerNum) {
-        case 1: readyPlayer1 = !readyPlayer1;
-        break;
-        case 2: readyPlayer2 = !readyPlayer2;
+        case 1: {
+          readyPlayer1 = !readyPlayer1;
+          for (int i=0; i<3; i++) {
+            checksPlayer1[i] = true;
+          }
+          break;
+        }
+        case 2: {
+          readyPlayer2 = !readyPlayer2;
+          for (int i=0; i<3; i++) {
+            checksPlayer2[i] = true;
+          }
+        }
       }
 
+      // Reset buttons and change phase if both are ready.
       if (readyPlayer1 && readyPlayer2) {
         readyPlayer1 = false;
         readyPlayer2 = false;
+        for (int i=0; i < 3; i++) {
+          checksPlayer1[i] = false;
+          checksPlayer2[i] = false;
+        }
 
         if (currentPhase < 4) {
           currentPhase += 1;
         } else {
           currentPhase = 1;
         }
+      }
+    });
+  }
+
+  void _toggleCheck(playerNum, checkNum) {
+    setState(() {
+      switch (playerNum) {
+        case 1: checksPlayer1[checkNum] = !checksPlayer1[checkNum];
+        break;
+        case 2: checksPlayer2[checkNum] = !checksPlayer2[checkNum];
       }
     });
   }
@@ -61,17 +89,57 @@ class _GameViewState extends State<GameView> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        _getPhaseText('Spirit Island', currentPhase),
+                        _getPhaseText(gameName, currentPhase),
                         style: Theme.of(context).textTheme.headline4,
                       ),
                       FlatButton(
-                        color: _getReadyButtonColor(context, readyPlayer2),
+                        color: _getReadyButtonColor(context, readyPlayer2, true),
                         padding: EdgeInsets.all(100),
                         shape: CircleBorder(),
                         onPressed: () {
                           _toggleReadiness(2);
                         },
                         child: Text('READY'),
+                      ),
+                      ButtonBar(
+                        alignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          FlatButton(
+                            color: _getReadyButtonColor(context, checksPlayer2[0], false),
+                            padding: EdgeInsets.all(30),
+                            shape: CircleBorder(),
+                            onPressed: () {
+                              _toggleCheck(2, 0);
+                            },
+                            child: Text(''),
+                          ),
+                          FlatButton(
+                            color: _getReadyButtonColor(context, checksPlayer2[1], false),
+                            padding: EdgeInsets.all(30),
+                            shape: CircleBorder(),
+                            onPressed: () {
+                              _toggleCheck(2, 1);
+                            },
+                            child: Text(''),
+                          ),
+                          FlatButton(
+                            color: _getReadyButtonColor(context, checksPlayer2[2], false),
+                            padding: EdgeInsets.all(30),
+                            shape: CircleBorder(),
+                            onPressed: () {
+                              _toggleCheck(2, 2);
+                            },
+                            child: Text(''),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text('GROWTH'),
+                          Text('ENERGY'),
+                          Text('CARDS'),
+                        ],
                       ),
                     ],
                   ),
@@ -91,17 +159,57 @@ class _GameViewState extends State<GameView> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      _getPhaseText('Spirit Island', currentPhase),
+                      _getPhaseText(gameName, currentPhase),
                       style: Theme.of(context).textTheme.headline4,
                     ),
                     FlatButton(
-                      color: _getReadyButtonColor(context, readyPlayer1),
+                      color: _getReadyButtonColor(context, readyPlayer1, true),
                       padding: EdgeInsets.all(100),
                       shape: CircleBorder(),
                       onPressed: () {
                         _toggleReadiness(1);
                       },
                       child: Text('READY'),
+                    ),
+                    ButtonBar(
+                      alignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        FlatButton(
+                          color: _getReadyButtonColor(context, checksPlayer1[0], false),
+                          padding: EdgeInsets.all(30),
+                          shape: CircleBorder(),
+                          onPressed: () {
+                            _toggleCheck(1, 0);
+                          },
+                          child: Text(''),
+                        ),
+                        FlatButton(
+                          color: _getReadyButtonColor(context, checksPlayer1[1], false),
+                          padding: EdgeInsets.all(30),
+                          shape: CircleBorder(),
+                          onPressed: () {
+                            _toggleCheck(1, 1);
+                          },
+                          child: Text(''),
+                        ),
+                        FlatButton(
+                          color: _getReadyButtonColor(context, checksPlayer1[2], false),
+                          padding: EdgeInsets.all(30),
+                          shape: CircleBorder(),
+                          onPressed: () {
+                            _toggleCheck(1, 2);
+                          },
+                          child: Text(''),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text('GROWTH'),
+                        Text('ENERGY'),
+                        Text('CARDS'),
+                      ],
                     ),
                   ],
                 ),
@@ -114,6 +222,7 @@ class _GameViewState extends State<GameView> {
   }
 }
 
+/// Get background color for either player based on their ready state.
 Color _getContainerColor(context, isReady) {
   if (isReady) {
     return Theme.of(context).colorScheme.primaryVariant;
@@ -122,9 +231,14 @@ Color _getContainerColor(context, isReady) {
   }
 }
 
-Color _getReadyButtonColor(context, isReady) {
+/// Get color for a button based on its state.
+Color _getReadyButtonColor(context, isReady, isReadyButton) {
   if (isReady) {
-    return Theme.of(context).colorScheme.primary;
+    if (isReadyButton) {
+      return Theme.of(context).colorScheme.primary;
+    } else {
+      return Theme.of(context).colorScheme.primary;
+    }
   } else {
     return Theme.of(context).colorScheme.secondary;
   }

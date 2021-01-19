@@ -33,7 +33,10 @@ class _MainViewState extends State<MainView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Spacer(flex: 4),
-            Text('Choose game'),
+            Text(
+              'Choose game',
+              style: Theme.of(context).textTheme.headline6,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -61,7 +64,10 @@ class _MainViewState extends State<MainView> {
               ],
             ),
             Spacer(),
-            Text('Choose the number of players',),
+            Text(
+              'Choose the number of players',
+              style: Theme.of(context).textTheme.headline6,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
