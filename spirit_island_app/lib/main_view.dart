@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spirit_island_app/game_view.dart';
 
 
 class MainView extends StatefulWidget {
@@ -41,7 +42,7 @@ class _MainViewState extends State<MainView> {
             ),
             FlatButton(
               onPressed: () {
-
+                Navigator.of(context).push(_createRoute());
               },
               child: Text('START'),
             ),
@@ -50,4 +51,22 @@ class _MainViewState extends State<MainView> {
       ),
     );
   }
+}
+
+Route _createRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => GameView(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      var begin = Offset(0.0, 1.0);
+      var end = Offset.zero;
+      var curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
 }
