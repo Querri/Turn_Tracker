@@ -9,11 +9,22 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> {
   int playerCount = 0;
-  String game = '';
+  String selectedGame = '';
+
+  Color _getButtonColor(option, buttonLabel) {
+    if (option == 'gameSelection' && buttonLabel == selectedGame) {
+      return Theme.of(context).colorScheme.primaryVariant;
+    }
+    else if (option == 'playerCount' && buttonLabel == playerCount) {
+      return Theme.of(context).colorScheme.primaryVariant;
+    }
+    return Theme.of(context).colorScheme.secondary;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: Text('Spirit Island'),
       ),
@@ -21,56 +32,71 @@ class _MainViewState extends State<MainView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Spacer(flex: 4),
             Text('Choose game'),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Spacer(flex: 2),
                 FlatButton(
-                  onPressed: () {
-                    setState(() {
-                      game = 'Spirit Island';
-                    });
-                  },
+                  color: _getButtonColor('gameSelection', 'Spirit Island'),
                   child: Text('Spirit Island'),
-                ),
-                FlatButton(
                   onPressed: () {
                     setState(() {
-                      game = 'Direwild';
+                      selectedGame = 'Spirit Island';
                     });
                   },
-                  child: Text('Direwild'),
                 ),
+                Spacer(),
+                FlatButton(
+                  color: _getButtonColor('gameSelection', 'Direwild'),
+                  child: Text('Direwild'),
+                  onPressed: () {
+                    setState(() {
+                      selectedGame = 'Direwild';
+                    });
+                  },
+                ),
+                Spacer(flex: 2),
               ],
             ),
+            Spacer(),
             Text('Choose the number of players',),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                Spacer(flex: 2),
                 FlatButton(
+                  color: _getButtonColor('playerCount', 1),
+                  child: Text('1'),
                   onPressed: () {
                     setState(() {
                       playerCount = 1;
                     });
                   },
-                  child: Text('1'),
                 ),
+                Spacer(),
                 FlatButton(
+                  color: _getButtonColor('playerCount', 2),
+                  child: Text('2'),
                   onPressed: () {
                     setState(() {
                       playerCount = 2;
                     });
                   },
-                  child: Text('2'),
                 ),
+                Spacer(flex: 2),
               ],
             ),
+            Spacer(),
             FlatButton(
+              color: Theme.of(context).colorScheme.primary,
               onPressed: () {
                 Navigator.of(context).push(_createRoute());
               },
               child: Text('START'),
             ),
+            Spacer(flex: 5),
           ],
         ),
       ),
