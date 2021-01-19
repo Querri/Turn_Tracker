@@ -9,6 +9,7 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> {
   int playerCount = 0;
+  String game = '';
 
   @override
   Widget build(BuildContext context) {
@@ -20,21 +21,45 @@ class _MainViewState extends State<MainView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'Choose the number of players',
-            ),
+            Text('Choose game'),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FlatButton(
                   onPressed: () {
-                    playerCount = 1;
+                    setState(() {
+                      game = 'Spirit Island';
+                    });
+                  },
+                  child: Text('Spirit Island'),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    setState(() {
+                      game = 'Direwild';
+                    });
+                  },
+                  child: Text('Direwild'),
+                ),
+              ],
+            ),
+            Text('Choose the number of players',),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FlatButton(
+                  onPressed: () {
+                    setState(() {
+                      playerCount = 1;
+                    });
                   },
                   child: Text('1'),
                 ),
                 FlatButton(
                   onPressed: () {
-                    playerCount = 2;
+                    setState(() {
+                      playerCount = 2;
+                    });
                   },
                   child: Text('2'),
                 ),

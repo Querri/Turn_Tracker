@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 
 class GameView extends StatefulWidget {
+  final gameName = 'Spirit Island';
+  final playerCount = 2;
 
   @override
   _GameViewState createState() => _GameViewState();
@@ -11,7 +13,7 @@ class GameView extends StatefulWidget {
 class _GameViewState extends State<GameView> {
   bool readyPlayer1 = false;
   bool readyPlayer2 = false;
-  int gamePhase = 1;
+  int phaseNum = 1;
 
   /// Toggle Ready button and check if all players are ready.
   void _toggleReadiness(playerNum) {
@@ -26,10 +28,10 @@ class _GameViewState extends State<GameView> {
         readyPlayer1 = false;
         readyPlayer2 = false;
 
-        if (gamePhase < 4) {
-          gamePhase += 1;
+        if (phaseNum < 4) {
+          phaseNum += 1;
         } else {
-          gamePhase = 1;
+          phaseNum = 1;
         }
       }
     });
@@ -53,9 +55,9 @@ class _GameViewState extends State<GameView> {
             ),
             RotatedBox(
               quarterTurns: 2,
-              child: Text('GamePhase: ' + gamePhase.toString()),
+              child: Text(_getPhaseText('Spirit Island', phaseNum)),
             ),
-            Text('GamePhase: ' + gamePhase.toString()),
+            Text(_getPhaseText('Spirit Island', phaseNum)),
             RaisedButton(
               onPressed: () {
                 _toggleReadiness(1);
@@ -67,4 +69,27 @@ class _GameViewState extends State<GameView> {
       ),
     );
   }
+}
+
+String _getPhaseText(gameName, phaseNum) {
+  switch (gameName) {
+    case ('Spirit Island'): {
+      switch (phaseNum) {
+        case 1: return 'Spirit Phase';
+        case 2: return 'Fast Power Phase';
+        case 3: return 'Invader Phase';
+        case 4: return 'Slow Power Phase';
+        case 5: return 'Time Passes';
+      }
+      break;
+    }
+    case ('Direwild'): {
+      switch (phaseNum) {
+        case 1: return 'Summon Phase';
+        case 2: return 'Charm Phase';
+        case 3: return 'Adventure Phase';
+      }
+    }
+  }
+  return 'No Phase Found';
 }
