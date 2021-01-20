@@ -3,6 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:spirit_island_app/turn_tracker.dart';
 
 
+/// View that is displayed while playing.
+///
+/// Contains turn tracker, which is customized according
+/// to selected game and the number of players.
 class GameView extends StatefulWidget {
 
   @override
@@ -10,23 +14,26 @@ class GameView extends StatefulWidget {
 }
 
 class _GameViewState extends State<GameView> {
-  TurnTracker turnTracker = new TurnTracker('Spirit Island', 2);
+  TurnTracker _turnTracker = new TurnTracker('Spirit Island', 2);
 
-  /// Toggle Ready button and check if all players are ready.
-  void _toggleReadiness(playerNum) {
+  /// Toggle ready button and check if all players are ready.
+  void _toggleReady(playerNum) {
     setState(() {
-      turnTracker.toggleReadiness(playerNum);
+      _turnTracker.toggleReadiness(playerNum);
 
-      if (turnTracker.checkReadiness(null)) {
-        turnTracker.resetReadiness();
+      if (_turnTracker.checkReadiness(null)) {
+        _turnTracker.resetReadiness();
       }
     });
   }
 
-  void _toggleAction(playerNum, actionNum) {
-    if (turnTracker.areActionsAvailable()) {
+  /// Toggle action button.
+  ///
+  /// playerAction[0] is player number and [1] is action button number.
+  void _toggleAction(List<int> playerAction) {
+    if (_turnTracker.areActionsAvailable()) {
       setState(() {
-        turnTracker.toggleAction(playerNum, actionNum);
+        _turnTracker.toggleAction(playerAction[0], playerAction[1]);
       });
     } else {
       return null;
@@ -41,165 +48,17 @@ class _GameViewState extends State<GameView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.only(top: 40),
-                decoration: BoxDecoration(
-                  color: _getContainerColor(context, 1),
-                  borderRadius: BorderRadius.vertical(
-                      bottom: Radius.circular(100),
-                  ),
-                ),
-                width: double.infinity,
-                child: RotatedBox(
-                  quarterTurns: 2,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        turnTracker.getPhaseText(),
-                        style: Theme.of(context).textTheme.headline4,
-                      ),
-                      FlatButton(
-                        color: _getReadyButtonColor(context, 1),
-                        padding: EdgeInsets.all(100),
-                        shape: CircleBorder(),
-                        child: Text(''),
-                        onPressed: () {
-                          _toggleReadiness(1);
-                        },
-                      ),
-                      ButtonBar(
-                        alignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          FlatButton(
-                            color: _getActionButtonColor(context, 1, 0),
-                            padding: EdgeInsets.all(30),
-                            shape: CircleBorder(),
-                            child: Text(''),
-                            onPressed: () {
-                              _toggleAction(1, 0);
-                            },
-                          ),
-                          FlatButton(
-                            color: _getActionButtonColor(context, 1, 1),
-                            padding: EdgeInsets.all(30),
-                            shape: CircleBorder(),
-                            child: Text(''),
-                            onPressed: () {
-                              _toggleAction(1, 1);
-                            },
-                          ),
-                          FlatButton(
-                            color: _getActionButtonColor(context, 1, 2),
-                            padding: EdgeInsets.all(30),
-                            shape: CircleBorder(),
-                            child: Text(''),
-                            onPressed: () {
-                              _toggleAction(1, 2);
-                            },
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            turnTracker.getActionText()[0],
-                            style: Theme.of(context).textTheme.bodyText1,
-                          ),
-                          Text(
-                            turnTracker.getActionText()[1],
-                            style: Theme.of(context).textTheme.bodyText1,
-                          ),
-                          Text(
-                            turnTracker.getActionText()[2],
-                            style: Theme.of(context).textTheme.bodyText1,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            PlayerSection(
+              turnTracker: _turnTracker,
+              playerNum: 1,
+              toggleReady: _toggleReady,
+              toggleAction: _toggleAction,
             ),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: _getContainerColor(context, 0),
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(100),
-                  ),
-                ),
-                width: double.infinity,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      turnTracker.getPhaseText(),
-                      style: Theme.of(context).textTheme.headline4,
-                    ),
-                    FlatButton(
-                      color: _getReadyButtonColor(context, 0),
-                      padding: EdgeInsets.all(100),
-                      shape: CircleBorder(),
-                      child: Text(''),
-                      onPressed: () {
-                        _toggleReadiness(0);
-                      },
-                    ),
-                    ButtonBar(
-                      alignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        FlatButton(
-                          color: _getActionButtonColor(context, 0, 0),
-                          padding: EdgeInsets.all(30),
-                          shape: CircleBorder(),
-                          child: Text(''),
-                          onPressed: () {
-                            _toggleAction(0, 0);
-                          },
-                        ),
-                        FlatButton(
-                          color: _getActionButtonColor(context, 0, 1),
-                          padding: EdgeInsets.all(30),
-                          shape: CircleBorder(),
-                          child: Text(''),
-                          onPressed: () {
-                            _toggleAction(0, 1);
-                          },
-                        ),
-                        FlatButton(
-                          color: _getActionButtonColor(context, 0, 2),
-                          padding: EdgeInsets.all(30),
-                          shape: CircleBorder(),
-                          child: Text(''),
-                          onPressed: () {
-                            _toggleAction(0, 2);
-                          },
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                            turnTracker.getActionText()[0],
-                            style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                        Text(
-                          turnTracker.getActionText()[1],
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                        Text(
-                          turnTracker.getActionText()[2],
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+            PlayerSection(
+                turnTracker: _turnTracker,
+                playerNum: 0,
+                toggleReady: _toggleReady,
+                toggleAction: _toggleAction,
             ),
           ],
         ),
@@ -209,15 +68,127 @@ class _GameViewState extends State<GameView> {
 
   @override
   void initState() {
+    // Enable full screen.
     SystemChrome.setEnabledSystemUIOverlays([]);
     super.initState();
   }
 
   @override
   void dispose() {
+    // Disable full screen.
     SystemChrome.setEnabledSystemUIOverlays(
         [SystemUiOverlay.top, SystemUiOverlay.bottom]);
     super.dispose();
+  }
+}
+
+
+/// Section for a player.
+///
+/// Player 0 is right way up and player 1 is upside down.
+class PlayerSection extends StatelessWidget {
+  PlayerSection({this.turnTracker, this.playerNum,
+    @required this.toggleReady, @required this.toggleAction});
+  final turnTracker;
+  final playerNum;
+  final ValueChanged<int> toggleReady;
+  final ValueChanged<List<int>> toggleAction;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: RotatedBox(
+        quarterTurns: _getRotation(playerNum),
+        child: Container(
+          decoration: BoxDecoration(
+            color: _getContainerColor(context, playerNum),
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(50),
+            ),
+          ),
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                turnTracker.getPhaseText(),
+                style: Theme.of(context).textTheme.headline4,
+              ),
+              FlatButton(
+                color: _getReadyButtonColor(context, playerNum),
+                padding: EdgeInsets.all(100),
+                shape: CircleBorder(),
+                child: Text(''),
+                onPressed: () {
+                  toggleReady(playerNum);
+                  //_toggleReadiness(0);
+                },
+              ),
+              ButtonBar(
+                alignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  FlatButton(
+                    color: _getActionButtonColor(context, playerNum, 0),
+                    padding: EdgeInsets.all(30),
+                    shape: CircleBorder(),
+                    child: Text(''),
+                    onPressed: () {
+                      //_toggleAction(0, 0);
+                      toggleAction([playerNum, 0]);
+                    },
+                  ),
+                  FlatButton(
+                    color: _getActionButtonColor(context, playerNum, 1),
+                    padding: EdgeInsets.all(30),
+                    shape: CircleBorder(),
+                    child: Text(''),
+                    onPressed: () {
+                      //_toggleAction(0, 1);
+                      toggleAction([playerNum, 1]);
+                    },
+                  ),
+                  FlatButton(
+                    color: _getActionButtonColor(context, playerNum, 2),
+                    padding: EdgeInsets.all(30),
+                    shape: CircleBorder(),
+                    child: Text(''),
+                    onPressed: () {
+                      //_toggleAction(0, 2);
+                      toggleAction([playerNum, 2]);
+                    },
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    turnTracker.getActionText()[0],
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                  Text(
+                    turnTracker.getActionText()[1],
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                  Text(
+                    turnTracker.getActionText()[2],
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Get rotation value for each player.
+  int _getRotation(playerNum) {
+    switch (playerNum) {
+      case 1: return 2;
+    }
+    return 0;
   }
 
   /// Get background color for either player based on their ready state.

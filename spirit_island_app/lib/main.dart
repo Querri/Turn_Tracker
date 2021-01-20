@@ -6,8 +6,10 @@ void main() {
   runApp(MyApp());
 }
 
+
+/// Root of the application.
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -56,7 +58,7 @@ ThemeData theme() {
   );
 }
 
-/// Colors and color scheme.
+/// Colors and a color scheme.
 const Color white = Color(0xFFFFFFFF);
 const Color alabaster = Color(0xFFF5F1E3);
 const Color bone = Color(0xFFDDDBCB);

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'package:spirit_island_app/game_view.dart';
 
 
+/// Main view of the app.
+///
+/// Contains options for selected game and number of players,
+/// which are used to generate the game view.
 class MainView extends StatefulWidget {
   @override
   _MainViewState createState() => _MainViewState();
@@ -10,16 +15,6 @@ class MainView extends StatefulWidget {
 class _MainViewState extends State<MainView> {
   int playerCount = 0;
   String selectedGame = '';
-
-  Color _getButtonColor(option, buttonLabel) {
-    if (option == 'gameSelection' && buttonLabel == selectedGame) {
-      return Theme.of(context).colorScheme.primaryVariant;
-    }
-    else if (option == 'playerCount' && buttonLabel == playerCount) {
-      return Theme.of(context).colorScheme.primaryVariant;
-    }
-    return Theme.of(context).colorScheme.secondary;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,8 +103,20 @@ class _MainViewState extends State<MainView> {
       ),
     );
   }
+
+  /// Get color for a button depending on its state.
+  Color _getButtonColor(option, buttonLabel) {
+    if (option == 'gameSelection' && buttonLabel == selectedGame) {
+      return Theme.of(context).colorScheme.primaryVariant;
+    }
+    else if (option == 'playerCount' && buttonLabel == playerCount) {
+      return Theme.of(context).colorScheme.primaryVariant;
+    }
+    return Theme.of(context).colorScheme.secondary;
+  }
 }
 
+/// Create a navigation route.
 Route _createRoute() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => GameView(),
