@@ -21,7 +21,7 @@ class _MainViewState extends State<MainView> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        title: Text('Spirit Island'),
+        title: Text('Turn Tracker'),
       ),
       body: Center(
         child: Column(
