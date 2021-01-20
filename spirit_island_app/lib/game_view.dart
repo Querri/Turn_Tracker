@@ -48,6 +48,9 @@ class _GameViewState extends State<GameView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            SizedBox(
+              height: 40,
+            ),
             PlayerSection(
               turnTracker: _turnTracker,
               playerNum: 1,
