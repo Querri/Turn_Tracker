@@ -55,9 +55,6 @@ class _GameViewState extends State<GameView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            SizedBox(
-              height: 40,
-            ),
             PlayerSection(
               turnTracker: _turnTracker,
               playerNum: 1,
@@ -110,6 +107,7 @@ class PlayerSection extends StatelessWidget {
       child: RotatedBox(
         quarterTurns: _getRotation(playerNum),
         child: Container(
+          padding: EdgeInsets.only(bottom: _getPadding(playerNum)),
           decoration: BoxDecoration(
             color: _getContainerColor(context, playerNum),
             borderRadius: BorderRadius.vertical(
@@ -196,6 +194,12 @@ class PlayerSection extends StatelessWidget {
       case 1: return 2;
     }
     return 0;
+  }
+
+  /// Get padding value for each player.
+  double _getPadding(playerNum) {
+    if (playerNum == 1) return 30;
+    else return 0;
   }
 
   /// Get background color for either player based on their ready state.
