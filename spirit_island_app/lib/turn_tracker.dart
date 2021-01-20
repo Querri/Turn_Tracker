@@ -83,6 +83,9 @@ class TurnTracker {
   /// True if current phase includes actions and actionButton has a label.
   bool isActionAvailable(int actionNum) {
     switch (gameName) {
+      case 'Generic': {
+        return true;
+      }
       case 'Spirit Island': {
         switch (currentPhase) {
           case 0: return true;
@@ -149,7 +152,7 @@ class TurnTracker {
         }
       }
     }
-    return 'No Phase Found';
+    return '';
   }
 
   /// Get the names for actions in the current phase.

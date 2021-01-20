@@ -13,8 +13,8 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
-  int _playerCount = 0;
-  String _selectedGame = '';
+  int _playerCount = 2;
+  String _selectedGame = 'Generic';
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +36,16 @@ class _MainViewState extends State<MainView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Spacer(flex: 2),
+                FlatButton(
+                  color: _getButtonColor('gameSelection', 'Generic'),
+                  child: Text('Generic'),
+                  onPressed: () {
+                    setState(() {
+                      _selectedGame = 'Generic';
+                    });
+                  },
+                ),
+                Spacer(),
                 FlatButton(
                   color: _getButtonColor('gameSelection', 'Spirit Island'),
                   child: Text('Spirit Island'),
