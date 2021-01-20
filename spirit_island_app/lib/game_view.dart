@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:spirit_island_app/turn_tracker.dart';
 
 
@@ -32,6 +33,7 @@ class _GameViewState extends State<GameView> {
           children: [
             Expanded(
               child: Container(
+                padding: EdgeInsets.only(top: 40),
                 decoration: BoxDecoration(
                   color: _getContainerColor(context, turnTracker.checkReadiness(1)),
                   borderRadius: BorderRadius.vertical(
@@ -163,6 +165,19 @@ class _GameViewState extends State<GameView> {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    SystemChrome.setEnabledSystemUIOverlays([]);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setEnabledSystemUIOverlays(
+        [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+    super.dispose();
   }
 
   /// Get background color for either player based on their ready state.
