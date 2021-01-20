@@ -23,11 +23,13 @@ class TurnTracker {
 
   /// Toggle ready status of a player.
   void toggleReadiness(playerNum) {
-    players[playerNum][0] = !players[playerNum][0];
-
-    print('');
-    print(players);
-    print('');
+    if (isPhaseSymmetric()) {
+      for (var player in players) {
+        player[0] = true;
+      }
+    } else {
+      players[playerNum][0] = !players[playerNum][0];
+    }
   }
 
   /// Check if players are ready.
@@ -62,13 +64,20 @@ class TurnTracker {
 
   /// Toggle one action status of a player.
   void toggleAction(playerNum, actionNum) {
-    players[playerNum][1][actionNum] = !players[playerNum][1][actionNum];
+    if (isPhaseSymmetric()) {
+      for (var player in players) {
+        player[1][actionNum] = !player[1][actionNum];
+      }
+    } else {
+      players[playerNum][1][actionNum] = !players[playerNum][1][actionNum];
+    }
   }
 
   bool checkAction(playerNum, actionNum) {
     return players[playerNum][1][actionNum];
   }
 
+  /// True if current phase includes actions.
   bool areActionsAvailable() {
     switch (gameName) {
       case 'Spirit Island': {
@@ -76,6 +85,16 @@ class TurnTracker {
           case 0: return true;
           case 2: return true;
         }
+      }
+    }
+    return false;
+  }
+
+  /// True if phase is done "jointly", so that players do the actions together.
+  bool isPhaseSymmetric() {
+    switch (gameName) {
+      case 'Spirit Island': {
+        if (currentPhase == 2) return true;
       }
     }
     return false;
