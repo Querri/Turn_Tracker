@@ -1,16 +1,15 @@
-# spirit_island_app
+# Turn Tracker
 
-A Flutter application for helping out in Spirit Island
+Turn Tracker is a Flutter application for Android and probably iOS (should work, but not tested). It's  purpose is to help players keep track of turns while playing various board games.
+
+At the moment only 1-2 players are supported and board game selection includes Spirit Island and Direwild.
+
+## Requirements
+* Android Studio for Windows or XCode for MacOS
+* Android phone for Windows or iOS phone for MacOS
+* Flutter ^1.20.4
 
 ## Getting Started
+To install the application on your phone for personal use or to contribute to the project, please follow official [Flutter installation guide](https://flutter.dev/docs/get-started/install/).
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
