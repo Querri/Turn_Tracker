@@ -8,13 +8,17 @@ import 'package:spirit_island_app/turn_tracker.dart';
 /// Contains turn tracker, which is customized according
 /// to selected game and the number of players.
 class GameView extends StatefulWidget {
+  GameView(this.gameName, this.playerCount);
+  final String gameName;
+  final int playerCount;
 
   @override
   _GameViewState createState() => _GameViewState();
 }
 
 class _GameViewState extends State<GameView> {
-  TurnTracker _turnTracker = new TurnTracker('Spirit Island', 2);
+  /// Create turn tracker.
+  TurnTracker _turnTracker = new TurnTracker();
 
   /// Toggle ready button and check if all players are ready.
   void _toggleReady(playerNum) {
@@ -31,7 +35,7 @@ class _GameViewState extends State<GameView> {
   ///
   /// playerAction[0] is player number and [1] is action button number.
   void _toggleAction(List<int> playerAction) {
-    if (_turnTracker.areActionsAvailable()) {
+    if (_turnTracker.isActionAvailable(playerAction[1])) {
       setState(() {
         _turnTracker.toggleAction(playerAction[0], playerAction[1]);
       });
@@ -42,6 +46,9 @@ class _GameViewState extends State<GameView> {
 
   @override
   Widget build(BuildContext context) {
+    if (!_turnTracker.initDone) {
+      _turnTracker.init(widget.gameName, widget.playerCount);
+    }
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
@@ -58,10 +65,10 @@ class _GameViewState extends State<GameView> {
               toggleAction: _toggleAction,
             ),
             PlayerSection(
-                turnTracker: _turnTracker,
-                playerNum: 0,
-                toggleReady: _toggleReady,
-                toggleAction: _toggleAction,
+              turnTracker: _turnTracker,
+              playerNum: 0,
+              toggleReady: _toggleReady,
+              toggleAction: _toggleAction,
             ),
           ],
         ),
@@ -124,7 +131,6 @@ class PlayerSection extends StatelessWidget {
                 child: Text(''),
                 onPressed: () {
                   toggleReady(playerNum);
-                  //_toggleReadiness(0);
                 },
               ),
               ButtonBar(
@@ -136,7 +142,6 @@ class PlayerSection extends StatelessWidget {
                     shape: CircleBorder(),
                     child: Text(''),
                     onPressed: () {
-                      //_toggleAction(0, 0);
                       toggleAction([playerNum, 0]);
                     },
                   ),
@@ -146,7 +151,6 @@ class PlayerSection extends StatelessWidget {
                     shape: CircleBorder(),
                     child: Text(''),
                     onPressed: () {
-                      //_toggleAction(0, 1);
                       toggleAction([playerNum, 1]);
                     },
                   ),
@@ -156,7 +160,6 @@ class PlayerSection extends StatelessWidget {
                     shape: CircleBorder(),
                     child: Text(''),
                     onPressed: () {
-                      //_toggleAction(0, 2);
                       toggleAction([playerNum, 2]);
                     },
                   ),
@@ -189,6 +192,7 @@ class PlayerSection extends StatelessWidget {
   /// Get rotation value for each player.
   int _getRotation(playerNum) {
     switch (playerNum) {
+      case 0: return 0;
       case 1: return 2;
     }
     return 0;
@@ -214,7 +218,7 @@ class PlayerSection extends StatelessWidget {
 
   /// Get color for a button based on its state.
   Color _getActionButtonColor(context, playerNum, actionNum) {
-    if (turnTracker.areActionsAvailable()) {
+    if (turnTracker.isActionAvailable(actionNum)) {
       if (turnTracker.checkAction(playerNum, actionNum)) {
         return Theme.of(context).colorScheme.primary;
       } else {

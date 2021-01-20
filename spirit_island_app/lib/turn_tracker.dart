@@ -1,5 +1,6 @@
 class TurnTracker {
   String gameName;
+  bool initDone = false;
 
   int playerCount;
   List<List<dynamic>> players;
@@ -7,7 +8,11 @@ class TurnTracker {
   int lastPhase;
   int currentPhase;
 
-  TurnTracker(this.gameName, this.playerCount) {
+  /// Set
+  void init(gameName,playerCount) {
+    this.gameName = gameName;
+    this.playerCount = playerCount;
+
     lastPhase = _getPLastPhase();
     currentPhase = 0;
 
@@ -16,9 +21,7 @@ class TurnTracker {
         [false, new List.generate(3, (index) => false)]
     );
 
-    print('');
-    print(players);
-    print('');
+    initDone = true;
   }
 
   /// Toggle ready status of a player.
@@ -77,13 +80,23 @@ class TurnTracker {
     return players[playerNum][1][actionNum];
   }
 
-  /// True if current phase includes actions.
-  bool areActionsAvailable() {
+  /// True if current phase includes actions and actionButton has a label.
+  bool isActionAvailable(int actionNum) {
     switch (gameName) {
       case 'Spirit Island': {
         switch (currentPhase) {
           case 0: return true;
           case 2: return true;
+        }
+        break;
+      }
+      case 'Direwild': {
+        switch (currentPhase) {
+          case 0: return true;
+          default: {
+            if (actionNum == 0 || actionNum == 2) return true;
+            else return false;
+          }
         }
       }
     }
@@ -96,6 +109,10 @@ class TurnTracker {
       case 'Spirit Island': {
         if (currentPhase == 2) return true;
       }
+      break;
+      case 'Direwild': {
+        if (currentPhase == 0) return true;
+      }
     }
     return false;
   }
@@ -104,7 +121,7 @@ class TurnTracker {
   int _getPLastPhase() {
     switch (gameName) {
       case ('Spirit Island'): return 4;
-      case ('Direwild'): return 3;
+      case ('Direwild'): return 4;
     }
     return 0;
   }
@@ -124,10 +141,11 @@ class TurnTracker {
       }
       case ('Direwild'): {
         switch (currentPhase) {
-          case 0: return 'Minion Phase';
+          case 0: return 'Game Phase';
           case 1: return 'Summon Phase';
           case 2: return 'Charm Phase';
           case 3: return 'Adventure Phase';
+          case 4: return 'End Phase';
         }
       }
     }
@@ -141,6 +159,17 @@ class TurnTracker {
         switch (currentPhase) {
           case 0: return ['GROWTH', 'ENERGY', 'CARDS'];
           case 2: return ['BLIGHT', 'EVENT', 'FEAR'];
+          default: return ['', '', ''];
+        }
+      }
+      break;
+      case 'Direwild': {
+        switch (currentPhase) {
+          case 0: return ['NEW CARD', 'KARN PRESENCE', 'MOVE ENEMIES'];
+          case 1: return ['CHOOSE ORDER', '', 'PLAY CARDS'];
+          case 2: return ['SPEND CHARM', '', 'BUILD CREATURE'];
+          case 3: return ['MOVE', '', 'BATTLE'];
+          case 4: return ['DISCARD CARDS', '', 'MOVE COUNTERS'];
           default: return ['', '', ''];
         }
       }

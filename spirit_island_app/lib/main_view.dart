@@ -13,8 +13,8 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
-  int playerCount = 0;
-  String selectedGame = '';
+  int _playerCount = 0;
+  String _selectedGame = '';
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class _MainViewState extends State<MainView> {
                   child: Text('Spirit Island'),
                   onPressed: () {
                     setState(() {
-                      selectedGame = 'Spirit Island';
+                      _selectedGame = 'Spirit Island';
                     });
                   },
                 ),
@@ -51,7 +51,7 @@ class _MainViewState extends State<MainView> {
                   child: Text('Direwild'),
                   onPressed: () {
                     setState(() {
-                      selectedGame = 'Direwild';
+                      _selectedGame = 'Direwild';
                     });
                   },
                 ),
@@ -72,7 +72,7 @@ class _MainViewState extends State<MainView> {
                   child: Text('1'),
                   onPressed: () {
                     setState(() {
-                      playerCount = 1;
+                      _playerCount = 1;
                     });
                   },
                 ),
@@ -82,7 +82,7 @@ class _MainViewState extends State<MainView> {
                   child: Text('2'),
                   onPressed: () {
                     setState(() {
-                      playerCount = 2;
+                      _playerCount = 2;
                     });
                   },
                 ),
@@ -93,7 +93,7 @@ class _MainViewState extends State<MainView> {
             FlatButton(
               color: Theme.of(context).colorScheme.primary,
               onPressed: () {
-                Navigator.of(context).push(_createRoute());
+                Navigator.of(context).push(_createRoute(_selectedGame, _playerCount));
               },
               child: Text('START'),
             ),
@@ -106,10 +106,10 @@ class _MainViewState extends State<MainView> {
 
   /// Get color for a button depending on its state.
   Color _getButtonColor(option, buttonLabel) {
-    if (option == 'gameSelection' && buttonLabel == selectedGame) {
+    if (option == 'gameSelection' && buttonLabel == _selectedGame) {
       return Theme.of(context).colorScheme.primaryVariant;
     }
-    else if (option == 'playerCount' && buttonLabel == playerCount) {
+    else if (option == 'playerCount' && buttonLabel == _playerCount) {
       return Theme.of(context).colorScheme.primaryVariant;
     }
     return Theme.of(context).colorScheme.secondary;
@@ -117,9 +117,9 @@ class _MainViewState extends State<MainView> {
 }
 
 /// Create a navigation route.
-Route _createRoute() {
+Route _createRoute(selectedGame, playerCount) {
   return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => GameView(),
+    pageBuilder: (context, animation, secondaryAnimation) => GameView(selectedGame, playerCount),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       var begin = Offset(0.0, 1.0);
       var end = Offset.zero;
