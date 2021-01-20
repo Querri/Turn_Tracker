@@ -104,9 +104,18 @@ class _GameViewState extends State<GameView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text(turnTracker.getActionText()[0]),
-                          Text(turnTracker.getActionText()[1]),
-                          Text(turnTracker.getActionText()[2]),
+                          Text(
+                            turnTracker.getActionText()[0],
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
+                          Text(
+                            turnTracker.getActionText()[1],
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
+                          Text(
+                            turnTracker.getActionText()[2],
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
                         ],
                       ),
                     ],
@@ -174,9 +183,18 @@ class _GameViewState extends State<GameView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text(turnTracker.getActionText()[0]),
-                        Text(turnTracker.getActionText()[1]),
-                        Text(turnTracker.getActionText()[2]),
+                        Text(
+                            turnTracker.getActionText()[0],
+                            style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                        Text(
+                          turnTracker.getActionText()[1],
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                        Text(
+                          turnTracker.getActionText()[2],
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
                       ],
                     ),
                   ],

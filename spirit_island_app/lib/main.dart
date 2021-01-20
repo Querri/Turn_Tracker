@@ -30,6 +30,20 @@ ThemeData theme() {
 
     backgroundColor: _colorScheme.background,
 
+    textTheme: TextTheme(
+      headline4: TextStyle(
+        color: _colorScheme.onBackground,
+        fontWeight: FontWeight.bold,
+      ),
+      headline6: TextStyle(
+        color: _colorScheme.onBackground,
+        fontWeight: FontWeight.bold,
+      ),
+      bodyText1: TextStyle(
+        color: _colorScheme.onBackground,
+      )
+    ),
+
     buttonTheme: ButtonThemeData(
       focusColor: _colorScheme.secondary,
       buttonColor: _colorScheme.secondary,
