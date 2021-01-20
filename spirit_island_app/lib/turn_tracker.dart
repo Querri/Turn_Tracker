@@ -87,20 +87,14 @@ class TurnTracker {
         return true;
       }
       case 'Spirit Island': {
-        switch (currentPhase) {
-          case 0: return true;
-          case 2: return true;
-        }
+        if (currentPhase == 0 || currentPhase == 2) return true;
+        else if ((currentPhase == 1 || currentPhase == 3) &&
+            (actionNum == 0 || actionNum == 2)) return true;
         break;
       }
       case 'Direwild': {
-        switch (currentPhase) {
-          case 0: return true;
-          default: {
-            if (actionNum == 0 || actionNum == 2) return true;
-            else return false;
-          }
-        }
+        if (currentPhase == 0) return true;
+        else if (actionNum == 0 || actionNum == 2) return true;
       }
     }
     return false;
@@ -161,8 +155,9 @@ class TurnTracker {
       case ('Spirit Island'): {
         switch (currentPhase) {
           case 0: return ['GROWTH', 'ENERGY', 'CARDS'];
+          case 1: return ['INNATE', '', 'CARDS'];
           case 2: return ['BLIGHT', 'EVENT', 'FEAR'];
-          default: return ['', '', ''];
+          case 3: return ['INNATE', '', 'CARDS'];
         }
       }
       break;
@@ -173,7 +168,6 @@ class TurnTracker {
           case 2: return ['SPEND CHARM', '', 'BUILD CREATURE'];
           case 3: return ['MOVE', '', 'BATTLE'];
           case 4: return ['DISCARD CARDS', '', 'MOVE COUNTERS'];
-          default: return ['', '', ''];
         }
       }
     }
