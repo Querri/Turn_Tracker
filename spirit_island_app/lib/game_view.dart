@@ -23,6 +23,16 @@ class _GameViewState extends State<GameView> {
     });
   }
 
+  void _toggleAction(playerNum, actionNum) {
+    if (turnTracker.areActionsAvailable()) {
+      setState(() {
+        turnTracker.toggleAction(playerNum, actionNum);
+      });
+    } else {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +45,7 @@ class _GameViewState extends State<GameView> {
               child: Container(
                 padding: EdgeInsets.only(top: 40),
                 decoration: BoxDecoration(
-                  color: _getContainerColor(context, turnTracker.checkReadiness(1)),
+                  color: _getContainerColor(context, 1),
                   borderRadius: BorderRadius.vertical(
                       bottom: Radius.circular(100),
                   ),
@@ -51,7 +61,7 @@ class _GameViewState extends State<GameView> {
                         style: Theme.of(context).textTheme.headline4,
                       ),
                       FlatButton(
-                        color: _getReadyButtonColor(context, turnTracker.checkReadiness(1)),
+                        color: _getReadyButtonColor(context, 1),
                         padding: EdgeInsets.all(100),
                         shape: CircleBorder(),
                         child: Text(''),
@@ -63,24 +73,30 @@ class _GameViewState extends State<GameView> {
                         alignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           FlatButton(
+                            color: _getActionButtonColor(context, 1, 0),
                             padding: EdgeInsets.all(30),
                             shape: CircleBorder(),
                             child: Text(''),
                             onPressed: () {
+                              _toggleAction(1, 0);
                             },
                           ),
                           FlatButton(
+                            color: _getActionButtonColor(context, 1, 1),
                             padding: EdgeInsets.all(30),
                             shape: CircleBorder(),
                             child: Text(''),
                             onPressed: () {
+                              _toggleAction(1, 1);
                             },
                           ),
                           FlatButton(
+                            color: _getActionButtonColor(context, 1, 2),
                             padding: EdgeInsets.all(30),
                             shape: CircleBorder(),
                             child: Text(''),
                             onPressed: () {
+                              _toggleAction(1, 2);
                             },
                           ),
                         ],
@@ -101,7 +117,7 @@ class _GameViewState extends State<GameView> {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: _getContainerColor(context, turnTracker.checkReadiness(0)),
+                  color: _getContainerColor(context, 0),
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(100),
                   ),
@@ -115,7 +131,7 @@ class _GameViewState extends State<GameView> {
                       style: Theme.of(context).textTheme.headline4,
                     ),
                     FlatButton(
-                      color: _getReadyButtonColor(context, turnTracker.checkReadiness(0)),
+                      color: _getReadyButtonColor(context, 0),
                       padding: EdgeInsets.all(100),
                       shape: CircleBorder(),
                       child: Text(''),
@@ -127,24 +143,30 @@ class _GameViewState extends State<GameView> {
                       alignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         FlatButton(
+                          color: _getActionButtonColor(context, 0, 0),
                           padding: EdgeInsets.all(30),
                           shape: CircleBorder(),
                           child: Text(''),
                           onPressed: () {
+                            _toggleAction(0, 0);
                           },
                         ),
                         FlatButton(
+                          color: _getActionButtonColor(context, 0, 1),
                           padding: EdgeInsets.all(30),
                           shape: CircleBorder(),
                           child: Text(''),
                           onPressed: () {
+                            _toggleAction(0, 1);
                           },
                         ),
                         FlatButton(
+                          color: _getActionButtonColor(context, 0, 2),
                           padding: EdgeInsets.all(30),
                           shape: CircleBorder(),
                           child: Text(''),
                           onPressed: () {
+                            _toggleAction(0, 2);
                           },
                         ),
                       ],
@@ -181,8 +203,8 @@ class _GameViewState extends State<GameView> {
   }
 
   /// Get background color for either player based on their ready state.
-  Color _getContainerColor(context, isReady) {
-    if (isReady) {
+  Color _getContainerColor(context, playerNum) {
+    if (turnTracker.checkReadiness(playerNum)) {
       return Theme.of(context).colorScheme.primaryVariant;
     } else {
       return Theme.of(context).colorScheme.background;
@@ -190,11 +212,28 @@ class _GameViewState extends State<GameView> {
   }
 
   /// Get color for a button based on its state.
-  Color _getReadyButtonColor(context, isReady) {
-    if (isReady) {
+  Color _getReadyButtonColor(context, playerNum) {
+    if (turnTracker.checkReadiness(playerNum)) {
       return Theme.of(context).colorScheme.primary;
     } else {
       return Theme.of(context).colorScheme.secondary;
+    }
+  }
+
+  /// Get color for a button based on its state.
+  Color _getActionButtonColor(context, playerNum, actionNum) {
+    if (turnTracker.areActionsAvailable()) {
+      if (turnTracker.checkAction(playerNum, actionNum)) {
+        return Theme.of(context).colorScheme.primary;
+      } else {
+        return Theme.of(context).colorScheme.secondary;
+      }
+    } else {
+      if (turnTracker.checkReadiness(playerNum)) {
+        return Theme.of(context).colorScheme.primaryVariant;
+      } else {
+        return Theme.of(context).colorScheme.background;
+      }
     }
   }
 }
