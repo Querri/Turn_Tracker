@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:spirit_island_app/turn_tracker.dart';
@@ -8,9 +9,10 @@ import 'package:spirit_island_app/turn_tracker.dart';
 /// Contains turn tracker, which is customized according
 /// to selected game and the number of players.
 class GameView extends StatefulWidget {
-  GameView(this.gameName, this.playerCount);
   final String gameName;
   final int playerCount;
+
+  GameView({Key key, @required this.gameName, @required this.playerCount}) :super(key: key);
 
   @override
   _GameViewState createState() => _GameViewState();
@@ -23,10 +25,14 @@ class _GameViewState extends State<GameView> {
   /// Toggle ready button and check if all players are ready.
   void _toggleReady(playerNum) {
     setState(() {
-      _turnTracker.toggleReadiness(playerNum);
+      if (playerNum == -1) {
+        _turnTracker.goBack();
+      } else {
+        _turnTracker.toggleReadiness(playerNum);
 
-      if (_turnTracker.checkReadiness(null)) {
-        _turnTracker.resetReadiness();
+        if (_turnTracker.checkReadiness(null)) {
+          _turnTracker.resetReadiness();
+        }
       }
     });
   }
@@ -109,7 +115,6 @@ class PlayerSection extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.only(bottom: _getPadding(playerNum)),
           decoration: BoxDecoration(
-            color: _getContainerColor(context, playerNum),
             borderRadius: BorderRadius.vertical(
               top: Radius.circular(50),
             ),
@@ -118,68 +123,98 @@ class PlayerSection extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text(
-                turnTracker.getPhaseText(),
-                style: Theme.of(context).textTheme.headline4,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      toggleReady(-1);
+                    },
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Text(
+                      turnTracker.getPhaseText(),
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
+                  ),
+                ],
               ),
               FlatButton(
                 color: _getReadyButtonColor(context, playerNum),
                 padding: EdgeInsets.all(100),
                 shape: CircleBorder(),
-                child: Text(''),
+                child: Text('READY'),
                 onPressed: () {
                   toggleReady(playerNum);
                 },
               ),
-              ButtonBar(
-                alignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  FlatButton(
-                    color: _getActionButtonColor(context, playerNum, 0),
-                    padding: EdgeInsets.all(30),
-                    shape: CircleBorder(),
-                    child: Text(''),
-                    onPressed: () {
-                      toggleAction([playerNum, 0]);
-                    },
-                  ),
-                  FlatButton(
-                    color: _getActionButtonColor(context, playerNum, 1),
-                    padding: EdgeInsets.all(30),
-                    shape: CircleBorder(),
-                    child: Text(''),
-                    onPressed: () {
-                      toggleAction([playerNum, 1]);
-                    },
-                  ),
-                  FlatButton(
-                    color: _getActionButtonColor(context, playerNum, 2),
-                    padding: EdgeInsets.all(30),
-                    shape: CircleBorder(),
-                    child: Text(''),
-                    onPressed: () {
-                      toggleAction([playerNum, 2]);
-                    },
-                  ),
-                ],
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        FlatButton(
+                          color: _getActionButtonColor(context, playerNum, 0),
+                          padding: EdgeInsets.all(25),
+                          shape: CircleBorder(),
+                          child: Text(''),
+                          onPressed: () {
+                            toggleAction([playerNum, 0]);
+                          },
+                        ),
+                        Text(
+                          turnTracker.getActionText()[0],
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                      ],
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        FlatButton(
+                          color: _getActionButtonColor(context, playerNum, 1),
+                          padding: EdgeInsets.all(25),
+                          shape: CircleBorder(),
+                          child: Text(''),
+                          onPressed: () {
+                            toggleAction([playerNum, 1]);
+                          },
+                        ),
+                        Text(
+                          turnTracker.getActionText()[1],
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                      ],
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        FlatButton(
+                          color: _getActionButtonColor(context, playerNum, 2),
+                          padding: EdgeInsets.all(25),
+                          shape: CircleBorder(),
+                          child: Text(''),
+                          onPressed: () {
+                            toggleAction([playerNum, 2]);
+                          },
+                        ),
+                        Text(
+                          turnTracker.getActionText()[2],
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    turnTracker.getActionText()[0],
-                    style: Theme.of(context).textTheme.bodyText1,
-                  ),
-                  Text(
-                    turnTracker.getActionText()[1],
-                    style: Theme.of(context).textTheme.bodyText1,
-                  ),
-                  Text(
-                    turnTracker.getActionText()[2],
-                    style: Theme.of(context).textTheme.bodyText1,
-                  ),
-                ],
-              ),
+              SizedBox(height: 30,),
             ],
           ),
         ),
@@ -230,7 +265,7 @@ class PlayerSection extends StatelessWidget {
       }
     } else {
       if (turnTracker.checkReadiness(playerNum)) {
-        return Theme.of(context).colorScheme.primaryVariant;
+        return Theme.of(context).colorScheme.background;
       } else {
         return Theme.of(context).colorScheme.background;
       }

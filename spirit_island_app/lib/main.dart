@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:spirit_island_app/main_view.dart';
+import 'file:///E:/SlowProjects/2021_Other/Spirit_Island_App/spirit_island_app/lib/pages/main_view.dart';
 
 void main() {
   runApp(MyApp());
@@ -36,6 +36,7 @@ ThemeData theme() {
       headline4: TextStyle(
         color: _colorScheme.onBackground,
         fontWeight: FontWeight.bold,
+        fontFamily: 'Josefin Sans'
       ),
       headline6: TextStyle(
         color: _colorScheme.onBackground,

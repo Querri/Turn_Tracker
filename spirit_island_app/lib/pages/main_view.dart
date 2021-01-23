@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:spirit_island_app/game_view.dart';
+import 'file:///E:/SlowProjects/2021_Other/Spirit_Island_App/spirit_island_app/lib/pages/game_view.dart';
 
 
 /// Main view of the app.
@@ -129,7 +129,7 @@ class _MainViewState extends State<MainView> {
 /// Create a navigation route.
 Route _createRoute(selectedGame, playerCount) {
   return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => GameView(selectedGame, playerCount),
+    pageBuilder: (context, animation, secondaryAnimation) => GameView(gameName: selectedGame, playerCount: playerCount),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       var begin = Offset(0.0, 1.0);
       var end = Offset.zero;

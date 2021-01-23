@@ -24,6 +24,21 @@ class TurnTracker {
     initDone = true;
   }
 
+  void goBack() {
+    for (var player in players) {
+      player[0] = false;
+      for (int i=0; i<player[1].length; i++) {
+        player[1][i] = false;
+      }
+    }
+
+    if (currentPhase < 1) {
+      currentPhase = lastPhase;
+    } else {
+      currentPhase -= 1;
+    }
+  }
+
   /// Toggle ready status of a player.
   void toggleReadiness(playerNum) {
     if (isPhaseSymmetric()) {
@@ -87,8 +102,8 @@ class TurnTracker {
         return true;
       }
       case 'Spirit Island': {
-        if (currentPhase == 0 || currentPhase == 2) return true;
-        else if ((currentPhase == 1 || currentPhase == 3) &&
+        if (currentPhase == 0 || currentPhase == 2 || currentPhase == 3) return true;
+        else if ((currentPhase == 1 || currentPhase == 4) &&
             (actionNum == 0 || actionNum == 2)) return true;
         break;
       }
@@ -104,7 +119,7 @@ class TurnTracker {
   bool isPhaseSymmetric() {
     switch (gameName) {
       case 'Spirit Island': {
-        if (currentPhase == 2) return true;
+        if (currentPhase == 2 || currentPhase == 3) return true;
       }
       break;
       case 'Direwild': {
@@ -117,7 +132,7 @@ class TurnTracker {
   /// Get the number of phases in a game.
   int _getPLastPhase() {
     switch (gameName) {
-      case ('Spirit Island'): return 4;
+      case ('Spirit Island'): return 5;
       case ('Direwild'): return 4;
     }
     return 0;
@@ -130,9 +145,10 @@ class TurnTracker {
         switch (currentPhase) {
           case 0: return 'Spirit Phase';
           case 1: return 'Fast Power Phase';
-          case 2: return 'Invader Phase';
-          case 3: return 'Slow Power Phase';
-          case 4: return 'Time Passes';
+          case 2: return 'Invader Phase 1';
+          case 3: return 'Invader Phase 2';
+          case 4: return 'Slow Power Phase';
+          case 5: return 'Time Passes';
         }
         break;
       }
@@ -157,7 +173,8 @@ class TurnTracker {
           case 0: return ['GROWTH', 'ENERGY', 'CARDS'];
           case 1: return ['INNATE', '', 'CARDS'];
           case 2: return ['BLIGHT', 'EVENT', 'FEAR'];
-          case 3: return ['INNATE', '', 'CARDS'];
+          case 3: return ['RAVAGE', 'BUILD', 'EXPLORE'];
+          case 4: return ['INNATE', '', 'CARDS'];
         }
       }
       break;
