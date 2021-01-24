@@ -28,12 +28,13 @@ class _GameViewState extends State<GameView> {
   void _toggleReady(playerNum) {
     setState(() {
       if (playerNum == -1) {
-        _turnTracker.goBack();
+        _turnTracker.changePhase(-1);
+
       } else {
         _turnTracker.toggleReadiness(playerNum);
 
         if (_turnTracker.checkReadiness(null)) {
-          _turnTracker.resetReadiness();
+          _turnTracker.changePhase(1);
         }
       }
     });
