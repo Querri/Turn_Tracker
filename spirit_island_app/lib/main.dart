@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'file:///E:/SlowProjects/2021_Other/Spirit_Island_App/spirit_island_app/lib/pages/main_view.dart';
+import 'package:spirit_island_app/pages/main_view.dart';
 
 void main() {
   runApp(MyApp());

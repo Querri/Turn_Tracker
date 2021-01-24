@@ -129,7 +129,7 @@ class TurnTracker {
     return false;
   }
 
-  /// Get the number of phases in a game.
+  /// Get the number of the last phase.
   int _getPLastPhase() {
     switch (gameName) {
       case ('Spirit Island'): return 5;

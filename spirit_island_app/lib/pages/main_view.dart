@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:screen/screen.dart';
 
-import 'file:///E:/SlowProjects/2021_Other/Spirit_Island_App/spirit_island_app/lib/pages/game_view.dart';
+import 'package:spirit_island_app/pages/game_view.dart';
 
 
 /// Main view of the app.
@@ -14,10 +15,12 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> {
   int _playerCount = 2;
-  String _selectedGame = 'Generic';
+  String _selectedGame = 'Spirit Island';
 
   @override
   Widget build(BuildContext context) {
+    Screen.keepOn(false);
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(

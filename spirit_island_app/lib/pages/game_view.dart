@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:screen/screen.dart';
+
 import 'package:spirit_island_app/turn_tracker.dart';
 
 
@@ -52,6 +54,8 @@ class _GameViewState extends State<GameView> {
 
   @override
   Widget build(BuildContext context) {
+    Screen.keepOn(true);
+
     if (!_turnTracker.initDone) {
       _turnTracker.init(widget.gameName, widget.playerCount);
     }
