@@ -60,28 +60,49 @@ class _GameViewState extends State<GameView> {
     if (!_turnTracker.initDone) {
       _turnTracker.init(widget.gameName, widget.playerCount);
     }
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            PlayerSection(
-              turnTracker: _turnTracker,
-              playerNum: 1,
-              toggleReady: _toggleReady,
-              toggleAction: _toggleAction,
-            ),
-            PlayerSection(
-              turnTracker: _turnTracker,
-              playerNum: 0,
-              toggleReady: _toggleReady,
-              toggleAction: _toggleAction,
-            ),
-          ],
+
+    if (widget.playerCount == 1) {
+      return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Spacer(),
+              PlayerSection(
+                turnTracker: _turnTracker,
+                playerNum: 0,
+                toggleReady: _toggleReady,
+                toggleAction: _toggleAction,
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              PlayerSection(
+                turnTracker: _turnTracker,
+                playerNum: 1,
+                toggleReady: _toggleReady,
+                toggleAction: _toggleAction,
+              ),
+              PlayerSection(
+                turnTracker: _turnTracker,
+                playerNum: 0,
+                toggleReady: _toggleReady,
+                toggleAction: _toggleAction,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
   }
 
   @override
