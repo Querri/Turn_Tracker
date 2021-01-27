@@ -120,12 +120,12 @@ class _MainViewState extends State<MainView> {
   /// Get color for a button depending on its state.
   Color _getButtonColor(option, buttonLabel) {
     if (option == 'gameSelection' && buttonLabel == _selectedGame) {
-      return Theme.of(context).colorScheme.primaryVariant;
+      return Theme.of(context).colorScheme.secondary;
     }
     else if (option == 'playerCount' && buttonLabel == _playerCount) {
-      return Theme.of(context).colorScheme.primaryVariant;
+      return Theme.of(context).colorScheme.secondary;
     }
-    return Theme.of(context).colorScheme.secondary;
+    return Theme.of(context).colorScheme.primary;
   }
 }
 

@@ -275,9 +275,9 @@ class PlayerSection extends StatelessWidget {
   /// Get color for a button based on its state.
   Color _getReadyButtonColor(context, playerNum) {
     if (turnTracker.checkReadiness(playerNum)) {
-      return Theme.of(context).colorScheme.primary;
-    } else {
       return Theme.of(context).colorScheme.secondary;
+    } else {
+      return Theme.of(context).colorScheme.primary;
     }
   }
 
@@ -285,15 +285,16 @@ class PlayerSection extends StatelessWidget {
   Color _getActionButtonColor(context, playerNum, actionNum) {
     if (turnTracker.isActionAvailable(actionNum)) {
       if (turnTracker.checkAction(playerNum, actionNum)) {
-        return Theme.of(context).colorScheme.primary;
-      } else {
         return Theme.of(context).colorScheme.secondary;
+      } else {
+        return Theme.of(context).colorScheme.primary;
       }
     } else {
+      // Button disabled
       if (turnTracker.checkReadiness(playerNum)) {
-        return Theme.of(context).colorScheme.background;
+        return Theme.of(context).colorScheme.secondaryVariant;
       } else {
-        return Theme.of(context).colorScheme.background;
+        return Theme.of(context).colorScheme.primaryVariant;
       }
     }
   }
