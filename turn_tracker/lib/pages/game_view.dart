@@ -118,6 +118,7 @@ class PlayerSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    final actionText = turnTracker.getActionText();
 
     return Expanded(
       child: RotatedBox(
@@ -170,41 +171,37 @@ class PlayerSection extends StatelessWidget {
                         child: Container(
                           width: size.width,
                           height: 200,
-                          child: Stack(
-                            children: [
-                              CustomPaint(
-                                size: Size(size.width, 200),
-                                painter: ButtonBgCustomPainter(),
+                          child:
+                            Container(
+                              width: size.width,
+                              height: 200,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  ActionButton(
+                                    turnTracker: turnTracker,
+                                    playerNum: playerNum,
+                                    actionNum: 0,
+                                    actionText: actionText[0],
+                                    toggleAction: toggleAction,
+                                  ),
+                                  ActionButton(
+                                    turnTracker: turnTracker,
+                                    playerNum: playerNum,
+                                    actionNum: 1,
+                                    actionText: actionText[1],
+                                    toggleAction: toggleAction,
+                                  ),
+                                  ActionButton(
+                                    turnTracker: turnTracker,
+                                    playerNum: playerNum,
+                                    actionNum: 2,
+                                    actionText: actionText[2],
+                                    toggleAction: toggleAction,
+                                  ),
+                                ],
                               ),
-                              Container(
-                                width: size.width,
-                                height: 200,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    ActionButton(
-                                      turnTracker: turnTracker,
-                                      playerNum: playerNum,
-                                      actionNum: 0,
-                                      toggleAction: toggleAction,
-                                    ),
-                                    ActionButton(
-                                      turnTracker: turnTracker,
-                                      playerNum: playerNum,
-                                      actionNum: 1,
-                                      toggleAction: toggleAction,
-                                    ),
-                                    ActionButton(
-                                      turnTracker: turnTracker,
-                                      playerNum: playerNum,
-                                      actionNum: 2,
-                                      toggleAction: toggleAction,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
                           ),
                         ),
                       ),
@@ -269,10 +266,11 @@ class PlayerSection extends StatelessWidget {
 
 /// An action button.
 class ActionButton extends StatelessWidget {
-  ActionButton({this.turnTracker, this.playerNum, this.actionNum, @required this.toggleAction});
+  ActionButton({this.turnTracker, this.playerNum, this.actionNum, this.actionText, @required this.toggleAction});
   final turnTracker;
   final playerNum;
   final actionNum;
+  final actionText;
   final ValueChanged<List<int>> toggleAction;
 
   @override
@@ -284,23 +282,42 @@ class ActionButton extends StatelessWidget {
     if (actionNum == 1) width = width*0.40;
     else width = width*0.30;
 
-    return GestureDetector(
-      onTap: () {
-        toggleAction([playerNum, actionNum]);
-      },
-      child: CustomPaint(
-        size: Size(width, 200),
-        painter: ButtonCustomPainter(color, playerNum, actionNum),
-      ),
+    return Stack(
+      children: [
+        GestureDetector(
+          onTap: () {
+            toggleAction([playerNum, actionNum]);
+            },
+          child: CustomPaint(
+            size: Size(width, 200),
+            painter: ButtonCustomPainter(color, playerNum, actionNum),
+          ),
+        ),
+        Container(
+          alignment: Alignment.bottomCenter,
+          margin: EdgeInsets.only(bottom: 35),
+          width: width,
+          child: Text(
+            actionText,
+            style: Theme.of(context).textTheme.bodyText1
+                .merge(GoogleFonts.roboto())
+                .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+          ),
+        ),
+      ],
     );
   }
 
   /// Get color for a button based on its state.
   Color _getActionButtonColor(context, playerNum, actionNum) {
-    if (turnTracker.checkAction(playerNum, actionNum)) {
-      return Theme.of(context).colorScheme.secondary;
+    if (turnTracker.isActionAvailable(actionNum)) {
+      if (turnTracker.checkAction(playerNum, actionNum)) {
+        return Theme.of(context).colorScheme.secondary;
+      } else {
+        return Theme.of(context).colorScheme.primary;
+      }
     } else {
-      return Theme.of(context).colorScheme.primary;
+      return Theme.of(context).colorScheme.primaryVariant;
     }
   }
 }
@@ -344,30 +361,5 @@ class ButtonCustomPainter extends CustomPainter {
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
     return true;
-  }
-}
-
-
-/// Painter for the complete action button bar shape.
-class ButtonBgCustomPainter extends CustomPainter {
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()..color = Color(0xFF7C5439)..style = PaintingStyle.fill;
-    Path path = Path()..moveTo(0, size.height*0.05);
-    path.quadraticBezierTo(size.width*0.10, 0, size.width*0.30, size.height*0.40);
-    path.quadraticBezierTo(size.width*0.50, size.height*0.75, size.width*0.70, size.height*0.40);
-    path.quadraticBezierTo(size.width*0.90, 0, size.width, size.height*0.05);
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-    path.close();
-
-    canvas.drawShadow(path, Colors.black, 5, true);
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
   }
 }

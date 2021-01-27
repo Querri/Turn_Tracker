@@ -67,6 +67,7 @@ const Color blue = Color(0xFF1B9AAA);
 const Color black = Color(0xFF050505);
 
 const Color brown_dark = Color(0xFF14100D);
+const Color brown_medium = Color(0xFF211A15);
 const Color brown_light = Color(0xFF7C5439);
 const Color brown_bright = Color(0xFFA05D30);
 
@@ -74,11 +75,11 @@ const ColorScheme _colorScheme = ColorScheme(
   brightness: Brightness.dark,
 
   primary: brown_light,
-  primaryVariant: brown_dark,
+  primaryVariant: brown_medium,
   onPrimary: white,
 
   secondary: brown_bright,
-  secondaryVariant: brown_dark,
+  secondaryVariant: brown_medium,
   onSecondary: white,
 
   background: brown_dark,
