@@ -209,14 +209,19 @@ class PlayerSection extends StatelessWidget {
                         heightFactor: 1.8,
                         child: FlatButton(
                           color: _getReadyButtonColor(context, playerNum),
-                          padding: EdgeInsets.all(90),
+                          padding: EdgeInsets.all(10),
                           shape: CircleBorder(),
-                          child: Text(
+                          //child: SvgPicture.asset('button-03.svg'),
+                          child: Image(
+                            width: 180,
+                            image: AssetImage('button.png'),
+                          ),
+                          /*child: Text(
                             'READY',
                             style: Theme.of(context).textTheme.bodyText1
                                 .merge(GoogleFonts.alegreyaSansSc())
                                 .copyWith(color: Theme.of(context).colorScheme.onPrimary),
-                          ),
+                          ),*/
                           onPressed: () {
                             toggleReady(playerNum);
                           },
