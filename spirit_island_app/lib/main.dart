@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:spirit_island_app/main_view.dart';
+import 'package:spirit_island_app/pages/main_view.dart';
 
 void main() {
   runApp(MyApp());
@@ -36,6 +36,7 @@ ThemeData theme() {
       headline4: TextStyle(
         color: _colorScheme.onBackground,
         fontWeight: FontWeight.bold,
+        fontFamily: 'Josefin Sans'
       ),
       headline6: TextStyle(
         color: _colorScheme.onBackground,
@@ -66,19 +67,23 @@ const Color lightBlue = Color(0xFF7CBBBB);
 const Color blue = Color(0xFF1B9AAA);
 const Color black = Color(0xFF050505);
 
-const ColorScheme _colorScheme = ColorScheme(
-  brightness: Brightness.light,
+const Color brown_dark = Color(0xFF14100D);
+const Color brown_light = Color(0xFF7C5439);
+const Color brown_bright = Color(0xFFA05D30);
 
-  primary: blue,
-  primaryVariant: lightBlue,
+const ColorScheme _colorScheme = ColorScheme(
+  brightness: Brightness.dark,
+
+  primary: brown_light,
+  primaryVariant: brown_dark,
   onPrimary: white,
 
-  secondary: bone,
-  secondaryVariant: bone,
-  onSecondary: black,
+  secondary: brown_bright,
+  secondaryVariant: brown_dark,
+  onSecondary: white,
 
-  background: alabaster,
-  onBackground: black,
+  background: brown_dark,
+  onBackground: brown_light,
 
   error: black,
   onError: white,

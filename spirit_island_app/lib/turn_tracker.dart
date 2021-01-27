@@ -8,12 +8,12 @@ class TurnTracker {
   int lastPhase;
   int currentPhase;
 
-  /// Set
+  /// Initialize the class with values from main view.
   void init(gameName,playerCount) {
     this.gameName = gameName;
     this.playerCount = playerCount;
 
-    lastPhase = _getPLastPhase();
+    lastPhase = _getLastPhase();
     currentPhase = 0;
 
     players = List.generate(
@@ -37,6 +37,7 @@ class TurnTracker {
 
   /// Check if players are ready.
   bool checkReadiness(playerNum) {
+    // Check all players.
     if (playerNum == null) {
       for (var player in players) {
         if (!player[0]) {
@@ -44,13 +45,15 @@ class TurnTracker {
         }
       }
       return true;
+    // Check only one specific player.
     } else {
       return players[playerNum][0];
     }
   }
 
-  /// Reset ready buttons and increment current phase.
-  void resetReadiness() {
+  /// Change game phase one forward or backward.
+  void changePhase(direction) {
+    // Set all actions and ready states to false.
     for (var player in players) {
       player[0] = false;
       for (int i=0; i<player[1].length; i++) {
@@ -58,10 +61,19 @@ class TurnTracker {
       }
     }
 
-    if (currentPhase < lastPhase) {
-      currentPhase +=1;
+    // Change phase forward or backward one phase.
+    if (direction == 1) {
+      if (currentPhase < lastPhase) {
+        currentPhase +=1;
+      } else {
+        currentPhase = 0;
+      }
     } else {
-      currentPhase = 0;
+      if (currentPhase > 0) {
+        currentPhase -= 1;
+      } else {
+        currentPhase = lastPhase;
+      }
     }
   }
 
@@ -76,6 +88,7 @@ class TurnTracker {
     }
   }
 
+  /// Check if a specific action of a player is marked as done.
   bool checkAction(playerNum, actionNum) {
     return players[playerNum][1][actionNum];
   }
@@ -87,8 +100,8 @@ class TurnTracker {
         return true;
       }
       case 'Spirit Island': {
-        if (currentPhase == 0 || currentPhase == 2) return true;
-        else if ((currentPhase == 1 || currentPhase == 3) &&
+        if (currentPhase == 0 || currentPhase == 2 || currentPhase == 3) return true;
+        else if ((currentPhase == 1 || currentPhase == 4) &&
             (actionNum == 0 || actionNum == 2)) return true;
         break;
       }
@@ -104,7 +117,7 @@ class TurnTracker {
   bool isPhaseSymmetric() {
     switch (gameName) {
       case 'Spirit Island': {
-        if (currentPhase == 2) return true;
+        if (currentPhase == 2 || currentPhase == 3) return true;
       }
       break;
       case 'Direwild': {
@@ -114,10 +127,10 @@ class TurnTracker {
     return false;
   }
 
-  /// Get the number of phases in a game.
-  int _getPLastPhase() {
+  /// Get the number of the last phase.
+  int _getLastPhase() {
     switch (gameName) {
-      case ('Spirit Island'): return 4;
+      case ('Spirit Island'): return 5;
       case ('Direwild'): return 4;
     }
     return 0;
@@ -130,9 +143,10 @@ class TurnTracker {
         switch (currentPhase) {
           case 0: return 'Spirit Phase';
           case 1: return 'Fast Power Phase';
-          case 2: return 'Invader Phase';
-          case 3: return 'Slow Power Phase';
-          case 4: return 'Time Passes';
+          case 2: return 'Invader Phase 1';
+          case 3: return 'Invader Phase 2';
+          case 4: return 'Slow Power Phase';
+          case 5: return 'Time Passes';
         }
         break;
       }
@@ -157,7 +171,8 @@ class TurnTracker {
           case 0: return ['GROWTH', 'ENERGY', 'CARDS'];
           case 1: return ['INNATE', '', 'CARDS'];
           case 2: return ['BLIGHT', 'EVENT', 'FEAR'];
-          case 3: return ['INNATE', '', 'CARDS'];
+          case 3: return ['RAVAGE', 'BUILD', 'EXPLORE'];
+          case 4: return ['INNATE', '', 'CARDS'];
         }
       }
       break;

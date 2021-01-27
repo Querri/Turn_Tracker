@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:screen/screen.dart';
 
-import 'package:spirit_island_app/game_view.dart';
+import 'package:spirit_island_app/pages/game_view.dart';
 
 
 /// Main view of the app.
@@ -14,10 +15,12 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> {
   int _playerCount = 2;
-  String _selectedGame = 'Generic';
+  String _selectedGame = 'Spirit Island';
 
   @override
   Widget build(BuildContext context) {
+    Screen.keepOn(false);
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
@@ -117,19 +120,19 @@ class _MainViewState extends State<MainView> {
   /// Get color for a button depending on its state.
   Color _getButtonColor(option, buttonLabel) {
     if (option == 'gameSelection' && buttonLabel == _selectedGame) {
-      return Theme.of(context).colorScheme.primaryVariant;
+      return Theme.of(context).colorScheme.secondary;
     }
     else if (option == 'playerCount' && buttonLabel == _playerCount) {
-      return Theme.of(context).colorScheme.primaryVariant;
+      return Theme.of(context).colorScheme.secondary;
     }
-    return Theme.of(context).colorScheme.secondary;
+    return Theme.of(context).colorScheme.primary;
   }
 }
 
 /// Create a navigation route.
 Route _createRoute(selectedGame, playerCount) {
   return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => GameView(selectedGame, playerCount),
+    pageBuilder: (context, animation, secondaryAnimation) => GameView(gameName: selectedGame, playerCount: playerCount),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       var begin = Offset(0.0, 1.0);
       var end = Offset.zero;
