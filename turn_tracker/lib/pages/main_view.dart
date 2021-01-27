@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:screen/screen.dart';
+
 
 import 'package:spirit_island_app/pages/game_view.dart';
 
@@ -33,7 +35,8 @@ class _MainViewState extends State<MainView> {
             Spacer(flex: 4),
             Text(
               'Choose game',
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.headline6
+                  .merge(GoogleFonts.alegreyaSansSc()),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -41,7 +44,12 @@ class _MainViewState extends State<MainView> {
                 Spacer(flex: 2),
                 FlatButton(
                   color: _getButtonColor('gameSelection', 'Generic'),
-                  child: Text('Generic'),
+                  child: Text(
+                    'Generic',
+                    style: Theme.of(context).textTheme.bodyText1
+                        .merge(GoogleFonts.roboto())
+                        .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+                  ),
                   onPressed: () {
                     setState(() {
                       _selectedGame = 'Generic';
@@ -51,7 +59,12 @@ class _MainViewState extends State<MainView> {
                 Spacer(),
                 FlatButton(
                   color: _getButtonColor('gameSelection', 'Spirit Island'),
-                  child: Text('Spirit Island'),
+                  child: Text(
+                    'Spirit Island',
+                    style: Theme.of(context).textTheme.bodyText1
+                        .merge(GoogleFonts.roboto())
+                        .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+                  ),
                   onPressed: () {
                     setState(() {
                       _selectedGame = 'Spirit Island';
@@ -61,7 +74,12 @@ class _MainViewState extends State<MainView> {
                 Spacer(),
                 FlatButton(
                   color: _getButtonColor('gameSelection', 'Direwild'),
-                  child: Text('Direwild'),
+                  child: Text(
+                    'Direwild',
+                    style: Theme.of(context).textTheme.bodyText1
+                        .merge(GoogleFonts.roboto())
+                        .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+                  ),
                   onPressed: () {
                     setState(() {
                       _selectedGame = 'Direwild';
@@ -74,7 +92,8 @@ class _MainViewState extends State<MainView> {
             Spacer(),
             Text(
               'Choose the number of players',
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.headline6
+                  .merge(GoogleFonts.alegreyaSansSc()),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -82,7 +101,12 @@ class _MainViewState extends State<MainView> {
                 Spacer(flex: 2),
                 FlatButton(
                   color: _getButtonColor('playerCount', 1),
-                  child: Text('1'),
+                  child: Text(
+                    '1',
+                    style: Theme.of(context).textTheme.bodyText1
+                        .merge(GoogleFonts.roboto())
+                        .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+                  ),
                   onPressed: () {
                     setState(() {
                       _playerCount = 1;
@@ -92,7 +116,12 @@ class _MainViewState extends State<MainView> {
                 Spacer(),
                 FlatButton(
                   color: _getButtonColor('playerCount', 2),
-                  child: Text('2'),
+                  child: Text(
+                    '2',
+                    style: Theme.of(context).textTheme.bodyText1
+                        .merge(GoogleFonts.roboto())
+                        .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+                  ),
                   onPressed: () {
                     setState(() {
                       _playerCount = 2;
@@ -108,7 +137,12 @@ class _MainViewState extends State<MainView> {
               onPressed: () {
                 Navigator.of(context).push(_createRoute(_selectedGame, _playerCount));
               },
-              child: Text('START'),
+              child: Text(
+                'START',
+                style: Theme.of(context).textTheme.bodyText1
+                    .merge(GoogleFonts.alegreyaSansSc())
+                    .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+              ),
             ),
             Spacer(flex: 5),
           ],

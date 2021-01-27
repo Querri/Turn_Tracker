@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:screen/screen.dart';
 
 import 'package:spirit_island_app/turn_tracker.dart';
@@ -162,7 +163,8 @@ class PlayerSection extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 10),
                     child: Text(
                       turnTracker.getPhaseText(),
-                      style: Theme.of(context).textTheme.headline4,
+                      style: Theme.of(context).textTheme.headline4
+                          .merge(GoogleFonts.alegreyaSansSc()),
                     ),
                   ),
                 ],
@@ -171,7 +173,12 @@ class PlayerSection extends StatelessWidget {
                 color: _getReadyButtonColor(context, playerNum),
                 padding: EdgeInsets.all(100),
                 shape: CircleBorder(),
-                child: Text('READY'),
+                child: Text(
+                  'READY',
+                  style: Theme.of(context).textTheme.bodyText1
+                      .merge(GoogleFonts.alegreyaSansSc())
+                      .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+                ),
                 onPressed: () {
                   toggleReady(playerNum);
                 },
@@ -195,7 +202,8 @@ class PlayerSection extends StatelessWidget {
                         ),
                         Text(
                           turnTracker.getActionText()[0],
-                          style: Theme.of(context).textTheme.bodyText1,
+                          style: Theme.of(context).textTheme.bodyText1
+                              .merge(GoogleFonts.alegreyaSansSc()),
                         ),
                       ],
                     ),
@@ -214,7 +222,8 @@ class PlayerSection extends StatelessWidget {
                         ),
                         Text(
                           turnTracker.getActionText()[1],
-                          style: Theme.of(context).textTheme.bodyText1,
+                          style: Theme.of(context).textTheme.bodyText1
+                              .merge(GoogleFonts.alegreyaSansSc()),
                         ),
                       ],
                     ),
@@ -233,7 +242,8 @@ class PlayerSection extends StatelessWidget {
                         ),
                         Text(
                           turnTracker.getActionText()[2],
-                          style: Theme.of(context).textTheme.bodyText1,
+                          style: Theme.of(context).textTheme.bodyText1
+                              .merge(GoogleFonts.alegreyaSansSc()),
                         ),
                       ],
                     ),

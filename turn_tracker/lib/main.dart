@@ -36,7 +36,6 @@ ThemeData theme() {
       headline4: TextStyle(
         color: _colorScheme.onBackground,
         fontWeight: FontWeight.bold,
-        fontFamily: 'Josefin Sans'
       ),
       headline6: TextStyle(
         color: _colorScheme.onBackground,
