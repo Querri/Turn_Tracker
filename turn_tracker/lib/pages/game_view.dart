@@ -211,9 +211,13 @@ class PlayerSection extends StatelessWidget {
                           color: _getReadyButtonColor(context, playerNum),
                           padding: EdgeInsets.all(10),
                           shape: CircleBorder(),
-                          child: Image(
+                          /*child: Image(
                             width: 180,
                             image: AssetImage('button.png'),
+                          ),*/
+                          child: AnimatedReady(
+                              isAnimated: turnTracker.checkReadiness(playerNum),
+                              curve: 'linear'
                           ),
                           onPressed: () {
                             toggleReady(playerNum);
@@ -261,6 +265,7 @@ class PlayerSection extends StatelessWidget {
     }
   }
 }
+
 
 /// An action button.
 class ActionButton extends StatelessWidget {
@@ -315,7 +320,7 @@ class ActionButton extends StatelessWidget {
         return Theme.of(context).colorScheme.primary;
       }
     } else {
-      return Theme.of(context).colorScheme.primaryVariant;
+      return Theme.of(context).colorScheme.primary;
     }
   }
 }
@@ -359,5 +364,68 @@ class ButtonCustomPainter extends CustomPainter {
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
     return true;
+  }
+}
+
+
+/// Custom animated ready button.
+///
+/// The button spins slowly when its state is active.
+class AnimatedReady extends StatefulWidget {
+  AnimatedReady({Key key, this.isAnimated, this.curve}) : super(key: key);
+
+  final bool isAnimated;
+  final String curve;
+
+  @override
+  _AnimatedReadyState createState() => _AnimatedReadyState();
+}
+
+class _AnimatedReadyState extends State<AnimatedReady>
+    with TickerProviderStateMixin {
+  AnimationController _controller;
+  Animation<double> _animation;
+
+  @override
+  void initState() {
+    Curve curve = Curves.linear;
+    switch(widget.curve) {
+      case 'easeIn': curve = Curves.easeIn;
+    }
+
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 20),
+      vsync: this,
+    )..repeat(reverse: false);
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: curve,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.isAnimated) {
+      _controller.repeat();
+    } else {
+      _controller.stop();
+    }
+    return RotationTransition(
+      turns: _animation,
+      child: const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Image(
+          width: 160,
+          image: AssetImage('button.png'),
+        ),
+      ),
+    );
   }
 }
