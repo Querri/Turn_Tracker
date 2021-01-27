@@ -146,10 +146,21 @@ class PlayerSection extends StatelessWidget {
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 10),
-                    child: Text(
-                      turnTracker.getPhaseText(),
-                      style: Theme.of(context).textTheme.headline4
-                          .merge(GoogleFonts.alegreyaSansSc()),
+                    child: AnimatedSwitcher(
+                      duration: Duration(milliseconds: 300),
+                      transitionBuilder:
+                          (Widget child, Animation<double> animation) {
+                        return ScaleTransition(
+                          child: child,
+                          scale: animation,
+                        );
+                      },
+                      child: Text(
+                        turnTracker.getPhaseText(),
+                        key: ValueKey<String>(turnTracker.getPhaseText()),
+                        style: Theme.of(context).textTheme.headline4
+                            .merge(GoogleFonts.alegreyaSansSc()),
+                      ),
                     ),
                   ),
                   IconButton(
