@@ -62,48 +62,29 @@ class _GameViewState extends State<GameView> {
       _turnTracker.init(widget.gameName, widget.playerCount);
     }
 
-    if (widget.playerCount == 1) {
-      return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Spacer(),
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            if (widget.playerCount == 2)
               PlayerSection(
-                turnTracker: _turnTracker,
-                playerNum: 0,
-                toggleReady: _toggleReady,
-                toggleAction: _toggleAction,
-              ),
-            ],
-          ),
+              turnTracker: _turnTracker,
+              playerNum: 1,
+              toggleReady: _toggleReady,
+              toggleAction: _toggleAction,
+            ),
+            PlayerSection(
+              turnTracker: _turnTracker,
+              playerNum: 0,
+              toggleReady: _toggleReady,
+              toggleAction: _toggleAction,
+            ),
+          ],
         ),
-      );
-    } else {
-      return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              PlayerSection(
-                turnTracker: _turnTracker,
-                playerNum: 1,
-                toggleReady: _toggleReady,
-                toggleAction: _toggleAction,
-              ),
-              PlayerSection(
-                turnTracker: _turnTracker,
-                playerNum: 0,
-                toggleReady: _toggleReady,
-                toggleAction: _toggleAction,
-              ),
-            ],
-          ),
-        ),
-      );
-    }
+      ),
+    );
   }
 
   @override
@@ -136,11 +117,13 @@ class PlayerSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     return Expanded(
       child: RotatedBox(
         quarterTurns: _getRotation(playerNum),
         child: Container(
-          padding: EdgeInsets.only(bottom: _getPadding(playerNum)),
+          margin: EdgeInsets.only(bottom: _getMargin(playerNum)),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.vertical(
               top: Radius.circular(50),
@@ -154,103 +137,98 @@ class PlayerSection extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.arrow_back),
+                    icon: Icon(Icons.arrow_left),
+                    color: Theme.of(context).colorScheme.onBackground,
                     onPressed: () {
                       toggleReady(-1);
                     },
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 10),
+                    margin: EdgeInsets.symmetric(vertical: 10),
                     child: Text(
                       turnTracker.getPhaseText(),
                       style: Theme.of(context).textTheme.headline4
                           .merge(GoogleFonts.alegreyaSansSc()),
                     ),
                   ),
+                  IconButton(
+                    icon: Icon(Icons.arrow_right),
+                    color: Theme.of(context).colorScheme.onBackground,
+                    onPressed: () {
+                      toggleReady(-1);
+                    },
+                  ),
                 ],
               ),
-              FlatButton(
-                color: _getReadyButtonColor(context, playerNum),
-                padding: EdgeInsets.all(100),
-                shape: CircleBorder(),
-                child: Text(
-                  'READY',
-                  style: Theme.of(context).textTheme.bodyText1
-                      .merge(GoogleFonts.alegreyaSansSc())
-                      .copyWith(color: Theme.of(context).colorScheme.onPrimary),
-                ),
-                onPressed: () {
-                  toggleReady(playerNum);
-                },
-              ),
               Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        FlatButton(
-                          color: _getActionButtonColor(context, playerNum, 0),
-                          padding: EdgeInsets.all(25),
+                child: Container(
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        child: Container(
+                          width: size.width,
+                          height: 200,
+                          child: Stack(
+                            children: [
+                              CustomPaint(
+                                size: Size(size.width, 200),
+                                painter: ButtonBgCustomPainter(),
+                              ),
+                              Container(
+                                width: size.width,
+                                height: 200,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    ActionButton(
+                                      turnTracker: turnTracker,
+                                      playerNum: playerNum,
+                                      actionNum: 0,
+                                      toggleAction: toggleAction,
+                                    ),
+                                    ActionButton(
+                                      turnTracker: turnTracker,
+                                      playerNum: playerNum,
+                                      actionNum: 1,
+                                      toggleAction: toggleAction,
+                                    ),
+                                    ActionButton(
+                                      turnTracker: turnTracker,
+                                      playerNum: playerNum,
+                                      actionNum: 2,
+                                      toggleAction: toggleAction,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Center(
+                        heightFactor: 1.8,
+                        child: FlatButton(
+                          color: _getReadyButtonColor(context, playerNum),
+                          padding: EdgeInsets.all(90),
                           shape: CircleBorder(),
-                          child: Text(''),
+                          child: Text(
+                            'READY',
+                            style: Theme.of(context).textTheme.bodyText1
+                                .merge(GoogleFonts.alegreyaSansSc())
+                                .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+                          ),
                           onPressed: () {
-                            toggleAction([playerNum, 0]);
+                            toggleReady(playerNum);
                           },
                         ),
-                        Text(
-                          turnTracker.getActionText()[0],
-                          style: Theme.of(context).textTheme.bodyText1
-                              .merge(GoogleFonts.alegreyaSansSc()),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        FlatButton(
-                          color: _getActionButtonColor(context, playerNum, 1),
-                          padding: EdgeInsets.all(25),
-                          shape: CircleBorder(),
-                          child: Text(''),
-                          onPressed: () {
-                            toggleAction([playerNum, 1]);
-                          },
-                        ),
-                        Text(
-                          turnTracker.getActionText()[1],
-                          style: Theme.of(context).textTheme.bodyText1
-                              .merge(GoogleFonts.alegreyaSansSc()),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        FlatButton(
-                          color: _getActionButtonColor(context, playerNum, 2),
-                          padding: EdgeInsets.all(25),
-                          shape: CircleBorder(),
-                          child: Text(''),
-                          onPressed: () {
-                            toggleAction([playerNum, 2]);
-                          },
-                        ),
-                        Text(
-                          turnTracker.getActionText()[2],
-                          style: Theme.of(context).textTheme.bodyText1
-                              .merge(GoogleFonts.alegreyaSansSc()),
-                        ),
-                      ],
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              SizedBox(height: 30,),
             ],
           ),
         ),
@@ -260,16 +238,13 @@ class PlayerSection extends StatelessWidget {
 
   /// Get rotation value for each player.
   int _getRotation(playerNum) {
-    switch (playerNum) {
-      case 0: return 0;
-      case 1: return 2;
-    }
-    return 0;
+    if (playerNum == 1) return 2;
+    else return 0;
   }
 
   /// Get padding value for each player.
-  double _getPadding(playerNum) {
-    if (playerNum == 1) return 30;
+  double _getMargin(playerNum) {
+    if (playerNum == 1) return 0;
     else return 0;
   }
 
@@ -290,22 +265,109 @@ class PlayerSection extends StatelessWidget {
       return Theme.of(context).colorScheme.primary;
     }
   }
+}
+
+/// An action button.
+class ActionButton extends StatelessWidget {
+  ActionButton({this.turnTracker, this.playerNum, this.actionNum, @required this.toggleAction});
+  final turnTracker;
+  final playerNum;
+  final actionNum;
+  final ValueChanged<List<int>> toggleAction;
+
+  @override
+  Widget build(BuildContext context) {
+    final color = _getActionButtonColor(context, playerNum, actionNum);
+
+    final Size size = MediaQuery.of(context).size;
+    double width = size.width;
+    if (actionNum == 1) width = width*0.40;
+    else width = width*0.30;
+
+    return GestureDetector(
+      onTap: () {
+        toggleAction([playerNum, actionNum]);
+      },
+      child: CustomPaint(
+        size: Size(width, 200),
+        painter: ButtonCustomPainter(color, playerNum, actionNum),
+      ),
+    );
+  }
 
   /// Get color for a button based on its state.
   Color _getActionButtonColor(context, playerNum, actionNum) {
-    if (turnTracker.isActionAvailable(actionNum)) {
-      if (turnTracker.checkAction(playerNum, actionNum)) {
-        return Theme.of(context).colorScheme.secondary;
-      } else {
-        return Theme.of(context).colorScheme.primary;
-      }
+    if (turnTracker.checkAction(playerNum, actionNum)) {
+      return Theme.of(context).colorScheme.secondary;
     } else {
-      // Button disabled
-      if (turnTracker.checkReadiness(playerNum)) {
-        return Theme.of(context).colorScheme.secondaryVariant;
-      } else {
-        return Theme.of(context).colorScheme.primaryVariant;
-      }
+      return Theme.of(context).colorScheme.primary;
     }
+  }
+}
+
+
+/// Painter for one action button.
+class ButtonCustomPainter extends CustomPainter {
+  final buttonColor;
+  final playerNum;
+  final actionNum;
+  ButtonCustomPainter(this.buttonColor, this.playerNum, this.actionNum);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()..color = buttonColor..style = PaintingStyle.fill;
+
+    if (actionNum == 0) {
+      Path path = Path()..moveTo(0, size.height*0.05);
+      path.quadraticBezierTo(size.width*0.30, 0, size.width, size.height*0.40);
+      path.lineTo(size.width, size.height);
+      path.lineTo(0, size.height);
+      path.close();
+      canvas.drawPath(path, paint);
+    } else if (actionNum == 1) {
+      Path path = Path()..moveTo(0, size.height*0.40);
+      path.quadraticBezierTo(size.width*0.50, size.height*0.75, size.width, size.height*0.40);
+      path.lineTo(size.width, size.height);
+      path.lineTo(0, size.height);
+      path.close();
+      canvas.drawPath(path, paint);
+    } else {
+      Path path = Path()..moveTo(0, size.height*0.40);
+      path.quadraticBezierTo(size.width*0.70, 0, size.width, size.height*0.05);
+      path.lineTo(size.width, size.height);
+      path.lineTo(0, size.height);
+      path.close();
+      canvas.drawPath(path, paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return true;
+  }
+}
+
+
+/// Painter for the complete action button bar shape.
+class ButtonBgCustomPainter extends CustomPainter {
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()..color = Color(0xFF7C5439)..style = PaintingStyle.fill;
+    Path path = Path()..moveTo(0, size.height*0.05);
+    path.quadraticBezierTo(size.width*0.10, 0, size.width*0.30, size.height*0.40);
+    path.quadraticBezierTo(size.width*0.50, size.height*0.75, size.width*0.70, size.height*0.40);
+    path.quadraticBezierTo(size.width*0.90, 0, size.width, size.height*0.05);
+    path.lineTo(size.width, size.height);
+    path.lineTo(0, size.height);
+    path.close();
+
+    canvas.drawShadow(path, Colors.black, 5, true);
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
   }
 }

@@ -141,22 +141,22 @@ class TurnTracker {
     switch (gameName) {
       case ('Spirit Island'): {
         switch (currentPhase) {
-          case 0: return 'Spirit Phase';
-          case 1: return 'Fast Power Phase';
-          case 2: return 'Invader Phase 1';
-          case 3: return 'Invader Phase 2';
-          case 4: return 'Slow Power Phase';
-          case 5: return 'Time Passes';
+          case 0: return 'spirit phase';
+          case 1: return 'fast power phase';
+          case 2: return 'invader phase 1';
+          case 3: return 'invader phase 2';
+          case 4: return 'slow power phase';
+          case 5: return 'time passes';
         }
         break;
       }
       case ('Direwild'): {
         switch (currentPhase) {
-          case 0: return 'Game Phase';
-          case 1: return 'Summon Phase';
-          case 2: return 'Charm Phase';
-          case 3: return 'Adventure Phase';
-          case 4: return 'End Phase';
+          case 0: return 'game phase';
+          case 1: return 'summon phase';
+          case 2: return 'charm phase';
+          case 3: return 'adventure phase';
+          case 4: return 'end phase';
         }
       }
     }
