@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:screen/screen.dart';
 
+import 'package:spirit_island_app/pages/game_view_animator.dart';
+import 'package:spirit_island_app/pages/game_view_painter.dart';
 import 'package:spirit_island_app/turn_tracker.dart';
 
 
@@ -317,115 +319,5 @@ class ActionButton extends StatelessWidget {
     } else {
       return Theme.of(context).colorScheme.primary;
     }
-  }
-}
-
-
-/// Painter for one action button.
-class ButtonCustomPainter extends CustomPainter {
-  final buttonColor;
-  final playerNum;
-  final actionNum;
-  ButtonCustomPainter(this.buttonColor, this.playerNum, this.actionNum);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()..color = buttonColor..style = PaintingStyle.fill;
-
-    if (actionNum == 0) {
-      Path path = Path()..moveTo(0, size.height*0.05);
-      path.quadraticBezierTo(size.width*0.30, 0, size.width, size.height*0.40);
-      path.lineTo(size.width, size.height);
-      path.lineTo(0, size.height);
-      path.close();
-      canvas.drawPath(path, paint);
-    } else if (actionNum == 1) {
-      Path path = Path()..moveTo(0, size.height*0.40);
-      path.quadraticBezierTo(size.width*0.50, size.height*0.75, size.width, size.height*0.40);
-      path.lineTo(size.width, size.height);
-      path.lineTo(0, size.height);
-      path.close();
-      canvas.drawPath(path, paint);
-    } else {
-      Path path = Path()..moveTo(0, size.height*0.40);
-      path.quadraticBezierTo(size.width*0.70, 0, size.width, size.height*0.05);
-      path.lineTo(size.width, size.height);
-      path.lineTo(0, size.height);
-      path.close();
-      canvas.drawPath(path, paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
-  }
-}
-
-
-/// Custom animated ready button.
-///
-/// The button spins slowly when its state is active.
-class AnimatedReady extends StatefulWidget {
-  AnimatedReady({Key key, this.isAnimated, this.curve}) : super(key: key);
-
-  final bool isAnimated;
-  final String curve;
-
-  @override
-  _AnimatedReadyState createState() => _AnimatedReadyState();
-}
-
-class _AnimatedReadyState extends State<AnimatedReady>
-    with TickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<double> _animation;
-
-  @override
-  void initState() {
-    Curve curve = Curves.linear;
-    switch(widget.curve) {
-      case 'easeIn': curve = Curves.easeIn;
-    }
-
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(seconds: 20),
-      vsync: this,
-    )..repeat();
-    _animation = CurvedAnimation(
-      parent: _controller,
-      curve: curve,
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (widget.curve == 'easeIn') {
-      _controller.repeat(min: 1, max: 1);
-    }
-
-    if (widget.isAnimated) {
-      _controller.repeat();
-    } else {
-      _controller.stop();
-    }
-
-    return RotationTransition(
-      turns: _animation,
-      child: const Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Image(
-          width: 160,
-          image: AssetImage('button.png'),
-        ),
-      ),
-    );
   }
 }
