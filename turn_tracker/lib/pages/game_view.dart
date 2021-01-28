@@ -208,17 +208,21 @@ class PlayerSection extends StatelessWidget {
                       ),
                       Center(
                         heightFactor: 1.8,
-                        child: FlatButton(
-                          color: _getReadyButtonColor(context, playerNum),
-                          padding: EdgeInsets.all(10),
-                          shape: CircleBorder(),
-                          child: AnimatedReady(
+                        child: Container(
+                          width: 170,
+                          height: 170,
+                          child: FlatButton(
+                            color: _getReadyButtonColor(context, playerNum),
+                            padding: EdgeInsets.all(10),
+                            shape: CircleBorder(),
+                            //child: ReadyAnimation(),
+                            child: AnimatedReady(
                               isAnimated: turnTracker.checkReadiness(playerNum),
-                              curve: 'linear'
+                            ),
+                            onPressed: () {
+                              toggleReady(playerNum);
+                            },
                           ),
-                          onPressed: () {
-                            toggleReady(playerNum);
-                          },
                         ),
                       ),
                     ],
@@ -242,15 +246,6 @@ class PlayerSection extends StatelessWidget {
   double _getMargin(playerNum) {
     if (playerNum == 1) return 0;
     else return 0;
-  }
-
-  /// Get background color for either player based on their ready state.
-  Color _getContainerColor(context, playerNum) {
-    if (turnTracker.checkReadiness(playerNum)) {
-      return Theme.of(context).colorScheme.primaryVariant;
-    } else {
-      return Theme.of(context).colorScheme.background;
-    }
   }
 
   /// Get color for a button based on its state.
