@@ -1,6 +1,7 @@
 class TurnTracker {
   String gameName;
   bool initDone = false;
+  int spinBoth = 0;
 
   int playerCount;
   List<List<dynamic>> players;
@@ -53,6 +54,7 @@ class TurnTracker {
 
   /// Change game phase one forward or backward.
   void changePhase(direction) {
+    spinBoth = 2;
     // Set all actions and ready states to false.
     for (var player in players) {
       player[0] = false;
@@ -187,6 +189,14 @@ class TurnTracker {
       }
     }
     return ['', '', ''];
+  }
+
+  bool spin() {
+    if (spinBoth > 0) {
+      spinBoth -= 1;
+      return true;
+    }
+    return false;
   }
 }
 

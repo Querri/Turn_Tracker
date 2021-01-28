@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 
+/// Custom animations for ready button.
 class AnimatedReady extends StatefulWidget {
-  AnimatedReady({Key key, this.isAnimated}) : super(key: key);
+  AnimatedReady({Key key, this.animateBoth, this.isAnimated}) : super(key: key);
   final bool isAnimated;
+  final bool animateBoth;
 
   @override
   _AnimatedReadyState createState() => _AnimatedReadyState();
@@ -31,8 +33,19 @@ class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateM
   Future<void> _playAnimation() async {
     try {
       _controller.reset();
+      _repeatedController.reset();
       await _controller.forward().orCancel;
-      //_repeatedController.repeat();
+      _repeatedController.repeat();
+    } on TickerCanceled {
+      // the animation got canceled, probably because it was disposed of.
+    }
+  }
+
+  Future<void> _playSpin() async {
+    try {
+      _repeatedController.stop();
+      _controller.reset();
+      await _controller.forward().orCancel;
     } on TickerCanceled {
       // the animation got canceled, probably because it was disposed of.
     }
@@ -40,7 +53,7 @@ class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateM
 
   Future<void> _stopAnimation() async {
     try {
-      _controller.stop();
+      _repeatedController.stop();
     } on TickerCanceled {
       // animation disposed
     }
@@ -49,8 +62,13 @@ class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateM
   @override
   Widget build(BuildContext context) {
 
-    if (widget.isAnimated) {
+    if (widget.animateBoth) {
+      _playSpin();
+    }
+    else if (widget.isAnimated) {
       _playAnimation();
+    } else {
+      _stopAnimation();
     }
 
     return Center(
@@ -63,7 +81,7 @@ class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateM
 }
 
 
-/// Custom animation.
+/// Custom animation for ready button click.
 class StaggerAnimation extends StatelessWidget {
   StaggerAnimation({ Key key, this.controller, this.repeatController }) :
 
@@ -106,7 +124,7 @@ class StaggerAnimation extends StatelessWidget {
         repeatRotation = Tween<double>(begin: 0.0, end: 1.0,).animate(
           CurvedAnimation(
             parent: repeatController,
-            curve: Curves.easeOutCirc,
+            curve: Curves.linear,
           ),
         ),
 
@@ -122,9 +140,9 @@ class StaggerAnimation extends StatelessWidget {
 
   Widget _buildAnimation(BuildContext context, Widget child) {
     return RotationTransition(
-      turns: repeatRotation,
+      turns: rotation,
       child: RotationTransition(
-        turns: rotation,
+        turns: repeatRotation,
         child: Container(
           alignment: Alignment.center,
           child: Container(
@@ -149,188 +167,5 @@ class StaggerAnimation extends StatelessWidget {
   }
 }
 
-
-/*
-/// Custom animated ready button.
-///
-/// The button spins slowly when its state is active.
-class AnimatedReady extends StatefulWidget {
-  AnimatedReady({Key key, this.isAnimated}) : super(key: key);
-
-  final bool isAnimated;
-
-  @override
-  _AnimatedReadyState createState() => _AnimatedReadyState();
-}
-
-class _AnimatedReadyState extends State<AnimatedReady>
-    with TickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<double> _animation;
-
-  @override
-  void initState() {
-
-    super.initState();
-    _controller = AnimationController(
-      duration: Duration(milliseconds: 500),
-      vsync: this,
-    );
-    _animation = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.linear,
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  Future<void> _playAnimation() async {
-    try {
-      // starting spin
-      _controller.duration = Duration(milliseconds: 500);
-      await _controller.forward();
-
-      // repeating spin
-      _controller.duration = Duration(seconds: 10);
-      await _controller.repeat();
-    } on TickerCanceled {
-      // animation disposed
-    }
-  }
-
-  Future<void> _stopAnimation() async {
-    try {
-      _controller.stop();
-    } on TickerCanceled {
-      // animation disposed
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    if (widget.isAnimated) {
-      _playAnimation();
-    } else {
-      _stopAnimation();
-    }
-
-    return Center(
-      child: Container(
-        width: 300.0,
-        height: 300.0,
-        decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.1),
-          border: Border.all(
-            color:  Colors.black.withOpacity(0.5),
-          ),
-        ),
-        child: StaggerAnimation(
-            controller: _controller.view
-        ),
-      ),
-    );
-
-    return RotationTransition(
-      turns: _animation,
-      child: Padding(
-        padding: EdgeInsets.all(8.0),
-        //child: StaggerAnimation(controller: _controller),
-        child: Image(
-          width: 160,
-          image: AssetImage('button.png'),
-        ),
-      ),
-    );
-  }
-}
-
-
-/// baa
-class StaggerAnimation extends StatelessWidget {
-  StaggerAnimation({ Key key, this.controller }) :
-
-        animation1 = new Tween(begin: 0.5, end: 1.0).animate(
-          new CurvedAnimation(
-            parent: controller,
-            curve: new Interval(
-              0.000,
-              0.500,
-              curve: Curves.easeIn,
-            ),
-          ),
-        ),
-
-        animation2 = new Tween(begin: 0.5, end: 1.0).animate(
-          new CurvedAnimation(
-            parent: controller,
-            curve: new Interval(
-              0.000,
-              0.500,
-              curve: Curves.linear,
-            ),
-          ),
-        ),
-
-        super(key: key);
-
-  final AnimationController controller;
-  final AnimationController animation1;
-  final Animation<double> animation2;
-
-  Widget _buildAnimation(BuildContext context, Widget child) {
-    return Container(
-      width: animation2.value,
-      height: animation2.value,
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.indigo[300],
-          width: 3.0,
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Text('baa');
-  }
-}
-
-
-
-/// New animation for ready button.
-class ReadyAnimation extends StatefulWidget {
-  @override
-  _ReadyAnimationState createState() => _ReadyAnimationState();
-}
-
-class _ReadyAnimationState extends State<ReadyAnimation>
-    with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-
-  @override
-  void initState() {
-    _controller = AnimationController(
-        vsync: this
-    );
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}*/
 
 

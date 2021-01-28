@@ -217,6 +217,7 @@ class PlayerSection extends StatelessWidget {
                             shape: CircleBorder(),
                             //child: ReadyAnimation(),
                             child: AnimatedReady(
+                              animateBoth: turnTracker.spin(),
                               isAnimated: turnTracker.checkReadiness(playerNum),
                             ),
                             onPressed: () {
