@@ -125,11 +125,6 @@ class PlayerSection extends StatelessWidget {
         quarterTurns: _getRotation(playerNum),
         child: Container(
           margin: EdgeInsets.only(bottom: _getMargin(playerNum)),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(50),
-            ),
-          ),
           width: double.infinity,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -179,42 +174,35 @@ class PlayerSection extends StatelessWidget {
                       Positioned(
                         bottom: 0,
                         left: 0,
-                        child: Container(
-                          width: size.width,
-                          height: 200,
-                          child:
-                            Container(
-                              width: size.width,
-                              height: 200,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  ActionButton(
-                                    turnTracker: turnTracker,
-                                    playerNum: playerNum,
-                                    actionNum: 0,
-                                    actionText: actionText[0],
-                                    toggleAction: toggleAction,
-                                  ),
-                                  ActionButton(
-                                    turnTracker: turnTracker,
-                                    playerNum: playerNum,
-                                    actionNum: 1,
-                                    actionText: actionText[1],
-                                    toggleAction: toggleAction,
-                                  ),
-                                  ActionButton(
-                                    turnTracker: turnTracker,
-                                    playerNum: playerNum,
-                                    actionNum: 2,
-                                    actionText: actionText[2],
-                                    toggleAction: toggleAction,
-                                  ),
-                                ],
+                        height: 200,
+                        width: size.width,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              ActionButton(
+                                turnTracker: turnTracker,
+                                playerNum: playerNum,
+                                actionNum: 0,
+                                actionText: actionText[0],
+                                toggleAction: toggleAction,
                               ),
+                              ActionButton(
+                                turnTracker: turnTracker,
+                                playerNum: playerNum,
+                                actionNum: 1,
+                                actionText: actionText[1],
+                                toggleAction: toggleAction,
+                              ),
+                              ActionButton(
+                                turnTracker: turnTracker,
+                                playerNum: playerNum,
+                                actionNum: 2,
+                                actionText: actionText[2],
+                                toggleAction: toggleAction,
+                              ),
+                            ],
                           ),
-                        ),
                       ),
                       Center(
                         heightFactor: 1.8,
@@ -222,10 +210,6 @@ class PlayerSection extends StatelessWidget {
                           color: _getReadyButtonColor(context, playerNum),
                           padding: EdgeInsets.all(10),
                           shape: CircleBorder(),
-                          /*child: Image(
-                            width: 180,
-                            image: AssetImage('button.png'),
-                          ),*/
                           child: AnimatedReady(
                               isAnimated: turnTracker.checkReadiness(playerNum),
                               curve: 'linear'
@@ -408,7 +392,7 @@ class _AnimatedReadyState extends State<AnimatedReady>
     _controller = AnimationController(
       duration: const Duration(seconds: 20),
       vsync: this,
-    )..repeat(reverse: false);
+    )..repeat();
     _animation = CurvedAnimation(
       parent: _controller,
       curve: curve,
@@ -423,11 +407,16 @@ class _AnimatedReadyState extends State<AnimatedReady>
 
   @override
   Widget build(BuildContext context) {
+    if (widget.curve == 'easeIn') {
+      _controller.repeat(min: 1, max: 1);
+    }
+
     if (widget.isAnimated) {
       _controller.repeat();
     } else {
       _controller.stop();
     }
+
     return RotationTransition(
       turns: _animation,
       child: const Padding(
