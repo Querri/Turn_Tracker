@@ -44,6 +44,7 @@ ThemeData theme() {
       ),
       bodyText1: TextStyle(
         color: _colorScheme.onBackground,
+        fontSize: 15,
       )
     ),
 

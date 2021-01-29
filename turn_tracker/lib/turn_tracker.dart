@@ -103,7 +103,7 @@ class TurnTracker {
       }
       case 'Spirit Island': {
         if (currentPhase == 0 || currentPhase == 2 || currentPhase == 3) return true;
-        else if ((currentPhase == 1 || currentPhase == 4) &&
+        else if ((currentPhase == 1 || currentPhase == 4 || currentPhase == 5) &&
             (actionNum == 0 || actionNum == 2)) return true;
         break;
       }
@@ -170,11 +170,12 @@ class TurnTracker {
     switch (gameName) {
       case ('Spirit Island'): {
         switch (currentPhase) {
-          case 0: return ['GROWTH', 'ENERGY', 'CARDS'];
-          case 1: return ['INNATE', '', 'CARDS'];
-          case 2: return ['BLIGHT', 'EVENT', 'FEAR'];
+          case 0: return ['GROWTH', 'GET ENERGY', 'PLAY CARDS'];
+          case 1: return ['INNATE POWERS', '', 'CARD POWERS'];
+          case 2: return ['BLIGHT EFFECT', 'EVENT CARD', 'FEAR CARD'];
           case 3: return ['RAVAGE', 'BUILD', 'EXPLORE'];
-          case 4: return ['INNATE', '', 'CARDS'];
+          case 4: return ['INNATE POWERS', '', 'CARD POWERS'];
+          case 5: return ['DISCARD CARDS AND ENERGY', '', 'HEAL PARTIAL DAMAGE'];
         }
       }
       break;

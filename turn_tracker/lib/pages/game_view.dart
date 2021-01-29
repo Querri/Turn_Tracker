@@ -284,20 +284,24 @@ class ActionButton extends StatelessWidget {
           onTap: () {
             toggleAction([playerNum, actionNum]);
             },
-          child: CustomPaint(
-            size: Size(width, 200),
-            painter: ButtonCustomPainter(color, playerNum, actionNum),
-          ),
-        ),
-        Container(
-          alignment: Alignment.bottomCenter,
-          margin: EdgeInsets.only(bottom: 35),
-          width: width,
-          child: Text(
-            actionText,
-            style: Theme.of(context).textTheme.bodyText1
-                .merge(GoogleFonts.roboto())
-                .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+          child: Stack(
+            children: [
+              CustomPaint(
+                size: Size(width, 200),
+                painter: ButtonCustomPainter(color, playerNum, actionNum),
+              ),
+              Container(
+                alignment: Alignment.bottomCenter,
+                margin: EdgeInsets.only(bottom: 35),
+                width: width,
+                child: Text(
+                  actionText,
+                  style: Theme.of(context).textTheme.bodyText1
+                      .merge(GoogleFonts.alegreyaSansSc())
+                      .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+                ),
+              ),
+            ],
           ),
         ),
       ],
