@@ -25,7 +25,7 @@ class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateM
     );
 
     _repeatedController = AnimationController(
-        duration: const Duration(seconds: 20),
+        duration: const Duration(seconds: 15),
         vsync: this
     );
   }
@@ -145,7 +145,7 @@ class StaggerAnimation extends StatelessWidget {
             height: size.value,
             child: Image(
               width: 160,
-              image: AssetImage('button.png'),
+              image: AssetImage('1024.png'),
             ),
           ),
         ),

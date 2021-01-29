@@ -70,8 +70,8 @@ const Color black = Color(0xFF050505);
 
 const Color brown_dark = Color(0xFF14100D);
 const Color brown_medium = Color(0xFF211A15);
-const Color brown_light = Color(0xFF9EA5AF);
-const Color brown_bright = Color(0xFF53537A);
+const Color brown_light = Color(0xFF875D36);
+const Color brown_bright = Color(0xFF754C24);
 
 const ColorScheme _colorScheme = ColorScheme(
   brightness: Brightness.dark,

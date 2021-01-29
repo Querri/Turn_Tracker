@@ -208,23 +208,15 @@ class PlayerSection extends StatelessWidget {
                       ),
                       Center(
                         heightFactor: 1.8,
-                        child: Container(
-                          width: 170,
-                          height: 170,
-                          child: FlatButton(
-                            color: _getReadyButtonColor(context, playerNum),
-                            padding: EdgeInsets.all(10),
-                            shape: CircleBorder(),
-                            //child: ReadyAnimation(),
+                        child: GestureDetector(
+                            onTap: () {
+                              toggleReady(playerNum);
+                            },
                             child: AnimatedReady(
                               animateBoth: turnTracker.spin(),
                               isAnimated: turnTracker.checkReadiness(playerNum),
                             ),
-                            onPressed: () {
-                              toggleReady(playerNum);
-                            },
                           ),
-                        ),
                       ),
                     ],
                   ),
@@ -254,7 +246,7 @@ class PlayerSection extends StatelessWidget {
     if (turnTracker.checkReadiness(playerNum)) {
       return Theme.of(context).colorScheme.secondary;
     } else {
-      return Theme.of(context).colorScheme.primary;
+      return Color(0xFF232323);
     }
   }
 }
