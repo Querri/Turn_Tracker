@@ -30,8 +30,8 @@ class _GameViewState extends State<GameView> {
   /// Toggle ready button and check if all players are ready.
   void _toggleReady(playerNum) {
     setState(() {
-      if (playerNum == -1) {
-        _turnTracker.changePhase(-1);
+      if (playerNum < 0) {
+        _turnTracker.changePhase(playerNum);
 
       } else {
         _turnTracker.toggleReadiness(playerNum);
@@ -164,7 +164,7 @@ class PlayerSection extends StatelessWidget {
                     icon: Icon(Icons.arrow_right),
                     color: Theme.of(context).colorScheme.onBackground,
                     onPressed: () {
-                      toggleReady(-1);
+                      toggleReady(-2);
                     },
                   ),
                 ],

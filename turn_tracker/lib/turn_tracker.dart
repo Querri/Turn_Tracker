@@ -64,7 +64,7 @@ class TurnTracker {
     }
 
     // Change phase forward or backward one phase.
-    if (direction == 1) {
+    if (direction != -1) {
       if (currentPhase < lastPhase) {
         currentPhase +=1;
       } else {
