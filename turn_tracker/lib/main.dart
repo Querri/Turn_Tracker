@@ -36,6 +36,7 @@ ThemeData theme() {
       headline4: TextStyle(
         color: _colorScheme.onBackground,
         fontWeight: FontWeight.bold,
+        fontSize: 35,
       ),
       headline6: TextStyle(
         color: _colorScheme.onBackground,
@@ -68,8 +69,8 @@ const Color black = Color(0xFF050505);
 
 const Color brown_dark = Color(0xFF14100D);
 const Color brown_medium = Color(0xFF211A15);
-const Color brown_light = Color(0xFF7C5439);
-const Color brown_bright = Color(0xFFA05D30);
+const Color brown_light = Color(0xFF9EA5AF);
+const Color brown_bright = Color(0xFF53537A);
 
 const ColorScheme _colorScheme = ColorScheme(
   brightness: Brightness.dark,

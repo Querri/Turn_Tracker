@@ -30,17 +30,7 @@ class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateM
     );
   }
 
-  Future<void> _playAnimation() async {
-    try {
-      _controller.reset();
-      _repeatedController.reset();
-      await _controller.forward().orCancel;
-      _repeatedController.repeat();
-    } on TickerCanceled {
-      // the animation got canceled, probably because it was disposed of.
-    }
-  }
-
+  /// Stp repeating spin animation and play starting animation once.
   Future<void> _playSpin() async {
     try {
       _repeatedController.stop();
@@ -51,6 +41,19 @@ class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateM
     }
   }
 
+  /// Play starting animation and then start repeating spin animation.
+  Future<void> _playAnimation() async {
+    try {
+      _controller.reset();
+      _repeatedController.reset();
+      _repeatedController.repeat();
+      await _controller.forward().orCancel;
+    } on TickerCanceled {
+      // the animation got canceled, probably because it was disposed of.
+    }
+  }
+
+  /// Stop repeating animation.
   Future<void> _stopAnimation() async {
     try {
       _repeatedController.stop();
@@ -81,21 +84,14 @@ class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateM
 }
 
 
-/// Custom animation for ready button click.
+/// Custom animation sequence for ready button click.
+///
+/// The button shrinks for a moment and makes one fast rotation.
+/// After that it continues repeating a slow linear rotation.
 class StaggerAnimation extends StatelessWidget {
   StaggerAnimation({ Key key, this.controller, this.repeatController }) :
 
-        opacity = Tween<double>(begin: 0.0, end: 1.0,).animate(
-          CurvedAnimation(
-            parent: controller,
-            curve: Interval(
-              0.0, 0.100,
-              curve: Curves.ease,
-            ),
-          ),
-        ),
-
-        width = TweenSequence(
+        size = TweenSequence(
           <TweenSequenceItem<double>>[
             TweenSequenceItem<double>(
               tween: Tween(begin: 160.0, end: 140.0)
@@ -132,8 +128,7 @@ class StaggerAnimation extends StatelessWidget {
 
   final AnimationController controller;
   final AnimationController repeatController;
-  final Animation<double> opacity;
-  final Animation<double> width;
+  final Animation<double> size;
   final Animation<double> rotation;
   final Animation<double> repeatRotation;
 
@@ -146,8 +141,8 @@ class StaggerAnimation extends StatelessWidget {
         child: Container(
           alignment: Alignment.center,
           child: Container(
-            width: width.value,
-            height: width.value,
+            width: size.value,
+            height: size.value,
             child: Image(
               width: 160,
               image: AssetImage('button.png'),
