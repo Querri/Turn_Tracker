@@ -13,7 +13,9 @@ class AnimatedReady extends StatefulWidget {
 
 class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateMixin {
   AnimationController _controller;
-  AnimationController _repeatedController;
+  AnimationController _repeatController;
+  AnimationController _bgController;
+  AnimationController _bgRepeatController;
 
   @override
   void initState() {
@@ -24,8 +26,18 @@ class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateM
         vsync: this
     );
 
-    _repeatedController = AnimationController(
+    _repeatController = AnimationController(
         duration: const Duration(seconds: 15),
+        vsync: this
+    );
+
+    _bgController = AnimationController(
+        duration: const Duration(seconds: 1),
+        vsync: this
+    );
+
+    _bgRepeatController = AnimationController(
+        duration: const Duration(seconds: 100),
         vsync: this
     );
   }
@@ -33,9 +45,12 @@ class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateM
   /// Stp repeating spin animation and play starting animation once.
   Future<void> _playSpin() async {
     try {
-      _repeatedController.stop();
+      _repeatController.stop();
+      _bgRepeatController.stop();
       _controller.reset();
-      await _controller.forward().orCancel;
+      _controller.forward().orCancel;
+
+      _bgController.reverse();
     } on TickerCanceled {
       // the animation got canceled, probably because it was disposed of.
     }
@@ -45,9 +60,15 @@ class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateM
   Future<void> _playAnimation() async {
     try {
       _controller.reset();
-      _repeatedController.reset();
-      _repeatedController.repeat();
-      await _controller.forward().orCancel;
+      _repeatController.reset();
+      _bgController.reset();
+      _bgRepeatController.reset();
+
+      _repeatController.repeat();
+      _bgRepeatController.repeat();
+
+      _controller.forward().orCancel;
+      _bgController.forward().orCancel;
     } on TickerCanceled {
       // the animation got canceled, probably because it was disposed of.
     }
@@ -56,7 +77,12 @@ class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateM
   /// Stop repeating animation.
   Future<void> _stopAnimation() async {
     try {
-      _repeatedController.stop();
+      _repeatController.stop();
+      _bgRepeatController.stop();
+
+      await _bgController.reverse().orCancel;
+      //_bgController.reset();
+
     } on TickerCanceled {
       // animation disposed
     }
@@ -77,7 +103,9 @@ class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateM
     return Center(
       child: StaggerAnimation(
         controller: _controller.view,
-        repeatController: _repeatedController.view,
+        repeatController: _repeatController.view,
+        bgController: _bgController,
+        bgRepeatController: _bgRepeatController,
       ),
     );
   }
@@ -89,8 +117,27 @@ class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateM
 /// The button shrinks for a moment and makes one fast rotation.
 /// After that it continues repeating a slow linear rotation.
 class StaggerAnimation extends StatelessWidget {
-  StaggerAnimation({ Key key, this.controller, this.repeatController }) :
+  StaggerAnimation({ Key key,
+    this.controller, this.repeatController,
+    this.bgController, this.bgRepeatController }) :
 
+        // Size of the background graphic increases.
+        bgSize = Tween<double>(begin: 160.0, end: 400.0,).animate(
+          CurvedAnimation(
+            parent: bgController,
+            curve: Curves.linear,
+            ),
+        ),
+
+        // Very slow linear spin for background graphic.
+        bgRepeatRotation = Tween<double>(begin: 0.0, end: 1.0,).animate(
+          CurvedAnimation(
+            parent: bgRepeatController,
+            curve: Curves.linear,
+          ),
+        ),
+
+        // Sequence: size of the button shrinks and grows back.
         size = TweenSequence(
           <TweenSequenceItem<double>>[
             TweenSequenceItem<double>(
@@ -107,6 +154,7 @@ class StaggerAnimation extends StatelessWidget {
         ).animate(
             (CurvedAnimation(parent: controller, curve: Interval(0.0, 0.8)))),
 
+        // Fast bouncy spin for button click.
         rotation = Tween<double>(begin: 0.0, end: 1.0,).animate(
           CurvedAnimation(
             parent: controller,
@@ -117,6 +165,7 @@ class StaggerAnimation extends StatelessWidget {
           ),
         ),
 
+        // Slow linear spin for button in ready state.
         repeatRotation = Tween<double>(begin: 0.0, end: 1.0,).animate(
           CurvedAnimation(
             parent: repeatController,
@@ -126,38 +175,64 @@ class StaggerAnimation extends StatelessWidget {
 
         super(key: key);
 
+  // Values for button animations.
   final AnimationController controller;
   final AnimationController repeatController;
   final Animation<double> size;
   final Animation<double> rotation;
   final Animation<double> repeatRotation;
 
-
-  Widget _buildAnimation(BuildContext context, Widget child) {
-    return RotationTransition(
-      turns: rotation,
-      child: RotationTransition(
-        turns: repeatRotation,
-        child: Container(
-          alignment: Alignment.center,
-          child: Container(
-            width: size.value,
-            height: size.value,
-            child: Image(
-              width: 160,
-              image: AssetImage('1024.png'),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  // Values for background animations.
+  final AnimationController bgController;
+  final AnimationController bgRepeatController;
+  final Animation<double> bgSize;
+  final Animation<double> bgRepeatRotation;
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      builder: _buildAnimation,
-      animation: controller,
+    return Stack(
+      children: [
+        Center(
+          child: RotationTransition(
+            turns: bgRepeatRotation,
+            child: Opacity(
+              opacity: 0.50,
+              child: AnimatedBuilder(
+                animation: bgController,
+                builder: (context, child) {
+                  return Image(
+                    width: bgSize.value,
+                    height: bgSize.value,
+                    image: AssetImage('1024_big.png'),
+                  );
+                }
+              ),
+            ),
+          ),
+        ),
+        RotationTransition(
+          turns: rotation,
+          child: RotationTransition(
+            turns: repeatRotation,
+            child: Container(
+              alignment: Alignment.center,
+              child: AnimatedBuilder(
+                animation: controller,
+                builder: (context, child) {
+                  return Container(
+                    width: size.value,
+                    height: size.value,
+                    child: Image(
+                      width: 160,
+                      image: AssetImage('1024.png'),
+                    ),
+                  );
+                }
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

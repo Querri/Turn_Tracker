@@ -45,7 +45,11 @@ ThemeData theme() {
       bodyText1: TextStyle(
         color: _colorScheme.onBackground,
         fontSize: 15,
-      )
+      ),
+      bodyText2: TextStyle(
+      color: _colorScheme.onBackground,
+      fontSize: 18,
+    )
     ),
 
     buttonTheme: ButtonThemeData(
@@ -78,11 +82,11 @@ const ColorScheme _colorScheme = ColorScheme(
 
   primary: brown_light,
   primaryVariant: brown_medium,
-  onPrimary: white,
+  onPrimary: black,
 
   secondary: brown_bright,
   secondaryVariant: brown_medium,
-  onSecondary: white,
+  onSecondary: black,
 
   background: brown_dark,
   onBackground: brown_light,

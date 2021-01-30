@@ -173,6 +173,18 @@ class PlayerSection extends StatelessWidget {
                 child: Container(
                   child: Stack(
                     children: [
+                      Center(
+                        heightFactor: 1.8,
+                        child: GestureDetector(
+                          onTap: () {
+                            toggleReady(playerNum);
+                          },
+                          child: AnimatedReady(
+                            animateBoth: turnTracker.spin(),
+                            isAnimated: turnTracker.checkReadiness(playerNum),
+                          ),
+                        ),
+                      ),
                       Positioned(
                         bottom: 0,
                         left: 0,
@@ -204,18 +216,6 @@ class PlayerSection extends StatelessWidget {
                                 toggleAction: toggleAction,
                               ),
                             ],
-                          ),
-                      ),
-                      Center(
-                        heightFactor: 1.8,
-                        child: GestureDetector(
-                            onTap: () {
-                              toggleReady(playerNum);
-                            },
-                            child: AnimatedReady(
-                              animateBoth: turnTracker.spin(),
-                              isAnimated: turnTracker.checkReadiness(playerNum),
-                            ),
                           ),
                       ),
                     ],
@@ -288,7 +288,7 @@ class ActionButton extends StatelessWidget {
                 width: width,
                 child: Text(
                   actionText,
-                  style: Theme.of(context).textTheme.bodyText1
+                  style: Theme.of(context).textTheme.bodyText2
                       .merge(GoogleFonts.alegreyaSansSc())
                       .copyWith(color: Theme.of(context).colorScheme.onPrimary),
                 ),
