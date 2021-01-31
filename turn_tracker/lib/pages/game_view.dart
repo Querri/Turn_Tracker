@@ -72,11 +72,11 @@ class _GameViewState extends State<GameView> {
           children: <Widget>[
             if (widget.playerCount == 2)
               PlayerSection(
-              turnTracker: _turnTracker,
-              playerNum: 1,
-              toggleReady: _toggleReady,
-              toggleAction: _toggleAction,
-            ),
+                turnTracker: _turnTracker,
+                playerNum: 1,
+                toggleReady: _toggleReady,
+                toggleAction: _toggleAction,
+              ),
             PlayerSection(
               turnTracker: _turnTracker,
               playerNum: 0,
@@ -175,14 +175,9 @@ class PlayerSection extends StatelessWidget {
                     children: [
                       Center(
                         heightFactor: 1.8,
-                        child: GestureDetector(
-                          onTap: () {
-                            toggleReady(playerNum);
-                          },
-                          child: AnimatedReady(
-                            animateBoth: turnTracker.spin(),
-                            isAnimated: turnTracker.checkReadiness(playerNum),
-                          ),
+                        child: AnimatedBg(
+                          animateBoth: turnTracker.shouldSpin(),
+                          isAnimated: turnTracker.checkReadiness(playerNum),
                         ),
                       ),
                       Positioned(
@@ -218,6 +213,18 @@ class PlayerSection extends StatelessWidget {
                             ],
                           ),
                       ),
+                      Center(
+                        heightFactor: 1.8,
+                        child: GestureDetector(
+                          onTap: () {
+                            toggleReady(playerNum);
+                          },
+                          child: AnimatedReady(
+                            animateBoth: turnTracker.shouldSpin(),
+                            isAnimated: turnTracker.checkReadiness(playerNum),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -230,12 +237,16 @@ class PlayerSection extends StatelessWidget {
   }
 
   /// Get rotation value for each player.
+  ///
+  /// Used to rotate player 1 180 degrees.
   int _getRotation(playerNum) {
     if (playerNum == 1) return 2;
     else return 0;
   }
 
   /// Get padding value for each player.
+  ///
+  /// Used to avoid camera notch for player 1.
   double _getMargin(playerNum) {
     if (playerNum == 1) return 0;
     else return 0;

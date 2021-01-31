@@ -192,7 +192,8 @@ class TurnTracker {
     return ['', '', ''];
   }
 
-  bool spin() {
+  /// Returns true if the ready button should play the spinning animation.
+  bool shouldSpin() {
     if (spinBoth > 0) {
       spinBoth -= 1;
       return true;
