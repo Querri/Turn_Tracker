@@ -4,6 +4,7 @@ class TurnTracker {
 
   int playerCount;
   List<List<dynamic>> players;
+  List<int> animatePlayerReady;
 
   int lastPhase;
   int currentPhase;
@@ -20,6 +21,7 @@ class TurnTracker {
         playerCount, (index) =>
         [false, new List.generate(3, (index) => false)]
     );
+    animatePlayerReady = List.generate(playerCount, (index) => 0);
 
     initDone = true;
   }
@@ -33,10 +35,16 @@ class TurnTracker {
     } else {
       players[playerNum][0] = !players[playerNum][0];
     }
+
+    if (players[playerNum][0]) {
+      animatePlayerReady[playerNum] = 2;
+    } else {
+      animatePlayerReady[playerNum] = 0;
+    }
   }
 
   /// Check if players are ready.
-  bool checkReadiness(playerNum) {
+  bool isPlayerReady(playerNum) {
     // Check all players.
     if (playerNum == null) {
       for (var player in players) {
@@ -51,8 +59,23 @@ class TurnTracker {
     }
   }
 
+  /// Returns true if players ready button should play a spinning animation.
+  bool shouldAnimatePlayerReady(playerNum) {
+    if (animatePlayerReady[playerNum] > 0) {
+      animatePlayerReady[playerNum] -= 1;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   /// Change game phase one forward or backward.
   void changePhase(direction) {
+    // Sel all ready buttons to animate.
+    for (int i=0; i<playerCount; i++) {
+      animatePlayerReady[i] = 2;
+    }
+
     // Set all actions and ready states to false.
     for (var player in players) {
       player[0] = false;
@@ -61,8 +84,8 @@ class TurnTracker {
       }
     }
 
-    // Change phase forward or backward one phase.
-    if (direction == 1) {
+    // Change phase one forward or backward.
+    if (direction != -1) {
       if (currentPhase < lastPhase) {
         currentPhase +=1;
       } else {
@@ -89,7 +112,7 @@ class TurnTracker {
   }
 
   /// Check if a specific action of a player is marked as done.
-  bool checkAction(playerNum, actionNum) {
+  bool isActionDone(playerNum, actionNum) {
     return players[playerNum][1][actionNum];
   }
 
@@ -101,7 +124,7 @@ class TurnTracker {
       }
       case 'Spirit Island': {
         if (currentPhase == 0 || currentPhase == 2 || currentPhase == 3) return true;
-        else if ((currentPhase == 1 || currentPhase == 4) &&
+        else if ((currentPhase == 1 || currentPhase == 4 || currentPhase == 5) &&
             (actionNum == 0 || actionNum == 2)) return true;
         break;
       }
@@ -141,22 +164,22 @@ class TurnTracker {
     switch (gameName) {
       case ('Spirit Island'): {
         switch (currentPhase) {
-          case 0: return 'Spirit Phase';
-          case 1: return 'Fast Power Phase';
-          case 2: return 'Invader Phase 1';
-          case 3: return 'Invader Phase 2';
-          case 4: return 'Slow Power Phase';
-          case 5: return 'Time Passes';
+          case 0: return 'spirit phase';
+          case 1: return 'fast power phase';
+          case 2: return 'invader phase 1';
+          case 3: return 'invader phase 2';
+          case 4: return 'slow power phase';
+          case 5: return 'time passes';
         }
         break;
       }
       case ('Direwild'): {
         switch (currentPhase) {
-          case 0: return 'Game Phase';
-          case 1: return 'Summon Phase';
-          case 2: return 'Charm Phase';
-          case 3: return 'Adventure Phase';
-          case 4: return 'End Phase';
+          case 0: return 'game phase';
+          case 1: return 'summon phase';
+          case 2: return 'charm phase';
+          case 3: return 'adventure phase';
+          case 4: return 'end phase';
         }
       }
     }
@@ -168,11 +191,12 @@ class TurnTracker {
     switch (gameName) {
       case ('Spirit Island'): {
         switch (currentPhase) {
-          case 0: return ['GROWTH', 'ENERGY', 'CARDS'];
-          case 1: return ['INNATE', '', 'CARDS'];
-          case 2: return ['BLIGHT', 'EVENT', 'FEAR'];
+          case 0: return ['GROWTH', 'GET ENERGY', 'PLAY CARDS'];
+          case 1: return ['INNATE POWERS', '', 'CARD POWERS'];
+          case 2: return ['BLIGHT EFFECT', 'EVENT CARD', 'FEAR CARD'];
           case 3: return ['RAVAGE', 'BUILD', 'EXPLORE'];
-          case 4: return ['INNATE', '', 'CARDS'];
+          case 4: return ['INNATE POWERS', '', 'CARD POWERS'];
+          case 5: return ['DISCARD CARDS AND ENERGY', '', 'HEAL PARTIAL DAMAGE'];
         }
       }
       break;

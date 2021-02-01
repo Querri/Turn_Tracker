@@ -36,7 +36,7 @@ ThemeData theme() {
       headline4: TextStyle(
         color: _colorScheme.onBackground,
         fontWeight: FontWeight.bold,
-        fontFamily: 'Josefin Sans'
+        fontSize: 35,
       ),
       headline6: TextStyle(
         color: _colorScheme.onBackground,
@@ -44,7 +44,12 @@ ThemeData theme() {
       ),
       bodyText1: TextStyle(
         color: _colorScheme.onBackground,
-      )
+        fontSize: 15,
+      ),
+      bodyText2: TextStyle(
+      color: _colorScheme.onBackground,
+      fontSize: 18,
+    )
     ),
 
     buttonTheme: ButtonThemeData(
@@ -68,19 +73,20 @@ const Color blue = Color(0xFF1B9AAA);
 const Color black = Color(0xFF050505);
 
 const Color brown_dark = Color(0xFF14100D);
-const Color brown_light = Color(0xFF7C5439);
-const Color brown_bright = Color(0xFFA05D30);
+const Color brown_medium = Color(0xFF211A15);
+const Color brown_light = Color(0xFF875D36);
+const Color brown_bright = Color(0xFF754C24);
 
 const ColorScheme _colorScheme = ColorScheme(
   brightness: Brightness.dark,
 
   primary: brown_light,
-  primaryVariant: brown_dark,
-  onPrimary: white,
+  primaryVariant: brown_medium,
+  onPrimary: black,
 
   secondary: brown_bright,
-  secondaryVariant: brown_dark,
-  onSecondary: white,
+  secondaryVariant: brown_medium,
+  onSecondary: black,
 
   background: brown_dark,
   onBackground: brown_light,
