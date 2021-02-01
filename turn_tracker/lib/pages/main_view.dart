@@ -121,7 +121,7 @@ class _MainViewState extends State<MainView> {
                 FlatButton(
                   color: Theme.of(context).colorScheme.primary,
                   onPressed: () {
-                    Navigator.of(context).push(_createRoute(_selectedGame, _playerCount));
+                    Navigator.of(context).push(_createRoute(findGame(snapshot.data, _selectedGame), _playerCount));
                   },
                   child: Text(
                     'START',
@@ -153,9 +153,9 @@ class _MainViewState extends State<MainView> {
 }
 
 /// Create a navigation route.
-Route _createRoute(selectedGame, playerCount) {
+Route _createRoute(game, playerCount) {
   return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => GameView(gameName: selectedGame, playerCount: playerCount),
+    pageBuilder: (context, animation, secondaryAnimation) => GameView(game: game, playerCount: playerCount),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       var begin = Offset(0.0, 1.0);
       var end = Offset.zero;

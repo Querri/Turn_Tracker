@@ -1,20 +1,23 @@
+import 'package:spirit_island_app/models/game.dart';
+
+
 class TurnTracker {
   String gameName;
+  Game game;
   bool initDone = false;
 
   int playerCount;
   List<List<dynamic>> players;
   List<int> animatePlayerReady;
 
-  int lastPhase;
   int currentPhase;
 
   /// Initialize the class with values from main view.
-  void init(gameName,playerCount) {
-    this.gameName = gameName;
+  void init(game, playerCount) {
+    this.game = game;
+    this.gameName = game.name;
     this.playerCount = playerCount;
 
-    lastPhase = _getLastPhase();
     currentPhase = 0;
 
     players = List.generate(
@@ -86,7 +89,7 @@ class TurnTracker {
 
     // Change phase one forward or backward.
     if (direction != -1) {
-      if (currentPhase < lastPhase) {
+      if (currentPhase < game.phases.length-1) {
         currentPhase +=1;
       } else {
         currentPhase = 0;
@@ -95,7 +98,7 @@ class TurnTracker {
       if (currentPhase > 0) {
         currentPhase -= 1;
       } else {
-        currentPhase = lastPhase;
+        currentPhase = game.phases.length-1;
       }
     }
   }
@@ -150,40 +153,9 @@ class TurnTracker {
     return false;
   }
 
-  /// Get the number of the last phase.
-  int _getLastPhase() {
-    switch (gameName) {
-      case ('spirit island'): return 5;
-      case ('direwild'): return 4;
-    }
-    return 0;
-  }
-
-  /// Get the name of the phase.
+  /// Get text for current phase.
   String getPhaseText() {
-    switch (gameName) {
-      case ('spirit island'): {
-        switch (currentPhase) {
-          case 0: return 'spirit phase';
-          case 1: return 'fast power phase';
-          case 2: return 'invader phase 1';
-          case 3: return 'invader phase 2';
-          case 4: return 'slow power phase';
-          case 5: return 'time passes';
-        }
-        break;
-      }
-      case ('direwild'): {
-        switch (currentPhase) {
-          case 0: return 'game phase';
-          case 1: return 'summon phase';
-          case 2: return 'charm phase';
-          case 3: return 'adventure phase';
-          case 4: return 'end phase';
-        }
-      }
-    }
-    return '';
+    return game.phases[currentPhase];
   }
 
   /// Get the names for actions in the current phase.

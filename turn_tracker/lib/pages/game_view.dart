@@ -7,6 +7,7 @@ import 'package:screen/screen.dart';
 import 'package:spirit_island_app/pages/game_view_animator.dart';
 import 'package:spirit_island_app/pages/game_view_painter.dart';
 import 'package:spirit_island_app/turn_tracker.dart';
+import 'package:spirit_island_app/models/game.dart';
 
 
 /// View that is displayed while playing.
@@ -14,10 +15,10 @@ import 'package:spirit_island_app/turn_tracker.dart';
 /// Contains turn tracker, which is customized according
 /// to selected game and the number of players.
 class GameView extends StatefulWidget {
-  final String gameName;
+  final Game game;
   final int playerCount;
 
-  GameView({Key key, @required this.gameName, @required this.playerCount}) :super(key: key);
+  GameView({Key key, @required this.game, @required this.playerCount}) :super(key: key);
 
   @override
   _GameViewState createState() => _GameViewState();
@@ -62,7 +63,7 @@ class _GameViewState extends State<GameView> {
     Screen.keepOn(true);
 
     if (!_turnTracker.initDone) {
-      _turnTracker.init(widget.gameName, widget.playerCount);
+      _turnTracker.init(widget.game, widget.playerCount);
     }
 
     return Scaffold(
