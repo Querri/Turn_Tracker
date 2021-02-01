@@ -24,13 +24,13 @@ class _MainViewState extends State<MainView> {
 
   /// Fetch all available games and their info from local json file.
   Future<List<Game>> _fetchGames() async {
-    final String response = await rootBundle.loadString('assets/games.json');
-    final data = await json.decode(response);
+    final String jsonString = await rootBundle.loadString('assets/games.json');
+    final jsonResponse = await json.decode(jsonString);
     List<Game> list = List<Game>();
 
     for (int i=0; i<5; i++) {
-      list.add(Game.fromJson(data['games'][i]));
-      print(list[i].name);
+      list.add(Game.fromJson(jsonResponse['games'][i]));
+      print(list[i].phases[0]);
     }
     return list;
   }
@@ -52,89 +52,90 @@ class _MainViewState extends State<MainView> {
         title: Text('Turn Tracker'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Spacer(flex: 4),
-            Text(
-              'Choose game',
-              style: Theme.of(context).textTheme.headline6
-                  .merge(GoogleFonts.alegreyaSansSc()),
-            ),
-            FutureBuilder(
-                future: _fetchGames(),
-                builder: (context, snapshot) {
-                  return snapshot.hasData
-                      ? Column(
-                          children: [
-                            DropdownSelection(
-                              games: snapshot.data,
-                              selectedGame: _selectedGame,
-                              changeSelection: _changeSelection,
-                            )
-                          ],
-                        )
-                      : Center(child: CircularProgressIndicator());
-                }
-            ),
-            Spacer(),
-            Text(
-              'Choose the number of players',
-              style: Theme.of(context).textTheme.headline6
-                  .merge(GoogleFonts.alegreyaSansSc()),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Spacer(flex: 2),
-                FlatButton(
-                  color: _getButtonColor('playerCount', 1),
-                  child: Text(
-                    '1',
-                    style: Theme.of(context).textTheme.bodyText1
-                        .merge(GoogleFonts.roboto())
-                        .copyWith(color: Theme.of(context).colorScheme.onPrimary),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _playerCount = 1;
-                    });
-                  },
+        child: FutureBuilder(
+          future: _fetchGames(),
+          builder: (context, snapshot) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Spacer(flex: 4),
+                Text(
+                  'Choose game',
+                  style: Theme.of(context).textTheme.headline6
+                      .merge(GoogleFonts.alegreyaSansSc()),
+                ),
+                snapshot.hasData
+                    ? Column(
+                  children: [
+                    DropdownSelection(
+                      games: snapshot.data,
+                      selectedGame: _selectedGame,
+                      changeSelection: _changeSelection,
+                    )
+                  ],
+                )
+                    : Text('no data'),
+                Spacer(),
+                Text(
+                  'Choose the number of players',
+                  style: Theme.of(context).textTheme.headline6
+                      .merge(GoogleFonts.alegreyaSansSc()),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Spacer(flex: 2),
+                    FlatButton(
+                      color: _getButtonColor('playerCount', 1),
+                      child: Text(
+                        '1',
+                        style: Theme.of(context).textTheme.bodyText1
+                            .merge(GoogleFonts.roboto())
+                            .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _playerCount = 1;
+                        });
+                      },
+                    ),
+                    Spacer(),
+                    FlatButton(
+                      color: _getButtonColor('playerCount', 2),
+                      child: Text(
+                        '2',
+                        style: Theme.of(context).textTheme.bodyText1
+                            .merge(GoogleFonts.roboto())
+                            .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _playerCount = 2;
+                        });
+                      },
+                    ),
+                    Spacer(flex: 2),
+                  ],
                 ),
                 Spacer(),
                 FlatButton(
-                  color: _getButtonColor('playerCount', 2),
+                  color: Theme.of(context).colorScheme.primary,
+                  onPressed: () {
+                    Navigator.of(context).push(_createRoute(_selectedGame, _playerCount));
+                  },
                   child: Text(
-                    '2',
+                    'START',
                     style: Theme.of(context).textTheme.bodyText1
-                        .merge(GoogleFonts.roboto())
+                        .merge(GoogleFonts.alegreyaSansSc())
                         .copyWith(color: Theme.of(context).colorScheme.onPrimary),
                   ),
-                  onPressed: () {
-                    setState(() {
-                      _playerCount = 2;
-                    });
-                  },
                 ),
-                Spacer(flex: 2),
+                Spacer(flex: 5),
               ],
-            ),
-            Spacer(),
-            FlatButton(
-              color: Theme.of(context).colorScheme.primary,
-              onPressed: () {
-                Navigator.of(context).push(_createRoute(_selectedGame, _playerCount));
-              },
-              child: Text(
-                'START',
-                style: Theme.of(context).textTheme.bodyText1
-                    .merge(GoogleFonts.alegreyaSansSc())
-                    .copyWith(color: Theme.of(context).colorScheme.onPrimary),
-              ),
-            ),
-            Spacer(flex: 5),
-          ],
+            );
+          }
         ),
+
       ),
     );
   }
