@@ -1,0 +1,24 @@
+{
+  "games": [
+    {
+      "name": "generic",
+      "type": "co-op"
+    },
+    {
+      "name": "spirit island",
+      "type": "co-op"
+    },
+    {
+      "name": "direwild",
+      "type": "co-op"
+    },
+    {
+      "name": "sub terra",
+      "type": "co-op"
+    },
+    {
+      "name": "dead of winter",
+      "type": "co-op"
+    }
+  ]
+}

@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:screen/screen.dart';
 
-
 import 'package:spirit_island_app/pages/game_view.dart';
+import 'package:spirit_island_app/models/game.dart';
 
 
 /// Main view of the app.
@@ -18,6 +21,19 @@ class MainView extends StatefulWidget {
 class _MainViewState extends State<MainView> {
   int _playerCount = 2;
   String _selectedGame = 'Spirit Island';
+
+  /// Fetch all available games and their info from local json file.
+  Future<List<Game>> _fetchGames() async {
+    final String response = await rootBundle.loadString('assets/games.json');
+    final data = await json.decode(response);
+    List<Game> list = List<Game>();
+
+    for (int i=0; i<5; i++) {
+      list.add(Game.fromJson(data['games'][i]));
+      print(list[i].name);
+    }
+    return list;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,56 +54,17 @@ class _MainViewState extends State<MainView> {
               style: Theme.of(context).textTheme.headline6
                   .merge(GoogleFonts.alegreyaSansSc()),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Spacer(flex: 2),
-                FlatButton(
-                  color: _getButtonColor('gameSelection', 'Generic'),
-                  child: Text(
-                    'Generic',
-                    style: Theme.of(context).textTheme.bodyText1
-                        .merge(GoogleFonts.roboto())
-                        .copyWith(color: Theme.of(context).colorScheme.onPrimary),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _selectedGame = 'Generic';
-                    });
-                  },
-                ),
-                Spacer(),
-                FlatButton(
-                  color: _getButtonColor('gameSelection', 'Spirit Island'),
-                  child: Text(
-                    'Spirit Island',
-                    style: Theme.of(context).textTheme.bodyText1
-                        .merge(GoogleFonts.roboto())
-                        .copyWith(color: Theme.of(context).colorScheme.onPrimary),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _selectedGame = 'Spirit Island';
-                    });
-                  },
-                ),
-                Spacer(),
-                FlatButton(
-                  color: _getButtonColor('gameSelection', 'Direwild'),
-                  child: Text(
-                    'Direwild',
-                    style: Theme.of(context).textTheme.bodyText1
-                        .merge(GoogleFonts.roboto())
-                        .copyWith(color: Theme.of(context).colorScheme.onPrimary),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _selectedGame = 'Direwild';
-                    });
-                  },
-                ),
-                Spacer(flex: 2),
-              ],
+            FutureBuilder(
+                future: _fetchGames(),
+                builder: (context, snapshot) {
+                  return snapshot.hasData
+                      ? Column(
+                          children: [
+                            Text(snapshot.data.length.toString()),
+                          ],
+                        )
+                      : Center(child: CircularProgressIndicator());
+                }
             ),
             Spacer(),
             Text(
@@ -181,3 +158,4 @@ Route _createRoute(selectedGame, playerCount) {
     },
   );
 }
+
