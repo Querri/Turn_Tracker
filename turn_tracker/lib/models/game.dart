@@ -1,13 +1,14 @@
 import 'package:flutter/services.dart';
 import 'dart:convert';
 
-/// A model representing one game.
+/// A model representing a game.
 class Game {
   final String name;
   final String type;
   final List<String> phases;
+  final List<dynamic> actions;
 
-  Game({this.name, this.type, this.phases});
+  Game({this.name, this.type, this.phases, this.actions});
 
   factory Game.fromJson(Map<String, dynamic> parsedJson) {
     var phasesFromJson = parsedJson['phases'];
@@ -17,6 +18,7 @@ class Game {
       name: parsedJson['name'] as String,
       type: parsedJson['type'] as String,
       phases: phasesList,
+      actions: parsedJson['actions'],
     );
   }
 }
@@ -28,6 +30,7 @@ Future<List<dynamic>> readJson() async {
   return data['games'];
 }
 
+/// Find a game object based on its name.
 Game findGame(games, name) {
   for (Game game in games) {
     if (game.name == name) {

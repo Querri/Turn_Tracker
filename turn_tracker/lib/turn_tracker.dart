@@ -121,22 +121,11 @@ class TurnTracker {
 
   /// True if current phase includes actions and actionButton has a label.
   bool isActionAvailable(int actionNum) {
-    switch (gameName) {
-      case 'Generic': {
-        return true;
-      }
-      case 'spirit island': {
-        if (currentPhase == 0 || currentPhase == 2 || currentPhase == 3) return true;
-        else if ((currentPhase == 1 || currentPhase == 4 || currentPhase == 5) &&
-            (actionNum == 0 || actionNum == 2)) return true;
-        break;
-      }
-      case 'direwild': {
-        if (currentPhase == 0) return true;
-        else if (actionNum == 0 || actionNum == 2) return true;
-      }
+    if (game.actions[currentPhase][actionNum] == "") {
+      return false;
+    } else {
+      return true;
     }
-    return false;
   }
 
   /// True if phase is done "jointly", so that players do the actions together.
@@ -159,30 +148,8 @@ class TurnTracker {
   }
 
   /// Get the names for actions in the current phase.
-  List<String> getActionText() {
-    switch (gameName) {
-      case ('spirit island'): {
-        switch (currentPhase) {
-          case 0: return ['GROWTH', 'GET ENERGY', 'PLAY CARDS'];
-          case 1: return ['INNATE POWERS', '', 'CARD POWERS'];
-          case 2: return ['BLIGHT EFFECT', 'EVENT CARD', 'FEAR CARD'];
-          case 3: return ['RAVAGE', 'BUILD', 'EXPLORE'];
-          case 4: return ['INNATE POWERS', '', 'CARD POWERS'];
-          case 5: return ['DISCARD CARDS AND ENERGY', '', 'HEAL PARTIAL DAMAGE'];
-        }
-      }
-      break;
-      case 'direwild': {
-        switch (currentPhase) {
-          case 0: return ['NEW CARD', 'KARN PRESENCE', 'MOVE ENEMIES'];
-          case 1: return ['CHOOSE ORDER', '', 'PLAY CARDS'];
-          case 2: return ['SPEND CHARM', '', 'BUILD CREATURE'];
-          case 3: return ['MOVE', '', 'BATTLE'];
-          case 4: return ['DISCARD CARDS', '', 'MOVE COUNTERS'];
-        }
-      }
-    }
-    return ['', '', ''];
+  List<dynamic> getActionText() {
+    return game.actions[currentPhase];
   }
 }
 

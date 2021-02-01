@@ -3,28 +3,56 @@
     {
       "name": "generic",
       "type": "co-op",
-      "phases": ["..."]
+      "phases": [""],
+      "actions": [["", "", ""]]
     },
     {
       "name": "spirit island",
       "type": "co-op",
       "phases": ["spirit phase", "fast power phase", "invader phase 1",
-          "invader phase 2", "slow power phase", "time passes"]
+          "invader phase 2", "slow power phase", "time passes"],
+      "actions": [
+        ["growth", "gain energy", "play cards"],
+        ["innate powers", "", "card powers"],
+        ["blight effect", "event card", "fear card"],
+        ["ravage", "build", "explore"],
+        ["innate powers", "", "card powers"],
+        ["discard cards and energy", "", "heal partial damage"]
+      ]
     },
     {
       "name": "direwild",
       "type": "co-op",
-      "phases": ["game phase", "summon phase", "charm phase", "adventure phase", "end phase"]
+      "phases": ["game phase", "summon phase", "charm phase", "adventure phase", "end phase"],
+      "actions": [
+        ["new A.I. card", "karn precence", "move enemies"],
+        ["choose player order", "", "play cards"],
+        ["spend charm", "", "build creature"],
+        ["move", "", "battle"],
+        ["discard cards", "", "move counters"]
+      ]
     },
     {
       "name": "sub terra",
       "type": "co-op",
-      "phases": ["action phase", "horror phase", "hazard phase", "end phase"]
+      "phases": ["action phase", "horror phase", "hazard phase", "end phase"],
+      "actions": [
+        ["AP", "AP", "exert AP"],
+        ["", "move horrors", ""],
+        ["reveal new hazard", "", "complete hazard"],
+        ["", "pass starting caver marker", ""]
+      ]
     },
     {
       "name": "dead of winter",
       "type": "co-op",
-      "phases": ["start phase", "player turns phase", "colony phase", "end phase"]
+      "phases": ["start phase", "player turns phase", "colony phase", "end phase"],
+      "actions": [
+        ["reveal new crisis", "", "roll action dice"],
+        ["move survivors", "use action dice", "take a crossroads card"],
+        ["pay food and check waste", "resolve crisis", "add zombies"],
+        ["check main objective", "move round tracker", "pass first player token"]
+      ]
     }
   ]
 }
