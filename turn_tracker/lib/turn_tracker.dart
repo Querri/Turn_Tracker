@@ -119,27 +119,9 @@ class TurnTracker {
     return players[playerNum][1][actionNum];
   }
 
-  /// True if current phase includes actions and actionButton has a label.
-  bool isActionAvailable(int actionNum) {
-    if (game.actions[currentPhase][actionNum] == "") {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   /// True if phase is done "jointly", so that players do the actions together.
   bool isPhaseSymmetric() {
-    switch (gameName) {
-      case 'spirit island': {
-        if (currentPhase == 2 || currentPhase == 3) return true;
-      }
-      break;
-      case 'direwild': {
-        if (currentPhase == 0) return true;
-      }
-    }
-    return false;
+    return game.isPhaseSymmetric(currentPhase);
   }
 
   /// Get text for current phase.
@@ -150,6 +132,11 @@ class TurnTracker {
   /// Get the names for actions in the current phase.
   List<dynamic> getActionText() {
     return game.actions[currentPhase];
+  }
+
+  /// True if current phase includes actions and actionButton has a label.
+  bool isActionAvailable(int actionNum) {
+    return game.isActionAvailable(currentPhase, actionNum);
   }
 }
 
