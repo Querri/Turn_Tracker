@@ -1,10 +1,10 @@
 class TurnTracker {
   String gameName;
   bool initDone = false;
-  int spinBoth = 0;
 
   int playerCount;
   List<List<dynamic>> players;
+  List<int> animatePlayerReady;
 
   int lastPhase;
   int currentPhase;
@@ -21,6 +21,7 @@ class TurnTracker {
         playerCount, (index) =>
         [false, new List.generate(3, (index) => false)]
     );
+    animatePlayerReady = List.generate(playerCount, (index) => 0);
 
     initDone = true;
   }
@@ -34,10 +35,16 @@ class TurnTracker {
     } else {
       players[playerNum][0] = !players[playerNum][0];
     }
+
+    if (players[playerNum][0]) {
+      animatePlayerReady[playerNum] = 2;
+    } else {
+      animatePlayerReady[playerNum] = 0;
+    }
   }
 
   /// Check if players are ready.
-  bool checkReadiness(playerNum) {
+  bool isPlayerReady(playerNum) {
     // Check all players.
     if (playerNum == null) {
       for (var player in players) {
@@ -52,9 +59,23 @@ class TurnTracker {
     }
   }
 
+  /// Returns true if players ready button should play a spinning animation.
+  bool shouldAnimatePlayerReady(playerNum) {
+    if (animatePlayerReady[playerNum] > 0) {
+      animatePlayerReady[playerNum] -= 1;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   /// Change game phase one forward or backward.
   void changePhase(direction) {
-    spinBoth = 2;
+    // Sel all ready buttons to animate.
+    for (int i=0; i<playerCount; i++) {
+      animatePlayerReady[i] = 2;
+    }
+
     // Set all actions and ready states to false.
     for (var player in players) {
       player[0] = false;
@@ -63,7 +84,7 @@ class TurnTracker {
       }
     }
 
-    // Change phase forward or backward one phase.
+    // Change phase one forward or backward.
     if (direction != -1) {
       if (currentPhase < lastPhase) {
         currentPhase +=1;
@@ -91,7 +112,7 @@ class TurnTracker {
   }
 
   /// Check if a specific action of a player is marked as done.
-  bool checkAction(playerNum, actionNum) {
+  bool isActionDone(playerNum, actionNum) {
     return players[playerNum][1][actionNum];
   }
 
@@ -190,15 +211,6 @@ class TurnTracker {
       }
     }
     return ['', '', ''];
-  }
-
-  /// Returns true if the ready button should play the spinning animation.
-  bool shouldSpin() {
-    if (spinBoth > 0) {
-      spinBoth -= 1;
-      return true;
-    }
-    return false;
   }
 }
 

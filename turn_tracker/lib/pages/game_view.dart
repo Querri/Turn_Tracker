@@ -31,12 +31,13 @@ class _GameViewState extends State<GameView> {
   void _toggleReady(playerNum) {
     setState(() {
       if (playerNum < 0) {
+        // Skip to previous or next phase.
         _turnTracker.changePhase(playerNum);
 
       } else {
         _turnTracker.toggleReadiness(playerNum);
 
-        if (_turnTracker.checkReadiness(null)) {
+        if (_turnTracker.isPlayerReady(null)) {
           _turnTracker.changePhase(1);
         }
       }
@@ -176,8 +177,8 @@ class PlayerSection extends StatelessWidget {
                       Center(
                         heightFactor: 1.8,
                         child: AnimatedBg(
-                          animateBoth: turnTracker.shouldSpin(),
-                          isAnimated: turnTracker.checkReadiness(playerNum),
+                          isReady: turnTracker.isPlayerReady(playerNum),
+                          shouldAnimateReady: turnTracker.shouldAnimatePlayerReady(playerNum),
                         ),
                       ),
                       Positioned(
@@ -220,8 +221,8 @@ class PlayerSection extends StatelessWidget {
                             toggleReady(playerNum);
                           },
                           child: AnimatedReady(
-                            animateBoth: turnTracker.shouldSpin(),
-                            isAnimated: turnTracker.checkReadiness(playerNum),
+                            isReady: turnTracker.isPlayerReady(playerNum),
+                            shouldAnimateReady: turnTracker.shouldAnimatePlayerReady(playerNum),
                           ),
                         ),
                       ),
@@ -314,7 +315,7 @@ class ActionButton extends StatelessWidget {
   /// Get color for a button based on its state.
   Color _getActionButtonColor(context, playerNum, actionNum) {
     if (turnTracker.isActionAvailable(actionNum)) {
-      if (turnTracker.checkAction(playerNum, actionNum)) {
+      if (turnTracker.isActionDone(playerNum, actionNum)) {
         return Theme.of(context).colorScheme.secondary;
       } else {
         return Theme.of(context).colorScheme.primary;

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 /// Custom animations for ready button.
 class AnimatedReady extends StatefulWidget {
-  AnimatedReady({Key key, this.animateBoth, this.isAnimated}) : super(key: key);
-  final bool isAnimated;
-  final bool animateBoth;
+  AnimatedReady({Key key, this.isReady, this.shouldAnimateReady}) : super(key: key);
+  final bool isReady;
+  final bool shouldAnimateReady;
 
   @override
   _AnimatedReadyState createState() => _AnimatedReadyState();
@@ -14,8 +14,6 @@ class AnimatedReady extends StatefulWidget {
 class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateMixin {
   AnimationController _controller;
   AnimationController _repeatController;
-  AnimationController _bgController;
-  AnimationController _bgRepeatController;
 
   @override
   void initState() {
@@ -32,52 +30,21 @@ class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateM
     );
   }
 
-  /// Stp repeating spin animation and play starting animation once.
-  Future<void> _playSpin() async {
-    try {
-      _repeatController.stop();
-      _controller.reset();
-      _controller.forward().orCancel;
-
-    } on TickerCanceled {
-      // the animation got canceled, probably because it was disposed of.
-    }
-  }
-
-  /// Play starting animation and then start repeating spin animation.
-  Future<void> _playAnimation() async {
-    try {
-      _controller.reset();
-      _repeatController.reset();
-
-      _repeatController.repeat();
-
-      _controller.forward().orCancel;
-    } on TickerCanceled {
-      // the animation got canceled, probably because it was disposed of.
-    }
-  }
-
-  /// Stop repeating animation.
-  Future<void> _stopAnimation() async {
-    try {
-      _repeatController.stop();
-
-    } on TickerCanceled {
-      // animation disposed
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
 
-    if (widget.animateBoth) {
-      _playSpin();
-    }
-    else if (widget.isAnimated) {
-      _playAnimation();
+    if (widget.isReady) {
+      _repeatController.repeat();
+      if (widget.shouldAnimateReady) {
+        _controller.reset();
+        _controller.forward().orCancel;
+      }
     } else {
-      _stopAnimation();
+      _repeatController.stop();
+      if (widget.shouldAnimateReady) {
+        _controller.reset();
+        _controller.forward().orCancel;
+      }
     }
 
     return Center(
@@ -135,7 +102,6 @@ class StaggerAnimation extends StatelessWidget {
 
         super(key: key);
 
-  // Values for button animations.
   final AnimationController controller;
   final AnimationController repeatController;
   final Animation<double> size;
@@ -170,11 +136,11 @@ class StaggerAnimation extends StatelessWidget {
 }
 
 
-/// Custom animations for ready button.
+/// Custom animations for ready background.
 class AnimatedBg extends StatefulWidget {
-  AnimatedBg({Key key, this.animateBoth, this.isAnimated}) : super(key: key);
-  final bool isAnimated;
-  final bool animateBoth;
+  AnimatedBg({Key key, this.isReady, this.shouldAnimateReady}) : super(key: key);
+  final bool isReady;
+  final bool shouldAnimateReady;
 
   @override
   _AnimatedBgState createState() => _AnimatedBgState();
@@ -199,53 +165,17 @@ class _AnimatedBgState extends State<AnimatedBg> with TickerProviderStateMixin {
     );
   }
 
-  /// Stop repeating spin animation and play starting animation once.
-  Future<void> _playSpin() async {
-    try {
-      _bgRepeatController.stop();
-
-      _bgController.reverse();
-    } on TickerCanceled {
-      // the animation got canceled, probably because it was disposed of.
-    }
-  }
-
-  /// Play starting animation and then start repeating spin animation.
-  Future<void> _playAnimation() async {
-    try {
-      _bgController.reset();
-      _bgRepeatController.reset();
-
-      _bgRepeatController.repeat();
-      _bgController.forward().orCancel;
-    } on TickerCanceled {
-      // the animation got canceled, probably because it was disposed of.
-    }
-  }
-
-  /// Stop repeating animation.
-  Future<void> _stopAnimation() async {
-    try {
-      _bgRepeatController.stop();
-
-      await _bgController.reverse().orCancel;
-      //_bgController.reset();
-
-    } on TickerCanceled {
-      // animation disposed
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
 
-    if (widget.animateBoth) {
-      _playSpin();
-    }
-    else if (widget.isAnimated) {
-      _playAnimation();
+    if (widget.isReady) {
+      _bgRepeatController.repeat();
+      if (widget.shouldAnimateReady) {
+        _bgController.forward().orCancel;
+      }
     } else {
-      _stopAnimation();
+      _bgController.reverse().orCancel;
+      _bgRepeatController.stop();
     }
 
     return Center(
@@ -258,10 +188,10 @@ class _AnimatedBgState extends State<AnimatedBg> with TickerProviderStateMixin {
 }
 
 
-/// Custom animation sequence for ready button click.
+/// Custom animation sequence for animated background when player is ready.
 ///
-/// The button shrinks for a moment and makes one fast rotation.
-/// After that it continues repeating a slow linear rotation.
+/// The background graphic grows and then repeats a slow rotation as
+/// long as the player is ready.
 class BgStaggerAnimation extends StatelessWidget {
   BgStaggerAnimation({ Key key, this.bgController, this.bgRepeatController }) :
 
