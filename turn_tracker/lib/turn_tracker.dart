@@ -122,13 +122,13 @@ class TurnTracker {
       case 'Generic': {
         return true;
       }
-      case 'Spirit Island': {
+      case 'spirit island': {
         if (currentPhase == 0 || currentPhase == 2 || currentPhase == 3) return true;
         else if ((currentPhase == 1 || currentPhase == 4 || currentPhase == 5) &&
             (actionNum == 0 || actionNum == 2)) return true;
         break;
       }
-      case 'Direwild': {
+      case 'direwild': {
         if (currentPhase == 0) return true;
         else if (actionNum == 0 || actionNum == 2) return true;
       }
@@ -139,11 +139,11 @@ class TurnTracker {
   /// True if phase is done "jointly", so that players do the actions together.
   bool isPhaseSymmetric() {
     switch (gameName) {
-      case 'Spirit Island': {
+      case 'spirit island': {
         if (currentPhase == 2 || currentPhase == 3) return true;
       }
       break;
-      case 'Direwild': {
+      case 'direwild': {
         if (currentPhase == 0) return true;
       }
     }
@@ -153,8 +153,8 @@ class TurnTracker {
   /// Get the number of the last phase.
   int _getLastPhase() {
     switch (gameName) {
-      case ('Spirit Island'): return 5;
-      case ('Direwild'): return 4;
+      case ('spirit island'): return 5;
+      case ('direwild'): return 4;
     }
     return 0;
   }
@@ -162,7 +162,7 @@ class TurnTracker {
   /// Get the name of the phase.
   String getPhaseText() {
     switch (gameName) {
-      case ('Spirit Island'): {
+      case ('spirit island'): {
         switch (currentPhase) {
           case 0: return 'spirit phase';
           case 1: return 'fast power phase';
@@ -173,7 +173,7 @@ class TurnTracker {
         }
         break;
       }
-      case ('Direwild'): {
+      case ('direwild'): {
         switch (currentPhase) {
           case 0: return 'game phase';
           case 1: return 'summon phase';
@@ -189,7 +189,7 @@ class TurnTracker {
   /// Get the names for actions in the current phase.
   List<String> getActionText() {
     switch (gameName) {
-      case ('Spirit Island'): {
+      case ('spirit island'): {
         switch (currentPhase) {
           case 0: return ['GROWTH', 'GET ENERGY', 'PLAY CARDS'];
           case 1: return ['INNATE POWERS', '', 'CARD POWERS'];
@@ -200,7 +200,7 @@ class TurnTracker {
         }
       }
       break;
-      case 'Direwild': {
+      case 'direwild': {
         switch (currentPhase) {
           case 0: return ['NEW CARD', 'KARN PRESENCE', 'MOVE ENEMIES'];
           case 1: return ['CHOOSE ORDER', '', 'PLAY CARDS'];

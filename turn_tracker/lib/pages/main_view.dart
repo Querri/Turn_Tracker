@@ -20,7 +20,7 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> {
   int _playerCount = 2;
-  String _selectedGame = 'Spirit Island';
+  String _selectedGame = 'spirit island';
 
   /// Fetch all available games and their info from local json file.
   Future<List<Game>> _fetchGames() async {
@@ -33,6 +33,13 @@ class _MainViewState extends State<MainView> {
       print(list[i].name);
     }
     return list;
+  }
+
+  /// Change the selected game.
+  void _changeSelection(String newSelection) {
+    setState(() {
+      _selectedGame = newSelection;
+    });
   }
 
   @override
@@ -60,7 +67,11 @@ class _MainViewState extends State<MainView> {
                   return snapshot.hasData
                       ? Column(
                           children: [
-                            Text(snapshot.data.length.toString()),
+                            DropdownSelection(
+                              games: snapshot.data,
+                              selectedGame: _selectedGame,
+                              changeSelection: _changeSelection,
+                            )
                           ],
                         )
                       : Center(child: CircularProgressIndicator());
@@ -159,3 +170,57 @@ Route _createRoute(selectedGame, playerCount) {
   );
 }
 
+class DropdownSelection extends StatelessWidget {
+  DropdownSelection({this.games, this.selectedGame, @required this.changeSelection});
+
+  final games;
+  final String selectedGame;
+  final ValueChanged<String> changeSelection;
+
+  List<String> _getItems() {
+    List<String> list = List<String>();
+    for (var game in games) {
+      list.add(game.name);
+    }
+    return list;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      width: 270,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary,
+        borderRadius: BorderRadius.all(Radius.circular(25)),
+      ),
+      child: DropdownButton<String>(
+        value: selectedGame,
+        dropdownColor: Theme.of(context).colorScheme.primary,
+        focusColor: Theme.of(context).colorScheme.primary,
+        icon: Icon(
+          Icons.arrow_drop_down,
+          color: Theme.of(context).colorScheme.onPrimary,
+        ),
+        iconSize: 24,
+        elevation: 16,
+        style: Theme.of(context).textTheme.bodyText1
+            .merge(GoogleFonts.roboto())
+            .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+        underline: Container(
+          height: 0,
+        ),
+        onChanged: (String newValue) {
+          changeSelection(newValue);
+        },
+        items: _getItems().map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        })
+            .toList(),
+      ),
+    );
+  }
+}
