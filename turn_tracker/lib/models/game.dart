@@ -1,11 +1,11 @@
-import 'package:flutter/services.dart';
 import 'dart:convert';
+import 'package:flutter/services.dart';
 
 /// A model representing a game.
 ///
 /// Type can be co-op or versus,
 /// phases has a list of phase names,
-/// phase settings has a list of settings for each phase,
+/// phase settings has a list of settings for each phase, and
 /// actions has a list of action names for each phase.
 class Game {
   final String name;
@@ -17,13 +17,10 @@ class Game {
   Game({this.name, this.type, this.phases, this.phaseSettings, this.actions});
 
   factory Game.fromJson(Map<String, dynamic> parsedJson) {
-    var phasesFromJson = parsedJson['phases'];
-    List<String> phasesList = phasesFromJson.cast<String>();
-
     return new Game(
       name: parsedJson['name'] as String,
       type: parsedJson['type'] as String,
-      phases: phasesList,
+      phases: parsedJson['phases'].cast<String>(),
       phaseSettings: parsedJson['phase_settings'],
       actions: parsedJson['actions'],
     );
@@ -45,12 +42,6 @@ class Game {
   }
 }
 
-/// Read json file.
-Future<List<dynamic>> readJson() async {
-  final String response = await rootBundle.loadString('assets/games.json');
-  final data = jsonDecode(response);
-  return data['games'];
-}
 
 /// Find a game object based on its name.
 Game findGame(games, name) {

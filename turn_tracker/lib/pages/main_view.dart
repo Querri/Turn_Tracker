@@ -152,7 +152,8 @@ class _MainViewState extends State<MainView> {
   }
 }
 
-/// Create a navigation route.
+
+/// Create a navigation route to game view.
 Route _createRoute(game, playerCount) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => GameView(game: game, playerCount: playerCount),
@@ -171,6 +172,8 @@ Route _createRoute(game, playerCount) {
   );
 }
 
+
+/// Dropdown menu for game selection.
 class DropdownSelection extends StatelessWidget {
   DropdownSelection({this.games, this.selectedGame, @required this.changeSelection});
 
@@ -178,6 +181,7 @@ class DropdownSelection extends StatelessWidget {
   final String selectedGame;
   final ValueChanged<String> changeSelection;
 
+  /// Get game names for dropdown items.
   List<String> _getItems() {
     List<String> list = List<String>();
     for (var game in games) {

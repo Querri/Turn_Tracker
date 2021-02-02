@@ -2,7 +2,6 @@ import 'package:spirit_island_app/models/game.dart';
 
 
 class TurnTracker {
-  String gameName;
   Game game;
   bool initDone = false;
 
@@ -15,7 +14,6 @@ class TurnTracker {
   /// Initialize the class with values from main view.
   void init(game, playerCount) {
     this.game = game;
-    this.gameName = game.name;
     this.playerCount = playerCount;
 
     currentPhase = 0;
