@@ -58,22 +58,20 @@ class _MainViewState extends State<MainView> {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Spacer(flex: 4),
+                Spacer(
+                    flex: 4
+                ),
                 Text(
                   'Choose game',
                   style: Theme.of(context).textTheme.headline6
                       .merge(GoogleFonts.alegreyaSansSc()),
                 ),
                 snapshot.hasData
-                    ? Column(
-                  children: [
-                    DropdownSelection(
+                    ? DropdownSelection(
                       games: snapshot.data,
                       selectedGame: _selectedGame,
                       changeSelection: _changeSelection,
                     )
-                  ],
-                )
                     : Text('no data'),
                 Spacer(),
                 Text(
@@ -84,7 +82,9 @@ class _MainViewState extends State<MainView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Spacer(flex: 2),
+                    Spacer(
+                        flex: 2
+                    ),
                     FlatButton(
                       color: _getButtonColor('playerCount', 1),
                       child: Text(
@@ -138,6 +138,12 @@ class _MainViewState extends State<MainView> {
 
       ),
     );
+  }
+
+  @override
+  void initState() {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+    super.initState();
   }
 
   /// Get color for a button depending on its state.
