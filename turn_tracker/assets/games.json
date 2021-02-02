@@ -1,0 +1,118 @@
+{
+  "games": [
+    {
+      "name": "generic",
+      "type": "co-op",
+      "phases": [
+        ""
+      ],
+      "phase_settings": [
+        []
+      ],
+      "actions": [
+        ["", "", ""]
+      ]
+    },
+
+    {
+      "name": "spirit island",
+      "type": "co-op",
+      "phases": [
+        "spirit phase",
+        "fast power phase",
+        "invader phase 1",
+        "invader phase 2",
+        "slow power phase",
+        "time passes"
+      ],
+      "phase_settings": [
+        [],
+        [],
+        ["sym"],
+        ["sym"],
+        [],
+        []
+      ],
+      "actions": [
+        ["growth", "gain energy", "play cards"],
+        ["innate powers", "", "card powers"],
+        ["blight effect", "event card", "fear card"],
+        ["ravage", "build", "explore"],
+        ["innate powers", "", "card powers"],
+        ["discard cards and energy", "", "heal partial damage"]
+      ]
+    },
+
+    {
+      "name": "direwild",
+      "type": "co-op",
+      "phases": [
+        "game phase",
+        "summon phase",
+        "charm phase",
+        "adventure phase",
+        "end phase"
+      ],
+      "phase_settings": [
+        ["sym"],
+        ["order"],
+        ["order"],
+        ["order"],
+        []
+      ],
+      "actions": [
+        ["new A.I. card", "karn precence", "move enemies"],
+        ["choose player order", "", "play cards"],
+        ["spend charm", "", "build creature"],
+        ["move", "", "battle"],
+        ["discard cards", "", "move counters"]
+      ]
+    },
+
+    {
+      "name": "sub terra",
+      "type": "co-op",
+      "phases": [
+        "action phase",
+        "horror phase",
+        "hazard phase",
+        "end phase"
+      ],
+      "phase_settings": [
+        ["order"],
+        ["sym"],
+        ["sym"],
+        ["sym"]
+      ],
+      "actions": [
+        ["AP", "AP", "exert AP"],
+        ["", "move horrors", ""],
+        ["reveal new hazard", "", "complete hazard"],
+        ["", "pass starting caver marker", ""]
+      ]
+    },
+
+    {
+      "name": "dead of winter",
+      "type": "co-op",
+      "phases": [
+        "start phase",
+        "player turns phase",
+        "colony phase",
+        "end phase"
+      ],
+      "phase_settings": [
+        [],
+        ["order"],
+        ["sym"],
+        ["sym"]
+      ],
+      "actions": [
+        ["reveal new crisis", "", "roll action dice"],
+        ["move survivors", "use action dice", "take a crossroads card"],
+        ["pay food and check waste", "resolve crisis", "add zombies"],
+        ["check main objective", "move round tracker", "pass first player token"]
+      ]
+    }
+  ]
+}
