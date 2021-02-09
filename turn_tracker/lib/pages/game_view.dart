@@ -299,7 +299,7 @@ class ActionButton extends StatelessWidget {
               ),
               Container(
                 alignment: Alignment.bottomCenter,
-                margin: EdgeInsets.only(bottom: 35),
+                margin: EdgeInsets.only(bottom: size.height*0.03),
                 width: width,
                 child: Text(
                   actionText,
