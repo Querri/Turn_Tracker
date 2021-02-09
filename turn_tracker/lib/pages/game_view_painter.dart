@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 
-
 /// Custom painter for action buttons.
 class ButtonCustomPainter extends CustomPainter {
   final buttonColor;
@@ -17,13 +16,14 @@ class ButtonCustomPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    startPoint = [0, size.height*0.05];
-    endPoint = [size.width, size.height*0.05];
+    startPoint = [0, 0];
+    endPoint = [size.width, 0];
     curves = _getCurves(size.width, size.height);
 
     Paint paint = Paint()..color = buttonColor..style = PaintingStyle.fill;
     Path path;
 
+    // Path is drawn in parts, which depend on how many action buttons there are.
     switch (numberOfActions) {
       case 1: {
         path = Path()..moveTo(0, startPoint[1]);
@@ -77,13 +77,12 @@ class ButtonCustomPainter extends CustomPainter {
     canvas.drawPath(path, paint);
   }
 
-
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
     return true;
   }
 
-
+  /// Get values for all curves based on number of actions.
   List<List<double>> _getCurves(width, height) {
     switch (numberOfActions) {
       case 1: {
@@ -92,7 +91,7 @@ class ButtonCustomPainter extends CustomPainter {
           [width*(1/6), 0, width*(1/3), height*(2/5)],
           [width*(5/12), height*(3/5), width*(1/2), height*(3/5)],
           [width*(7/12), height*(3/5), width*(2/3), height*(2/5)],
-          [width*(5/6), 0, width, height*0.05]
+          [width*(5/6), 0, width, 0]
         ];
       }
       case 2: {
@@ -101,7 +100,7 @@ class ButtonCustomPainter extends CustomPainter {
           [width*(1/3), 0, width*(2/3), height*(2/5)],
           [width*(5/6), height*(3/5), width, height*(3/5)],
           [width*(1/6), height*(3/5), width*(1/3), height*(2/5)],
-          [width*(2/3), 0, width, height*0.05]
+          [width*(2/3), 0, width, 0]
         ];
       }
       case 3: {
@@ -110,9 +109,10 @@ class ButtonCustomPainter extends CustomPainter {
           [width*(1/2), 0, width, height*(2/5)],
           [width*(1/4), height*(3/5), width*(1/2), height*(3/5)],
           [width*(3/4), height*(3/5), width, height*(2/5)],
-          [width*(1/2), 0, width, height*0.05]
+          [width*(1/2), 0, width, 0]
         ];
       }
     }
+    return [];
   }
 }

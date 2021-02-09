@@ -31,7 +31,7 @@ class Game {
     if (actions[phaseNum][actionNum] == "") return false;
     else return true;
   }
-  
+
   /// Get the number of actions in current phase.
   int getNumberOfActions(phaseNum) {
     int counter = 0;

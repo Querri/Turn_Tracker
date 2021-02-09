@@ -85,7 +85,7 @@
         ["sym"]
       ],
       "actions": [
-        ["AP", "AP", "exert AP"],
+        ["ap", "ap", "exert ap"],
         ["move horrors", "", ""],
         ["reveal new hazard", "complete hazard", ""],
         ["pass starting caver marker", "", ""]

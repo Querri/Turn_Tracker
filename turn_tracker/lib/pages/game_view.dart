@@ -299,7 +299,7 @@ class ActionButton extends StatelessWidget {
           child: Stack(
             children: [
               CustomPaint(
-                size: Size(buttonWidth, 200),
+                size: Size(buttonWidth, size.height*(1/5)),
                 painter: ButtonCustomPainter(color, playerNum, actionNum, numberOfActions),
               ),
               Container(
