@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 
 /// Custom animations for ready button.
 class AnimatedReady extends StatefulWidget {
-  AnimatedReady({Key key, this.isReady, this.shouldAnimateReady}) : super(key: key);
+  AnimatedReady({Key key, this.isReady, this.shouldAnimateReady, this.buttonSize}) : super(key: key);
   final bool isReady;
   final bool shouldAnimateReady;
+  final double buttonSize;
 
   @override
   _AnimatedReadyState createState() => _AnimatedReadyState();
@@ -51,6 +52,7 @@ class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateM
       child: StaggerAnimation(
         controller: _controller.view,
         repeatController: _repeatController.view,
+        buttonSize: widget.buttonSize,
       ),
     );
   }
@@ -62,24 +64,24 @@ class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateM
 /// The button shrinks for a moment and makes one fast rotation.
 /// After that it continues repeating a slow linear rotation.
 class StaggerAnimation extends StatelessWidget {
-  StaggerAnimation({ Key key, this.controller, this.repeatController }) :
+  StaggerAnimation({ Key key, this.controller, this.repeatController, this.buttonSize }) :
 
         // Sequence: size of the button shrinks and grows back.
         size = TweenSequence(
           <TweenSequenceItem<double>>[
             TweenSequenceItem<double>(
-              tween: Tween(begin: 160.0, end: 140.0)
-                  .chain(CurveTween(curve: Curves.elasticOut)),
-              weight: 50.0,
+              tween: Tween(begin: buttonSize, end: buttonSize*0.9)
+                  .chain(CurveTween(curve: Curves.easeOutQuart)),
+              weight: 30.0,
             ),
             TweenSequenceItem<double>(
-              tween: Tween(begin: 140.0, end: 160.0)
-                  .chain(CurveTween(curve: Curves.ease)),
-              weight: 50.0,
+              tween: Tween(begin: buttonSize*0.9, end: buttonSize)
+                  .chain(CurveTween(curve: Curves.easeInOutBack)),
+              weight: 70.0,
             ),
           ],
         ).animate(
-            (CurvedAnimation(parent: controller, curve: Interval(0.0, 0.8)))),
+            (CurvedAnimation(parent: controller, curve: Interval(0.0, 0.5)))),
 
         // Fast bouncy spin for button click.
         rotation = Tween<double>(begin: 0.0, end: 1.0,).animate(
@@ -105,6 +107,7 @@ class StaggerAnimation extends StatelessWidget {
   final AnimationController controller;
   final AnimationController repeatController;
   final Animation<double> size;
+  final double buttonSize;
   final Animation<double> rotation;
   final Animation<double> repeatRotation;
 
@@ -119,13 +122,10 @@ class StaggerAnimation extends StatelessWidget {
           child: AnimatedBuilder(
             animation: controller,
             builder: (context, child) {
-              return Container(
+              return Image(
                 width: size.value,
                 height: size.value,
-                child: Image(
-                  width: 160,
-                  image: AssetImage('1024.png'),
-                ),
+                image: AssetImage('1024.png'),
               );
             }
           ),
@@ -138,9 +138,10 @@ class StaggerAnimation extends StatelessWidget {
 
 /// Custom animations for ready background.
 class AnimatedBg extends StatefulWidget {
-  AnimatedBg({Key key, this.isReady, this.shouldAnimateReady}) : super(key: key);
+  AnimatedBg({Key key, this.isReady, this.shouldAnimateReady, this.buttonSize}) : super(key: key);
   final bool isReady;
   final bool shouldAnimateReady;
+  final double buttonSize;
 
   @override
   _AnimatedBgState createState() => _AnimatedBgState();
@@ -182,6 +183,8 @@ class _AnimatedBgState extends State<AnimatedBg> with TickerProviderStateMixin {
       child: BgStaggerAnimation(
         bgController: _bgController,
         bgRepeatController: _bgRepeatController,
+        startSize: widget.buttonSize*0.9,
+        endSize: widget.buttonSize*3,
       ),
     );
   }
@@ -193,13 +196,13 @@ class _AnimatedBgState extends State<AnimatedBg> with TickerProviderStateMixin {
 /// The background graphic grows and then repeats a slow rotation as
 /// long as the player is ready.
 class BgStaggerAnimation extends StatelessWidget {
-  BgStaggerAnimation({ Key key, this.bgController, this.bgRepeatController }) :
+  BgStaggerAnimation({ Key key, this.bgController, this.bgRepeatController, this.startSize, this.endSize }) :
 
   // Size of the background graphic increases.
-        bgSize = Tween<double>(begin: 160.0, end: 400.0,).animate(
+        size = Tween<double>(begin: startSize, end: endSize,).animate(
           CurvedAnimation(
             parent: bgController,
-            curve: Curves.linear,
+            curve: Curves.slowMiddle,
           ),
         ),
 
@@ -216,8 +219,10 @@ class BgStaggerAnimation extends StatelessWidget {
   // Values for background animations.
   final AnimationController bgController;
   final AnimationController bgRepeatController;
-  final Animation<double> bgSize;
+  final Animation<double> size;
   final Animation<double> bgRepeatRotation;
+  final double startSize;
+  final double endSize;
 
   @override
   Widget build(BuildContext context) {
@@ -230,8 +235,8 @@ class BgStaggerAnimation extends StatelessWidget {
               animation: bgController,
               builder: (context, child) {
                 return Image(
-                  width: bgSize.value,
-                  height: bgSize.value,
+                  width: size.value,
+                  height: size.value,
                   image: AssetImage('1024_big.png'),
                 );
               }
