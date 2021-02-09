@@ -61,7 +61,7 @@
         []
       ],
       "actions": [
-        ["new A.I. card", "karn precence", "move enemies"],
+        ["new a.i. card", "karn precence", "move enemies"],
         ["choose player order", "", "play cards"],
         ["spend charm", "", "build creature"],
         ["move", "", "battle"],

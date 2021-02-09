@@ -180,12 +180,13 @@ class PlayerSection extends StatelessWidget {
                         child: AnimatedBg(
                           isReady: turnTracker.isPlayerReady(playerNum),
                           shouldAnimateReady: turnTracker.shouldAnimatePlayerReady(playerNum),
+                          buttonSize: size.height*0.2,
                         ),
                       ),
                       Positioned(
                         bottom: 0,
                         left: 0,
-                        height: 200,
+                        height: size.height*0.2,
                         width: size.width,
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -224,6 +225,7 @@ class PlayerSection extends StatelessWidget {
                           child: AnimatedReady(
                             isReady: turnTracker.isPlayerReady(playerNum),
                             shouldAnimateReady: turnTracker.shouldAnimatePlayerReady(playerNum),
+                            buttonSize: size.height*0.2,
                           ),
                         ),
                       ),
@@ -297,7 +299,7 @@ class ActionButton extends StatelessWidget {
               ),
               Container(
                 alignment: Alignment.bottomCenter,
-                margin: EdgeInsets.only(bottom: 35),
+                margin: EdgeInsets.only(bottom: size.height*0.03),
                 width: width,
                 child: Text(
                   actionText,
