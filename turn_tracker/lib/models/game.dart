@@ -32,6 +32,17 @@ class Game {
     else return true;
   }
 
+  /// Get the number of actions in current phase.
+  int getNumberOfActions(phaseNum) {
+    int counter = 0;
+    for (String action in actions[phaseNum]) {
+      if (action != "") {
+        counter++;
+      }
+    }
+    return counter;
+  }
+
   /// True if a phase is symmetric.
   bool isPhaseSymmetric(phaseNum) {
     // TODO probably needs fixing for multiple settings per phase.

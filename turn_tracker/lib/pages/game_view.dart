@@ -192,27 +192,33 @@ class PlayerSection extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              ActionButton(
-                                turnTracker: turnTracker,
-                                playerNum: playerNum,
-                                actionNum: 0,
-                                actionText: actionText[0],
-                                toggleAction: toggleAction,
-                              ),
-                              ActionButton(
-                                turnTracker: turnTracker,
-                                playerNum: playerNum,
-                                actionNum: 1,
-                                actionText: actionText[1],
-                                toggleAction: toggleAction,
-                              ),
-                              ActionButton(
-                                turnTracker: turnTracker,
-                                playerNum: playerNum,
-                                actionNum: 2,
-                                actionText: actionText[2],
-                                toggleAction: toggleAction,
-                              ),
+                              if (turnTracker.isActionAvailable(0))
+                                ActionButton(
+                                  turnTracker: turnTracker,
+                                  playerNum: playerNum,
+                                  actionNum: 0,
+                                  actionText: actionText[0],
+                                  toggleAction: toggleAction,
+                                  numberOfActions: turnTracker.getNumberOfActions(),
+                                ),
+                              if (turnTracker.isActionAvailable(1))
+                                ActionButton(
+                                  turnTracker: turnTracker,
+                                  playerNum: playerNum,
+                                  actionNum: 1,
+                                  actionText: actionText[1],
+                                  toggleAction: toggleAction,
+                                  numberOfActions: turnTracker.getNumberOfActions(),
+                                ),
+                              if (turnTracker.isActionAvailable(2))
+                                ActionButton(
+                                  turnTracker: turnTracker,
+                                  playerNum: playerNum,
+                                  actionNum: 2,
+                                  actionText: actionText[2],
+                                  toggleAction: toggleAction,
+                                  numberOfActions: turnTracker.getNumberOfActions(),
+                                ),
                             ],
                           ),
                       ),
@@ -269,21 +275,20 @@ class PlayerSection extends StatelessWidget {
 
 /// An action button.
 class ActionButton extends StatelessWidget {
-  ActionButton({this.turnTracker, this.playerNum, this.actionNum, this.actionText, @required this.toggleAction});
+  ActionButton({this.turnTracker, this.playerNum, this.actionNum,
+    this.actionText, @required this.toggleAction, this.numberOfActions});
   final turnTracker;
-  final playerNum;
-  final actionNum;
-  final actionText;
+  final int playerNum;
+  final int actionNum;
+  final String actionText;
   final ValueChanged<List<int>> toggleAction;
+  final int numberOfActions;
 
   @override
   Widget build(BuildContext context) {
     final color = _getActionButtonColor(context, playerNum, actionNum);
-
     final Size size = MediaQuery.of(context).size;
-    double width = size.width;
-    if (actionNum == 1) width = width*0.40;
-    else width = width*0.30;
+    double buttonWidth = size.width/numberOfActions;
 
     return Stack(
       children: [
@@ -294,13 +299,13 @@ class ActionButton extends StatelessWidget {
           child: Stack(
             children: [
               CustomPaint(
-                size: Size(width, 200),
-                painter: ButtonCustomPainter(color, playerNum, actionNum),
+                size: Size(buttonWidth, size.height*(1/5)),
+                painter: ButtonCustomPainter(color, playerNum, actionNum, numberOfActions),
               ),
               Container(
                 alignment: Alignment.bottomCenter,
                 margin: EdgeInsets.only(bottom: size.height*0.03),
-                width: width,
+                width: buttonWidth,
                 child: Text(
                   actionText,
                   style: Theme.of(context).textTheme.bodyText2
