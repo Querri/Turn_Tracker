@@ -35,11 +35,11 @@
       ],
       "actions": [
         ["growth", "gain energy", "play cards"],
-        ["innate powers", "", "card powers"],
+        ["innate powers", "card powers", ""],
         ["blight effect", "event card", "fear card"],
         ["ravage", "build", "explore"],
-        ["innate powers", "", "card powers"],
-        ["discard cards and energy", "", "heal partial damage"]
+        ["innate powers", "card powers", ""],
+        ["discard cards and energy", "heal partial damage", ""]
       ]
     },
 
@@ -62,10 +62,10 @@
       ],
       "actions": [
         ["new a.i. card", "karn precence", "move enemies"],
-        ["choose player order", "", "play cards"],
-        ["spend charm", "", "build creature"],
-        ["move", "", "battle"],
-        ["discard cards", "", "move counters"]
+        ["choose player order", "play cards", ""],
+        ["spend charm", "build creature", ""],
+        ["move", "battle", ""],
+        ["discard cards", "move counters", ""]
       ]
     },
 
@@ -86,9 +86,9 @@
       ],
       "actions": [
         ["AP", "AP", "exert AP"],
-        ["", "move horrors", ""],
-        ["reveal new hazard", "", "complete hazard"],
-        ["", "pass starting caver marker", ""]
+        ["move horrors", "", ""],
+        ["reveal new hazard", "complete hazard", ""],
+        ["pass starting caver marker", "", ""]
       ]
     },
 
@@ -108,7 +108,7 @@
         ["sym"]
       ],
       "actions": [
-        ["reveal new crisis", "", "roll action dice"],
+        ["reveal new crisis", "roll action dice", ""],
         ["move survivors", "use action dice", "take a crossroads card"],
         ["pay food and check waste", "resolve crisis", "add zombies"],
         ["check main objective", "move round tracker", "pass first player token"]

@@ -136,6 +136,13 @@ class TurnTracker {
   bool isActionAvailable(int actionNum) {
     return game.isActionAvailable(currentPhase, actionNum);
   }
+
+  /// Get the number of actions in current phase.
+  ///
+  /// Always between 0-3.
+  int getNumberOfActions() {
+    return game.getNumberOfActions(currentPhase);
+  }
 }
 
 
