@@ -41,12 +41,9 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
   assets:
-    - button.png
-    - 1024.png
-    - 1024_big.png
     - 1024_ready_inactive.png
-    - 1024_pressed.png
-    - 1024_active.png
+    - 1024_ready_active.png
+    - 1024_ready_pressed.png
     - games.json
 
   # The following line ensures that the Material Icons font is

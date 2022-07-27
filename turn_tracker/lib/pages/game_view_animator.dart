@@ -14,13 +14,14 @@ class AnimatedReady extends StatefulWidget {
 
 class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateMixin {
   AnimationController _controller;
+  AssetImage readyImage;
 
   @override
   void initState() {
     super.initState();
 
     _controller = AnimationController(
-        duration: const Duration(milliseconds: 2000),
+        duration: const Duration(seconds: 2),
         vsync: this
     );
   }
@@ -29,29 +30,23 @@ class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateM
   Widget build(BuildContext context) {
 
     if (widget.isReady) {
+      readyImage = AssetImage('1024_ready_active.png');
       if (widget.shouldAnimateReady) {
         _controller.reset();
         _controller.forward().orCancel;
       }
     } else {
-      //TODO check when toggle
+      //TODO check when toggled
+      readyImage = AssetImage('1024_ready_inactive.png');
       _controller.reset();
       _controller.reverse().orCancel;
     }
-
-    /*
-    return Center(
-      child: StaggerAnimation2(
-        controller: _controller.view,
-        buttonSize: widget.buttonSize,
-      ),
-    );
-    */
 
     return Center(
       child: StaggerAnimation(
         controller: _controller.view,
         buttonSize: widget.buttonSize,
+        buttonImage: readyImage,
       ),
     );
   }
@@ -59,11 +54,13 @@ class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateM
 
 
 /// Custom animation sequence for ready button click.
+///
+/// The button changes size and color.
 class StaggerAnimation extends StatelessWidget {
-  StaggerAnimation({ Key key, this.controller, this.buttonSize }) :
+  StaggerAnimation({ Key key, this.controller, this.buttonSize, this.buttonImage }) :
 
   // Sequence: size of the button shrinks and grows back.
-        size = TweenSequence(
+        animatedSize = TweenSequence(
           <TweenSequenceItem<double>>[
             TweenSequenceItem<double>(
               tween: Tween(begin: buttonSize, end: buttonSize*0.8)
@@ -81,8 +78,9 @@ class StaggerAnimation extends StatelessWidget {
         super(key: key);
 
   final AnimationController controller;
-  final Animation<double> size;
+  final Animation<double> animatedSize;
   final double buttonSize;
+  final AssetImage buttonImage;
 
   @override
   Widget build(BuildContext context) {
@@ -92,16 +90,15 @@ class StaggerAnimation extends StatelessWidget {
           animation: controller,
           builder: (context, child) {
             return Image(
-              width: size.value,
-              height: size.value,
-              image: AssetImage('1024_ready_inactive.png'),
+              width: animatedSize.value,
+              height: animatedSize.value,
+              image: buttonImage,
             );
           }
       ),
     );
   }
 }
-
 
 
 /*
