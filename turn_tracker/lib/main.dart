@@ -92,14 +92,14 @@ const ColorScheme _colorScheme = ColorScheme(
 
   primary: blue_1,
   primaryVariant: blue_1,
-  onPrimary: blue_4,
+  onPrimary: blue_5,
 
   secondary: blue_1,
   secondaryVariant: blue_1,
-  onSecondary: blue_4,
+  onSecondary: blue_3,
 
   background: blue_2,
-  onBackground: blue_4,
+  onBackground: blue_5,
 
   error: black,
   onError: white,

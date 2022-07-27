@@ -30,14 +30,14 @@ class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateM
   Widget build(BuildContext context) {
 
     if (widget.isReady) {
-      readyImage = AssetImage('1024_ready_active.png');
+      readyImage = AssetImage('1024_ready_inactive.png');
       if (widget.shouldAnimateReady) {
         _controller.reset();
         _controller.forward().orCancel;
       }
     } else {
       //TODO check when toggled
-      readyImage = AssetImage('1024_ready_inactive.png');
+      readyImage = AssetImage('1024_ready_active.png');
       _controller.reset();
       _controller.reverse().orCancel;
     }
@@ -63,12 +63,12 @@ class StaggerAnimation extends StatelessWidget {
         animatedSize = TweenSequence(
           <TweenSequenceItem<double>>[
             TweenSequenceItem<double>(
-              tween: Tween(begin: buttonSize, end: buttonSize*0.8)
+              tween: Tween(begin: buttonSize, end: buttonSize*0.5)
                   .chain(CurveTween(curve: Curves.easeOutQuart)),
               weight: 30.0,
             ),
             TweenSequenceItem<double>(
-              tween: Tween(begin: buttonSize*0.8, end: buttonSize*1.4)
+              tween: Tween(begin: buttonSize*0.5, end: buttonSize*0.6)
                   .chain(CurveTween(curve: Curves.easeInOutBack)),
               weight: 70.0,
             ),

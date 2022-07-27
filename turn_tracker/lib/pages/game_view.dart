@@ -184,7 +184,7 @@ class PlayerSection extends StatelessWidget {
                           child: AnimatedReady(
                             isReady: turnTracker.isPlayerReady(playerNum),
                             shouldAnimateReady: turnTracker.shouldAnimatePlayerReady(playerNum),
-                            buttonSize: size.height*0.3,
+                            buttonSize: size.width,
                           ),
                         ),
                       ),
@@ -282,6 +282,33 @@ class ActionButton extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     double buttonWidth = size.width/numberOfActions;
 
+    // Custom shape and a button in a stack.
+    return Stack(
+      children: [
+        CustomPaint(
+          size: Size(buttonWidth, size.height*(1/5)),
+          painter: ButtonCustomPainter(Theme.of(context).colorScheme.primary, playerNum, actionNum, numberOfActions),
+        ),
+        GestureDetector(
+          onTap: () {
+          toggleAction([playerNum, actionNum]);
+          },
+          child: Container(
+            alignment: Alignment.bottomCenter,
+            margin: EdgeInsets.symmetric(vertical: size.height*0.03),
+            width: buttonWidth,
+            child: Text(
+              actionText,
+              style: Theme.of(context).textTheme.bodyText2
+                  .merge(GoogleFonts.alegreyaSansSc())
+                  .copyWith(color: color),
+            ),
+          ),
+        ),
+      ],
+    );
+
+    /*
     return Stack(
       children: [
         GestureDetector(
@@ -310,18 +337,19 @@ class ActionButton extends StatelessWidget {
         ),
       ],
     );
+     */
   }
 
   /// Get color for a button based on its state.
   Color _getActionButtonColor(context, playerNum, actionNum) {
     if (turnTracker.isActionAvailable(actionNum)) {
       if (turnTracker.isActionDone(playerNum, actionNum)) {
-        return Theme.of(context).colorScheme.secondary;
+        return Theme.of(context).colorScheme.onSecondary;
       } else {
-        return Theme.of(context).colorScheme.primary;
+        return Theme.of(context).colorScheme.onPrimary;
       }
     } else {
-      return Theme.of(context).colorScheme.primary;
+      return Theme.of(context).colorScheme.onPrimary;
     }
   }
 }
