@@ -125,7 +125,7 @@ class StaggerAnimation extends StatelessWidget {
               return Image(
                 width: size.value,
                 height: size.value,
-                image: AssetImage('1024.png'),
+                image: AssetImage('1024_ready_inactive.png'),
               );
             }
           ),
@@ -134,118 +134,4 @@ class StaggerAnimation extends StatelessWidget {
     );
   }
 }
-
-
-/// Custom animations for ready background.
-class AnimatedBg extends StatefulWidget {
-  AnimatedBg({Key key, this.isReady, this.shouldAnimateReady, this.buttonSize}) : super(key: key);
-  final bool isReady;
-  final bool shouldAnimateReady;
-  final double buttonSize;
-
-  @override
-  _AnimatedBgState createState() => _AnimatedBgState();
-}
-
-class _AnimatedBgState extends State<AnimatedBg> with TickerProviderStateMixin {
-  AnimationController _bgController;
-  AnimationController _bgRepeatController;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _bgController = AnimationController(
-        duration: const Duration(seconds: 1),
-        vsync: this
-    );
-
-    _bgRepeatController = AnimationController(
-        duration: const Duration(seconds: 100),
-        vsync: this
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    if (widget.isReady) {
-      _bgRepeatController.repeat();
-      if (widget.shouldAnimateReady) {
-        _bgController.forward().orCancel;
-      }
-    } else {
-      _bgController.reverse().orCancel;
-      _bgRepeatController.stop();
-    }
-
-    return Center(
-      child: BgStaggerAnimation(
-        bgController: _bgController,
-        bgRepeatController: _bgRepeatController,
-        startSize: widget.buttonSize*0.9,
-        endSize: widget.buttonSize*3,
-      ),
-    );
-  }
-}
-
-
-/// Custom animation sequence for animated background when player is ready.
-///
-/// The background graphic grows and then repeats a slow rotation as
-/// long as the player is ready.
-class BgStaggerAnimation extends StatelessWidget {
-  BgStaggerAnimation({ Key key, this.bgController, this.bgRepeatController, this.startSize, this.endSize }) :
-
-  // Size of the background graphic increases.
-        size = Tween<double>(begin: startSize, end: endSize,).animate(
-          CurvedAnimation(
-            parent: bgController,
-            curve: Curves.slowMiddle,
-          ),
-        ),
-
-  // Very slow linear spin for background graphic.
-        bgRepeatRotation = Tween<double>(begin: 0.0, end: 1.0,).animate(
-          CurvedAnimation(
-            parent: bgRepeatController,
-            curve: Curves.linear,
-          ),
-        ),
-
-        super(key: key);
-
-  // Values for background animations.
-  final AnimationController bgController;
-  final AnimationController bgRepeatController;
-  final Animation<double> size;
-  final Animation<double> bgRepeatRotation;
-  final double startSize;
-  final double endSize;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: RotationTransition(
-        turns: bgRepeatRotation,
-        child: Opacity(
-          opacity: 0.50,
-          child: AnimatedBuilder(
-              animation: bgController,
-              builder: (context, child) {
-                return Image(
-                  width: size.value,
-                  height: size.value,
-                  image: AssetImage('1024_big.png'),
-                );
-              }
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-
 

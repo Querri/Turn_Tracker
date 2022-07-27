@@ -66,51 +66,40 @@ ThemeData theme() {
 
 /// Colors and a color scheme.
 const Color white = Color(0xFFFFFFFF);
-const Color alabaster = Color(0xFFF5F1E3);
-const Color bone = Color(0xFFDDDBCB);
-const Color lightBlue = Color(0xFF7CBBBB);
-const Color blue = Color(0xFF1B9AAA);
 const Color black = Color(0xFF050505);
 
-const Color brown_dark = Color(0xFF14100D);
-const Color brown_medium = Color(0xFF211A15);
-const Color brown_light = Color(0xFF875D36);
-const Color brown_bright = Color(0xFF754C24);
+const Color green_1 = Color(0xFF0C1D23);
+const Color green_2 = Color(0xFF132933);
+const Color green_3 = Color(0xFF355053);
+const Color green_4 = Color(0xFF52796F);
+const Color green_5 = Color(0xFF63A893);
 
-const Color orange_light = Color(0xFFffccb3);
-const Color orange_dark = Color(0xFFffb366);
-const Color salmon_light = Color(0xFFff5050);
-const Color salmon_dark = Color(0xFFff3333);
+const Color blue_1 = Color(0xFF0D1319);
+const Color blue_2 = Color(0xFF151E27);
+const Color blue_3 = Color(0xFF334551);
+const Color blue_4 = Color(0xFF557D8E);
+const Color blue_5 = Color(0xFF5E93A5);
 
-const Color night_light = Color(0xFF364156);
-const Color night_medium = Color(0xFF212D40);
-const Color night_dark = Color(0xFF11151C);
-const Color red_light = Color(0xFFEE5C42);
-const Color red_bright = Color(0xFFD90429);
+const Color brown_1 = Color(0xFF160E0A);
+const Color brown_2 = Color(0xFF261B14);
+const Color brown_3 = Color(0xFF70543F);
+const Color brown_4 = Color(0xFFCE936B);
+const Color brown_5 = Color(0xFFCC7636);
 
-
-const Color green_white = Color(0xFFCAD2C5);
-const Color green_light = Color(0xFF84A98C);
-const Color green_medium = Color(0xFF52796F);
-const Color green_dark = Color(0xFF354F52);
-const Color green_black = Color(0xFF2F3E46);
-
-
-const Color idk_dark = Color(0xFF1E2531);
 
 const ColorScheme _colorScheme = ColorScheme(
   brightness: Brightness.dark,
 
-  primary: idk_dark,
-  primaryVariant: idk_dark,
-  onPrimary: white,
+  primary: blue_1,
+  primaryVariant: blue_1,
+  onPrimary: blue_4,
 
-  secondary: red_light,
-  secondaryVariant: red_light,
-  onSecondary: white,
+  secondary: blue_1,
+  secondaryVariant: blue_1,
+  onSecondary: blue_4,
 
-  background: black,
-  onBackground: white,
+  background: blue_2,
+  onBackground: blue_4,
 
   error: black,
   onError: white,

@@ -177,10 +177,15 @@ class PlayerSection extends StatelessWidget {
                     children: [
                       Center(
                         heightFactor: 1.8,
-                        child: AnimatedBg(
-                          isReady: turnTracker.isPlayerReady(playerNum),
-                          shouldAnimateReady: turnTracker.shouldAnimatePlayerReady(playerNum),
-                          buttonSize: size.height*0.2,
+                        child: GestureDetector(
+                          onTap: () {
+                            toggleReady(playerNum);
+                          },
+                          child: AnimatedReady(
+                            isReady: turnTracker.isPlayerReady(playerNum),
+                            shouldAnimateReady: turnTracker.shouldAnimatePlayerReady(playerNum),
+                            buttonSize: size.height*0.3,
+                          ),
                         ),
                       ),
                       Positioned(
@@ -221,19 +226,6 @@ class PlayerSection extends StatelessWidget {
                                 ),
                             ],
                           ),
-                      ),
-                      Center(
-                        heightFactor: 1.8,
-                        child: GestureDetector(
-                          onTap: () {
-                            toggleReady(playerNum);
-                          },
-                          child: AnimatedReady(
-                            isReady: turnTracker.isPlayerReady(playerNum),
-                            shouldAnimateReady: turnTracker.shouldAnimatePlayerReady(playerNum),
-                            buttonSize: size.height*0.2,
-                          ),
-                        ),
                       ),
                     ],
                   ),
