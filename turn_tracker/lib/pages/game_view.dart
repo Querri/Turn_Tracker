@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:screen/screen.dart';
 
 import 'package:spirit_island_app/pages/game_view_animator.dart';
 import 'package:spirit_island_app/pages/game_view_painter.dart';
@@ -60,7 +59,7 @@ class _GameViewState extends State<GameView> {
 
   @override
   Widget build(BuildContext context) {
-    Screen.keepOn(true);
+    //Screen.keepOn(true);
 
     if (!_turnTracker.initDone) {
       _turnTracker.init(widget.game, widget.playerCount);
@@ -94,15 +93,14 @@ class _GameViewState extends State<GameView> {
   @override
   void initState() {
     // Enable full screen.
-    SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     super.initState();
   }
 
   @override
   void dispose() {
     // Disable full screen.
-    SystemChrome.setEnabledSystemUIOverlays(
-        [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     super.dispose();
   }
 }
@@ -235,8 +233,7 @@ class PlayerSection extends StatelessWidget {
                           ),
                       ),
                       Center(
-                        child: FlatButton(
-                          shape: CircleBorder(),
+                        child: TextButton(
                           onPressed: () {
                             toggleReady(playerNum);
                           },
@@ -352,7 +349,7 @@ class ActionButton extends StatelessWidget {
   Color _getActionButtonColor(context, playerNum, actionNum) {
     if (turnTracker.isActionAvailable(actionNum)) {
       if (turnTracker.isActionDone(playerNum, actionNum)) {
-        return Theme.of(context).colorScheme.secondaryVariant;
+        return Theme.of(context).colorScheme.onPrimary;
       } else {
         return Theme.of(context).colorScheme.secondary;
       }

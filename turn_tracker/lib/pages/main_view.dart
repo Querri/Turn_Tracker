@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:screen/screen.dart';
 
 import 'package:spirit_island_app/pages/game_view.dart';
 import 'package:spirit_island_app/models/game.dart';
@@ -44,7 +43,7 @@ class _MainViewState extends State<MainView> {
 
   @override
   Widget build(BuildContext context) {
-    Screen.keepOn(false);
+    //Screen.keepOn(false);
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -60,9 +59,6 @@ class _MainViewState extends State<MainView> {
               children: <Widget>[
                 Spacer(
                     flex: 4
-                ),
-                TextButton(
-
                 ),
                 Text(
                   'Choose game',
@@ -88,8 +84,8 @@ class _MainViewState extends State<MainView> {
                     Spacer(
                         flex: 2
                     ),
-                    FlatButton(
-                      color: _getButtonColor('playerCount', 1),
+                    TextButton(
+                      //color: _getButtonColor('playerCount', 1),
                       child: Text(
                         '1',
                         style: Theme.of(context).textTheme.bodyText1
@@ -103,8 +99,8 @@ class _MainViewState extends State<MainView> {
                       },
                     ),
                     Spacer(),
-                    FlatButton(
-                      color: _getButtonColor('playerCount', 2),
+                    TextButton(
+                      //color: _getButtonColor('playerCount', 2),
                       child: Text(
                         '2',
                         style: Theme.of(context).textTheme.bodyText1
@@ -121,8 +117,8 @@ class _MainViewState extends State<MainView> {
                   ],
                 ),
                 Spacer(),
-                FlatButton(
-                  color: Theme.of(context).colorScheme.primary,
+                TextButton(
+                  //color: Theme.of(context).colorScheme.primary,
                   onPressed: () {
                     Navigator.of(context).push(_createRoute(findGame(snapshot.data, _selectedGame), _playerCount));
                   },

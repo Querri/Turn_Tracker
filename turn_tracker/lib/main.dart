@@ -79,11 +79,9 @@ const ColorScheme _colorScheme = ColorScheme(
   brightness: Brightness.dark,
 
   primary: grey_1,
-  primaryVariant: grey_1,
   onPrimary: white,
 
   secondary: orange,
-  secondaryVariant: grey_3,
   onSecondary: white,
 
   background: grey_2,
