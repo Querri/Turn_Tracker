@@ -124,11 +124,26 @@ class PlayerSection extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     final actionText = turnTracker.getActionText();
 
+    // Expanded RotatedBox Container Column of
+    //    Row of [IconButton, Container AnimatedSwitcher Text, IconButton]
+    //    Expanded Container Stack of
+    //        Center GestureDetector AnimatedReady
+    //        Positioned Row of [ActionButton, ActionButton, ActionButton]
+
+    // Expanded RotatedBox Container Column of
+    //    Row of [IconButton, Container AnimatedSwitcher Text, IconButton]
+    //    Row of [Timer]
+    //    Expanded Container Stack of
+    //        Center AnimatedReady
+    //        Positioned Shape
+    //        Center RoundedButton
+    //        Positioned ButtonBar
+
     return Expanded(
       child: RotatedBox(
         quarterTurns: _getRotation(playerNum),
         child: Container(
-          margin: EdgeInsets.only(bottom: _getMargin(playerNum)),
+          margin: EdgeInsets.only(bottom: 20), //TODO mind the gap
           width: double.infinity,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -143,23 +158,20 @@ class PlayerSection extends StatelessWidget {
                       toggleReady(-1);
                     },
                   ),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    child: AnimatedSwitcher(
-                      duration: Duration(milliseconds: 300),
-                      transitionBuilder:
-                          (Widget child, Animation<double> animation) {
-                        return ScaleTransition(
-                          child: child,
-                          scale: animation,
-                        );
-                      },
-                      child: Text(
-                        turnTracker.getPhaseText(),
-                        key: ValueKey<String>(turnTracker.getPhaseText()),
-                        style: Theme.of(context).textTheme.headline4
-                            .merge(GoogleFonts.alegreyaSansSc()),
-                      ),
+                  AnimatedSwitcher(
+                    duration: Duration(milliseconds: 300),
+                    transitionBuilder:
+                        (Widget child, Animation<double> animation) {
+                      return ScaleTransition(
+                        child: child,
+                        scale: animation,
+                      );
+                    },
+                    child: Text(
+                      turnTracker.getPhaseText(),
+                      key: ValueKey<String>(turnTracker.getPhaseText()),
+                      style: Theme.of(context).textTheme.headline4
+                          .merge(GoogleFonts.alegreyaSansSc()),
                     ),
                   ),
                   IconButton(
@@ -176,16 +188,11 @@ class PlayerSection extends StatelessWidget {
                   child: Stack(
                     children: [
                       Center(
-                        heightFactor: 1.8,
-                        child: GestureDetector(
-                          onTap: () {
-                            toggleReady(playerNum);
-                          },
-                          child: AnimatedReady(
-                            isReady: turnTracker.isPlayerReady(playerNum),
-                            shouldAnimateReady: turnTracker.shouldAnimatePlayerReady(playerNum),
-                            buttonSize: size.width,
-                          ),
+                        heightFactor: 1,
+                        child: AnimatedReady(
+                          isReady: turnTracker.isPlayerReady(playerNum),
+                          shouldAnimateReady: turnTracker.shouldAnimatePlayerReady(playerNum),
+                          buttonSize: size.width*0.8,
                         ),
                       ),
                       Positioned(
@@ -227,6 +234,15 @@ class PlayerSection extends StatelessWidget {
                             ],
                           ),
                       ),
+                      Center(
+                        child: FlatButton(
+                          shape: CircleBorder(),
+                          onPressed: () {
+                            toggleReady(playerNum);
+                          },
+                          child: Container(),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -243,14 +259,6 @@ class PlayerSection extends StatelessWidget {
   /// Used to rotate player 1 180 degrees.
   int _getRotation(playerNum) {
     if (playerNum == 1) return 2;
-    else return 0;
-  }
-
-  /// Get padding value for each player.
-  ///
-  /// Used to avoid camera notch for player 1.
-  double _getMargin(playerNum) {
-    if (playerNum == 1) return 0;
     else return 0;
   }
 
@@ -340,16 +348,16 @@ class ActionButton extends StatelessWidget {
      */
   }
 
-  /// Get color for a button based on its state.
+  /// Get color for a button text based on its state.
   Color _getActionButtonColor(context, playerNum, actionNum) {
     if (turnTracker.isActionAvailable(actionNum)) {
       if (turnTracker.isActionDone(playerNum, actionNum)) {
-        return Theme.of(context).colorScheme.onSecondary;
+        return Theme.of(context).colorScheme.secondaryVariant;
       } else {
-        return Theme.of(context).colorScheme.onPrimary;
+        return Theme.of(context).colorScheme.secondary;
       }
     } else {
-      return Theme.of(context).colorScheme.onPrimary;
+      return Theme.of(context).colorScheme.secondary;
     }
   }
 }

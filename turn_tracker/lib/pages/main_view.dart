@@ -61,6 +61,9 @@ class _MainViewState extends State<MainView> {
                 Spacer(
                     flex: 4
                 ),
+                TextButton(
+
+                ),
                 Text(
                   'Choose game',
                   style: Theme.of(context).textTheme.headline6

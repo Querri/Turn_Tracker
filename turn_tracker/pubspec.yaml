@@ -1,5 +1,5 @@
 name: spirit_island_app
-description: A Flutter application for helping out in Spirit Island
+description: A Flutter application for helping in tracking turns in various tabletop games.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
