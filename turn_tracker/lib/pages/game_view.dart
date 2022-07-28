@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wakelock/wakelock.dart';
 
 import 'package:spirit_island_app/pages/game_view_animator.dart';
 import 'package:spirit_island_app/pages/game_view_painter.dart';
@@ -92,6 +93,7 @@ class _GameViewState extends State<GameView> {
   @override
   void initState() {
     // Enable full screen.
+    Wakelock.enable();
     SystemChrome.setEnabledSystemUIMode(
         SystemUiMode.immersive
     );
@@ -101,6 +103,7 @@ class _GameViewState extends State<GameView> {
   @override
   void dispose() {
     // Disable full screen.
+    Wakelock.disable();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     super.dispose();
   }
@@ -138,11 +141,11 @@ class PlayerSection extends StatelessWidget {
     //        Center RoundedButton
     //        Positioned ButtonBar
 
+
     return Expanded(
       child: RotatedBox(
         quarterTurns: _getRotation(playerNum),
         child: Container(
-          margin: EdgeInsets.only(bottom: 20), //TODO mind the gap
           width: double.infinity,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -158,7 +161,7 @@ class PlayerSection extends StatelessWidget {
                     },
                   ),
                   AnimatedSwitcher(
-                    duration: Duration(milliseconds: 300),
+                    duration: Duration(seconds: 1),
                     transitionBuilder:
                         (Widget child, Animation<double> animation) {
                       return ScaleTransition(
@@ -169,7 +172,7 @@ class PlayerSection extends StatelessWidget {
                     child: Text(
                       turnTracker.getPhaseText(),
                       key: ValueKey<String>(turnTracker.getPhaseText()),
-                      style: Theme.of(context).textTheme.headline4
+                      style: Theme.of(context).textTheme.headlineLarge
                           .merge(GoogleFonts.alegreyaSansSc()),
                     ),
                   ),
@@ -197,7 +200,7 @@ class PlayerSection extends StatelessWidget {
                       Positioned(
                         bottom: 0,
                         left: 0,
-                        height: size.height*0.2,
+                        height: size.height*0.13,
                         width: size.width,
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -238,7 +241,7 @@ class PlayerSection extends StatelessWidget {
                           onPressed: () {
                             toggleReady(playerNum);
                           },
-                          child: Container(),
+                          child: null,
                         ),
                       ),
                     ],
@@ -250,6 +253,8 @@ class PlayerSection extends StatelessWidget {
         ),
       ),
     );
+
+
   }
 
   /// Get rotation value for each player.
@@ -285,6 +290,7 @@ class ActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = _getActionButtonColor(context, playerNum, actionNum);
+    final style = _getActionButtonStyle(context, playerNum, actionNum);
     final Size size = MediaQuery.of(context).size;
     double buttonWidth = size.width/numberOfActions;
 
@@ -293,21 +299,20 @@ class ActionButton extends StatelessWidget {
       children: [
         CustomPaint(
           size: Size(buttonWidth, size.height*(1/5)),
-          painter: ButtonCustomPainter(Theme.of(context).colorScheme.primary, playerNum, actionNum, numberOfActions),
+          painter: ButtonCustomPainter(Theme.of(context).colorScheme.tertiary, playerNum, actionNum, numberOfActions),
         ),
         GestureDetector(
           onTap: () {
-          toggleAction([playerNum, actionNum]);
+            toggleAction([playerNum, actionNum]);
           },
           child: Container(
-            alignment: Alignment.bottomCenter,
-            margin: EdgeInsets.symmetric(vertical: size.height*0.03),
+            padding: EdgeInsets.only(bottom: 10),
+            color: Theme.of(context).colorScheme.tertiary,
+            alignment: Alignment.center,
             width: buttonWidth,
             child: Text(
               actionText,
-              style: Theme.of(context).textTheme.bodyText2
-                  .merge(GoogleFonts.alegreyaSansSc())
-                  .copyWith(color: color),
+              style: style,
             ),
           ),
         ),
@@ -347,15 +352,29 @@ class ActionButton extends StatelessWidget {
   }
 
   /// Get color for a button text based on its state.
+  TextStyle _getActionButtonStyle(context, playerNum, actionNum) {
+    if (turnTracker.isActionAvailable(actionNum)
+        && turnTracker.isActionDone(playerNum, actionNum)) {
+
+      return Theme.of(context).textTheme.labelMedium
+          .merge(GoogleFonts.alegreyaSansSc());
+
+    } else {
+      return Theme.of(context).textTheme.labelSmall
+          .merge(GoogleFonts.alegreyaSansSc());
+    }
+  }
+
+  /// Get color for a button text based on its state.
   Color _getActionButtonColor(context, playerNum, actionNum) {
     if (turnTracker.isActionAvailable(actionNum)) {
       if (turnTracker.isActionDone(playerNum, actionNum)) {
-        return Theme.of(context).colorScheme.onPrimary;
-      } else {
         return Theme.of(context).colorScheme.secondary;
+      } else {
+        return Theme.of(context).colorScheme.primary;
       }
     } else {
-      return Theme.of(context).colorScheme.secondary;
+      return Theme.of(context).colorScheme.tertiary;
     }
   }
 }

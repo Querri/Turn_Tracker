@@ -62,7 +62,7 @@ class _MainViewState extends State<MainView> {
                 ),
                 Text(
                   'Choose game',
-                  style: Theme.of(context).textTheme.headline6
+                  style: Theme.of(context).textTheme.headlineMedium
                       .merge(GoogleFonts.alegreyaSansSc()),
                 ),
                 snapshot.hasData
@@ -75,7 +75,7 @@ class _MainViewState extends State<MainView> {
                 Spacer(),
                 Text(
                   'Choose the number of players',
-                  style: Theme.of(context).textTheme.headline6
+                  style: Theme.of(context).textTheme.headlineMedium
                       .merge(GoogleFonts.alegreyaSansSc()),
                 ),
                 Row(
@@ -88,7 +88,7 @@ class _MainViewState extends State<MainView> {
                       //color: _getButtonColor('playerCount', 1),
                       child: Text(
                         '1',
-                        style: Theme.of(context).textTheme.bodyText1
+                        style: Theme.of(context).textTheme.bodySmall
                             .merge(GoogleFonts.roboto())
                             .copyWith(color: Theme.of(context).colorScheme.onPrimary),
                       ),
@@ -103,7 +103,7 @@ class _MainViewState extends State<MainView> {
                       //color: _getButtonColor('playerCount', 2),
                       child: Text(
                         '2',
-                        style: Theme.of(context).textTheme.bodyText1
+                        style: Theme.of(context).textTheme.bodySmall
                             .merge(GoogleFonts.roboto())
                             .copyWith(color: Theme.of(context).colorScheme.onPrimary),
                       ),
@@ -124,7 +124,7 @@ class _MainViewState extends State<MainView> {
                   },
                   child: Text(
                     'START',
-                    style: Theme.of(context).textTheme.bodyText1
+                    style: Theme.of(context).textTheme.bodySmall
                         .merge(GoogleFonts.alegreyaSansSc())
                         .copyWith(color: Theme.of(context).colorScheme.onPrimary),
                   ),
@@ -214,7 +214,7 @@ class DropdownSelection extends StatelessWidget {
         ),
         iconSize: 24,
         elevation: 16,
-        style: Theme.of(context).textTheme.bodyText1
+        style: Theme.of(context).textTheme.bodySmall
             .merge(GoogleFonts.roboto())
             .copyWith(color: Theme.of(context).colorScheme.onPrimary),
         underline: Container(
