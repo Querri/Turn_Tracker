@@ -27,38 +27,53 @@ ThemeData theme() {
     colorScheme: _colorScheme,
 
     appBarTheme: AppBarTheme(
-      color: _colorScheme.primary,
+      color: _colorScheme.tertiary,
     ),
 
     backgroundColor: _colorScheme.background,
 
     textTheme: TextTheme(
-      headline4: TextStyle(
+      /// Phase text
+      headlineLarge: TextStyle(
         color: _colorScheme.onBackground,
         fontWeight: FontWeight.bold,
         fontSize: 35,
       ),
-      headline6: TextStyle(
+
+      headlineMedium: TextStyle(
         color: _colorScheme.onBackground,
         fontWeight: FontWeight.bold,
       ),
-      bodyText1: TextStyle(
-        color: _colorScheme.onBackground,
-        fontSize: 15,
+
+      /// active button
+      labelMedium: TextStyle(
+        color: _colorScheme.primary,
+        fontWeight: FontWeight.bold,
+        fontSize: 20,
       ),
-      bodyText2: TextStyle(
-      color: _colorScheme.onBackground,
-      fontSize: 18,
-    )
+
+      /// inactive button
+      labelSmall: TextStyle(
+        color: _colorScheme.secondary,
+        fontWeight: FontWeight.normal,
+        fontSize: 18,
+      ),
+
+      /// random text
+      bodySmall: TextStyle(
+        color: _colorScheme.onBackground,
+        fontSize: 18,
+      ),
     ),
+
 
     buttonTheme: ButtonThemeData(
       focusColor: _colorScheme.secondary,
       buttonColor: _colorScheme.secondary,
       minWidth: 120,
-      height: 50,
+      height: 150,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.zero,
       )
     ),
   );
@@ -66,34 +81,33 @@ ThemeData theme() {
 
 /// Colors and a color scheme.
 const Color white = Color(0xFFFFFFFF);
-const Color alabaster = Color(0xFFF5F1E3);
-const Color bone = Color(0xFFDDDBCB);
-const Color lightBlue = Color(0xFF7CBBBB);
-const Color blue = Color(0xFF1B9AAA);
 const Color black = Color(0xFF050505);
 
-const Color brown_dark = Color(0xFF14100D);
-const Color brown_medium = Color(0xFF211A15);
-const Color brown_light = Color(0xFF875D36);
-const Color brown_bright = Color(0xFF754C24);
+const Color grey_1 = Color(0xFF0D1319); // primary
+const Color grey_2 = Color(0xFF1B2630); // background
+
+const Color grey_3 = Color(0xFF334551); // secondaryVariant
+const Color orange = Color(0xFFCC7636); // secondary
+
 
 const ColorScheme _colorScheme = ColorScheme(
   brightness: Brightness.dark,
 
-  primary: brown_light,
-  primaryVariant: brown_medium,
-  onPrimary: black,
+  primary: orange,
+  onPrimary: orange,
 
-  secondary: brown_bright,
-  secondaryVariant: brown_medium,
-  onSecondary: black,
+  secondary: grey_3,
+  onSecondary: grey_3,
 
-  background: brown_dark,
-  onBackground: brown_light,
+  tertiary: grey_1,
+
+  background: grey_2,
+  onBackground: grey_3,
+
+  surface: white,
+  onSurface: black,
 
   error: black,
   onError: white,
 
-  surface: white,
-  onSurface: black,
 );

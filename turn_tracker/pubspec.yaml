@@ -1,5 +1,5 @@
 name: spirit_island_app
-description: A Flutter application for helping out in Spirit Island
+description: A Flutter application for helping in tracking turns in various tabletop games.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -23,8 +23,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  screen: ^0.0.5
   google_fonts: ^1.1.2
+  wakelock: ^0.6.2
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -41,9 +41,9 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
   assets:
-    - button.png
-    - 1024.png
-    - 1024_big.png
+    - 1024_ready_inactive.png
+    - 1024_ready_active.png
+    - 1024_ready_pressed.png
     - games.json
 
   # The following line ensures that the Material Icons font is

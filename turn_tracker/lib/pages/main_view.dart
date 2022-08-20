@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:screen/screen.dart';
 
 import 'package:spirit_island_app/pages/game_view.dart';
 import 'package:spirit_island_app/models/game.dart';
@@ -44,7 +43,7 @@ class _MainViewState extends State<MainView> {
 
   @override
   Widget build(BuildContext context) {
-    Screen.keepOn(false);
+    //Screen.keepOn(false);
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -63,33 +62,26 @@ class _MainViewState extends State<MainView> {
                 ),
                 Text(
                   'Choose game',
-                  style: Theme.of(context).textTheme.headline6
+                  style: Theme.of(context).textTheme.headlineMedium
                       .merge(GoogleFonts.alegreyaSansSc()),
                 ),
-                snapshot.hasData
-                    ? DropdownSelection(
-                      games: snapshot.data,
-                      selectedGame: _selectedGame,
-                      changeSelection: _changeSelection,
-                    )
-                    : Text('no data'),
+                snapshot.hasData ? DropdownSelection(
+                  games: snapshot.data,
+                  selectedGame: _selectedGame,
+                  changeSelection: _changeSelection,
+                ) : Text('no data'),
                 Spacer(),
-                Text(
-                  'Choose the number of players',
-                  style: Theme.of(context).textTheme.headline6
-                      .merge(GoogleFonts.alegreyaSansSc()),
-                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Spacer(
                         flex: 2
                     ),
-                    FlatButton(
-                      color: _getButtonColor('playerCount', 1),
+                    TextButton(
+                      //color: _getButtonColor('playerCount', 1),
                       child: Text(
-                        '1',
-                        style: Theme.of(context).textTheme.bodyText1
+                        '1 PLAYER',
+                        style: Theme.of(context).textTheme.bodySmall
                             .merge(GoogleFonts.roboto())
                             .copyWith(color: Theme.of(context).colorScheme.onPrimary),
                       ),
@@ -100,11 +92,11 @@ class _MainViewState extends State<MainView> {
                       },
                     ),
                     Spacer(),
-                    FlatButton(
-                      color: _getButtonColor('playerCount', 2),
+                    TextButton(
+                      //color: _getButtonColor('playerCount', 2),
                       child: Text(
-                        '2',
-                        style: Theme.of(context).textTheme.bodyText1
+                        '2 PLAYERS',
+                        style: Theme.of(context).textTheme.bodySmall
                             .merge(GoogleFonts.roboto())
                             .copyWith(color: Theme.of(context).colorScheme.onPrimary),
                       ),
@@ -118,14 +110,14 @@ class _MainViewState extends State<MainView> {
                   ],
                 ),
                 Spacer(),
-                FlatButton(
-                  color: Theme.of(context).colorScheme.primary,
+                TextButton(
+                  //color: Theme.of(context).colorScheme.primary,
                   onPressed: () {
                     Navigator.of(context).push(_createRoute(findGame(snapshot.data, _selectedGame), _playerCount));
                   },
                   child: Text(
                     'START',
-                    style: Theme.of(context).textTheme.bodyText1
+                    style: Theme.of(context).textTheme.bodySmall
                         .merge(GoogleFonts.alegreyaSansSc())
                         .copyWith(color: Theme.of(context).colorScheme.onPrimary),
                   ),
@@ -215,7 +207,7 @@ class DropdownSelection extends StatelessWidget {
         ),
         iconSize: 24,
         elevation: 16,
-        style: Theme.of(context).textTheme.bodyText1
+        style: Theme.of(context).textTheme.bodySmall
             .merge(GoogleFonts.roboto())
             .copyWith(color: Theme.of(context).colorScheme.onPrimary),
         underline: Container(
