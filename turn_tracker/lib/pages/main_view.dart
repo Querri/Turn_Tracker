@@ -65,19 +65,12 @@ class _MainViewState extends State<MainView> {
                   style: Theme.of(context).textTheme.headlineMedium
                       .merge(GoogleFonts.alegreyaSansSc()),
                 ),
-                snapshot.hasData
-                    ? DropdownSelection(
-                      games: snapshot.data,
-                      selectedGame: _selectedGame,
-                      changeSelection: _changeSelection,
-                    )
-                    : Text('no data'),
+                snapshot.hasData ? DropdownSelection(
+                  games: snapshot.data,
+                  selectedGame: _selectedGame,
+                  changeSelection: _changeSelection,
+                ) : Text('no data'),
                 Spacer(),
-                Text(
-                  'Choose the number of players',
-                  style: Theme.of(context).textTheme.headlineMedium
-                      .merge(GoogleFonts.alegreyaSansSc()),
-                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -87,7 +80,7 @@ class _MainViewState extends State<MainView> {
                     TextButton(
                       //color: _getButtonColor('playerCount', 1),
                       child: Text(
-                        '1',
+                        '1 PLAYER',
                         style: Theme.of(context).textTheme.bodySmall
                             .merge(GoogleFonts.roboto())
                             .copyWith(color: Theme.of(context).colorScheme.onPrimary),
@@ -102,7 +95,7 @@ class _MainViewState extends State<MainView> {
                     TextButton(
                       //color: _getButtonColor('playerCount', 2),
                       child: Text(
-                        '2',
+                        '2 PLAYERS',
                         style: Theme.of(context).textTheme.bodySmall
                             .merge(GoogleFonts.roboto())
                             .copyWith(color: Theme.of(context).colorScheme.onPrimary),
