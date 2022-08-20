@@ -55,7 +55,7 @@ ThemeData theme() {
       /// inactive button
       labelSmall: TextStyle(
         color: _colorScheme.secondary,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.bold,
         fontSize: 18,
       ),
 
