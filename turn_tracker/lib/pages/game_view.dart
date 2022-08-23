@@ -5,6 +5,7 @@ import 'package:wakelock/wakelock.dart';
 
 import 'package:spirit_island_app/pages/game_view_animator.dart';
 import 'package:spirit_island_app/pages/game_view_painter.dart';
+import 'package:spirit_island_app/pages/sections/action_button_bar.dart';
 import 'package:spirit_island_app/turn_tracker.dart';
 import 'package:spirit_island_app/models/game.dart';
 
@@ -56,6 +57,7 @@ class _GameViewState extends State<GameView> {
       return null;
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -125,6 +127,7 @@ class PlayerSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final actionText = turnTracker.getActionText();
+    final actionButtonCount = turnTracker.getNumberOfActions();
 
     // Expanded RotatedBox Container Column of
     //    Row of [IconButton, Container AnimatedSwitcher Text, IconButton]
@@ -189,6 +192,8 @@ class PlayerSection extends StatelessWidget {
                 child: Container(
                   child: Stack(
                     children: [
+
+                      /// Big circular ready button
                       Center(
                         heightFactor: 1,
                         child: AnimatedReady(
@@ -197,6 +202,22 @@ class PlayerSection extends StatelessWidget {
                           buttonSize: size.width*0.8,
                         ),
                       ),
+
+                      /// Orange line above button row
+                      Positioned(
+                        bottom: size.height*0.10,
+                        left: 0,
+                        height: 6,
+                        width: size.width,
+                        child: Container(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+
+
+
+
+                      /*
                       Positioned(
                         bottom: 0,
                         left: 0,
@@ -236,6 +257,7 @@ class PlayerSection extends StatelessWidget {
                             ],
                           ),
                       ),
+                      */
                       Center(
                         child: TextButton(
                           onPressed: () {
@@ -351,7 +373,7 @@ class ActionButton extends StatelessWidget {
      */
   }
 
-  /// Get color for a button text based on its state.
+  /// Get style for a button text based on its state.
   TextStyle _getActionButtonStyle(context, playerNum, actionNum) {
     if (turnTracker.isActionAvailable(actionNum)
         && turnTracker.isActionDone(playerNum, actionNum)) {

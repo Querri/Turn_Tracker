@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:spirit_island_app/pages/game_view.dart';
 import 'package:spirit_island_app/pages/main_view_animator.dart';
+import 'package:spirit_island_app/pages/sections/action_button_bar.dart';
 import 'package:spirit_island_app/models/game.dart';
 
 
@@ -28,7 +29,7 @@ class _MainViewState extends State<MainView> {
     final jsonResponse = await json.decode(jsonString);
     List<Game> list = List<Game>();
 
-    for (int i=0; i<8; i++) {
+    for (int i=0; i<7; i++) { // fix hardcoded amount of games
       list.add(Game.fromJson(jsonResponse['games'][i]));
       print(list[i].name);
     }
@@ -49,6 +50,27 @@ class _MainViewState extends State<MainView> {
     setState(() {
       _playerCount = newCount;
     });
+  }
+
+
+  /// Get style for a button depending on its state.
+  TextStyle _getButtonStyle(buttonType, buttonLabel) {
+    if ((buttonType == 'gameSelection' && buttonLabel == _selectedGame)
+        || (buttonType == 'playerCount' && buttonLabel == _playerCount)
+        || (buttonType == 'help' && buttonLabel == true)
+        || (buttonType == 'sound' && buttonLabel == true)) {
+      return Theme.of(context).textTheme.labelMedium
+          .merge(GoogleFonts.alegreyaSansSc())
+          .copyWith(color: Theme.of(context).colorScheme.primary);
+    }
+    return Theme.of(context).textTheme.labelSmall
+        .merge(GoogleFonts.alegreyaSansSc())
+        .copyWith(color: Theme.of(context).colorScheme.onBackground);
+  }
+
+
+  void _toggleActionButton(int buttonNum) {
+
   }
 
 
@@ -155,63 +177,23 @@ class _MainViewState extends State<MainView> {
                           color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
-                      /// Button row
-                      Positioned(
-                        bottom: 0,
-                        left: 0,
-                        height: size.height*0.10,
-                        width: size.width,
-                        child: Container(
-                          color: Theme.of(context).colorScheme.tertiary,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Expanded(
-                                child: TextButton(
-                                  style: TextButton.styleFrom(
-                                      primary: Theme.of(context).colorScheme.onBackground
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      /// settings
-                                    });
-                                  },
-                                  child: Text(
-                                    'SETTINGS',
-                                    style: _getButtonStyle('settings', false),
-                                  ),
-                                ),
-                              ),
 
-                              Expanded(
-                                child: TextButton(
-                                  style: TextButton.styleFrom(
-                                      primary: Theme.of(context).colorScheme.onBackground
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      /// toggle sound
-                                    });
-                                  },
-                                  child: Text(
-                                    'SOUND',
-                                    style: _getButtonStyle('sound', false),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      /// Button row
+                      ActionButtonBar(
+                        buttonCount: 2,
+                        buttonTexts: ['help', 'sound'],
+                        buttonStyles: [_getButtonStyle('help', false), _getButtonStyle('sound', true)],
+                        toggleButton: _toggleActionButton,
                       ),
 
+                      /// Temporary start button
                       TextButton(
                         //color: Theme.of(context).colorScheme.primary,
                         onPressed: () {
                           Navigator.of(context).push(_createRoute(findGame(snapshot.data, _selectedGame), _playerCount));
                         },
                         child: Text(
-                          'START',
+                          'start',
                           style: Theme.of(context).textTheme.bodySmall
                               .merge(GoogleFonts.alegreyaSansSc())
                               .copyWith(color: Theme.of(context).colorScheme.onPrimary),
@@ -233,21 +215,6 @@ class _MainViewState extends State<MainView> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     super.initState();
   }
-
-  /// Get style for a button depending on its state.
-  TextStyle _getButtonStyle(option, buttonLabel) {
-    if ((option == 'gameSelection' && buttonLabel == _selectedGame)
-        || (option == 'playerCount' && buttonLabel == _playerCount)
-        ||(option == 'settings' && buttonLabel == true)
-        ||(option == 'sound' && buttonLabel == true))  {
-      return Theme.of(context).textTheme.labelMedium
-          .merge(GoogleFonts.alegreyaSansSc())
-          .copyWith(color: Theme.of(context).colorScheme.primary);
-    }
-    return Theme.of(context).textTheme.labelSmall
-        .merge(GoogleFonts.alegreyaSansSc())
-        .copyWith(color: Theme.of(context).colorScheme.onBackground);
-  }
 }
 
 
@@ -268,62 +235,4 @@ Route _createRoute(game, playerCount) {
       );
     },
   );
-}
-
-
-/// Dropdown menu for game selection.
-class DropdownSelection extends StatelessWidget {
-  DropdownSelection({this.games, this.selectedGame, @required this.changeSelection});
-
-  final games;
-  final String selectedGame;
-  final ValueChanged<String> changeSelection;
-
-  /// Get game names for dropdown items.
-  List<String> _getItems() {
-    List<String> list = List<String>();
-    for (var game in games) {
-      list.add(game.name);
-    }
-    return list;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      width: 270,
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
-        borderRadius: BorderRadius.all(Radius.circular(25)),
-      ),
-      child: DropdownButton<String>(
-        value: selectedGame,
-        dropdownColor: Theme.of(context).colorScheme.primary,
-        focusColor: Theme.of(context).colorScheme.primary,
-        icon: Icon(
-          Icons.arrow_drop_down,
-          color: Theme.of(context).colorScheme.onPrimary,
-        ),
-        iconSize: 24,
-        elevation: 16,
-        style: Theme.of(context).textTheme.bodySmall
-            .merge(GoogleFonts.roboto())
-            .copyWith(color: Theme.of(context).colorScheme.onPrimary),
-        underline: Container(
-          height: 0,
-        ),
-        onChanged: (String newValue) {
-          changeSelection(newValue);
-        },
-        items: _getItems().map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        })
-            .toList(),
-      ),
-    );
-  }
 }

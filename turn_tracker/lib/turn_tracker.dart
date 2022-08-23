@@ -128,6 +128,8 @@ class TurnTracker {
   }
 
   /// Get the names for actions in the current phase.
+  ///
+  /// Always contains 3 items.
   List<dynamic> getActionText() {
     return game.actions[currentPhase];
   }
