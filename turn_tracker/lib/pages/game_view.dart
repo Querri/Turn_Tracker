@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:wakelock/wakelock.dart';
 
 import 'package:spirit_island_app/pages/game_view_animator.dart';
-import 'package:spirit_island_app/pages/game_view_painter.dart';
 import 'package:spirit_island_app/pages/sections/action_button_bar.dart';
 import 'package:spirit_island_app/turn_tracker.dart';
 import 'package:spirit_island_app/models/game.dart';
@@ -131,23 +130,6 @@ class PlayerSection extends StatelessWidget {
 
 
   /// Get style for a button depending on its state.
-  TextStyle _getActionButtonStyle(context, playerNum, buttonNum) {
-    if (turnTracker.isActionAvailable(buttonNum)
-        && turnTracker.isActionDone(playerNum, buttonNum)) {
-
-      return Theme.of(context).textTheme.labelMedium
-          .merge(GoogleFonts.alegreyaSansSc())
-          .copyWith(color: Theme.of(context).colorScheme.primary);
-
-    } else {
-      return Theme.of(context).textTheme.labelSmall
-          .merge(GoogleFonts.alegreyaSansSc())
-          .copyWith(color: Theme.of(context).colorScheme.onBackground);
-    }
-  }
-
-
-  /// Get style for a button depending on its state.
   List<TextStyle> _getActionButtonStyles(context, actionButtonCount, playerNum) {
     List<TextStyle> buttonStyles = [];
 
@@ -171,24 +153,7 @@ class PlayerSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final actionText = turnTracker.getActionText();
     final actionButtonCount = turnTracker.getNumberOfActions();
-
-    // Expanded RotatedBox Container Column of
-    //    Row of [IconButton, Container AnimatedSwitcher Text, IconButton]
-    //    Expanded Container Stack of
-    //        Center GestureDetector AnimatedReady
-    //        Positioned Row of [ActionButton, ActionButton, ActionButton]
-
-    // Expanded RotatedBox Container Column of
-    //    Row of [IconButton, Container AnimatedSwitcher Text, IconButton]
-    //    Row of [Timer]
-    //    Expanded Container Stack of
-    //        Center AnimatedReady
-    //        Positioned Shape
-    //        Center RoundedButton
-    //        Positioned ButtonBar
-
 
     return Expanded(
       child: RotatedBox(
@@ -267,49 +232,7 @@ class PlayerSection extends StatelessWidget {
                         toggleButton: _toggleActionButton,
                       ),
 
-
-
-                      /*
-                      Positioned(
-                        bottom: 0,
-                        left: 0,
-                        height: size.height*0.13,
-                        width: size.width,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              if (turnTracker.isActionAvailable(0))
-                                ActionButton(
-                                  turnTracker: turnTracker,
-                                  playerNum: playerNum,
-                                  actionNum: 0,
-                                  actionText: actionText[0],
-                                  toggleAction: toggleAction,
-                                  numberOfActions: turnTracker.getNumberOfActions(),
-                                ),
-                              if (turnTracker.isActionAvailable(1))
-                                ActionButton(
-                                  turnTracker: turnTracker,
-                                  playerNum: playerNum,
-                                  actionNum: 1,
-                                  actionText: actionText[1],
-                                  toggleAction: toggleAction,
-                                  numberOfActions: turnTracker.getNumberOfActions(),
-                                ),
-                              if (turnTracker.isActionAvailable(2))
-                                ActionButton(
-                                  turnTracker: turnTracker,
-                                  playerNum: playerNum,
-                                  actionNum: 2,
-                                  actionText: actionText[2],
-                                  toggleAction: toggleAction,
-                                  numberOfActions: turnTracker.getNumberOfActions(),
-                                ),
-                            ],
-                          ),
-                      ),
-                      */
+                      /// Temporary ready button
                       Center(
                         child: TextButton(
                           onPressed: () {
@@ -327,8 +250,6 @@ class PlayerSection extends StatelessWidget {
         ),
       ),
     );
-
-
   }
 
   /// Get rotation value for each player.
@@ -345,110 +266,6 @@ class PlayerSection extends StatelessWidget {
       return Theme.of(context).colorScheme.secondary;
     } else {
       return Color(0xFF232323);
-    }
-  }
-}
-
-
-/// An action button.
-class ActionButton extends StatelessWidget {
-  ActionButton({this.turnTracker, this.playerNum, this.actionNum,
-    this.actionText, @required this.toggleAction, this.numberOfActions});
-  final turnTracker;
-  final int playerNum;
-  final int actionNum;
-  final String actionText;
-  final ValueChanged<List<int>> toggleAction;
-  final int numberOfActions;
-
-  @override
-  Widget build(BuildContext context) {
-    final color = _getActionButtonColor(context, playerNum, actionNum);
-    final style = _getActionButtonStyle(context, playerNum, actionNum);
-    final Size size = MediaQuery.of(context).size;
-    double buttonWidth = size.width/numberOfActions;
-
-    // Custom shape and a button in a stack.
-    return Stack(
-      children: [
-        CustomPaint(
-          size: Size(buttonWidth, size.height*(1/5)),
-          painter: ButtonCustomPainter(Theme.of(context).colorScheme.tertiary, playerNum, actionNum, numberOfActions),
-        ),
-        GestureDetector(
-          onTap: () {
-            toggleAction([playerNum, actionNum]);
-          },
-          child: Container(
-            padding: EdgeInsets.only(bottom: 10),
-            color: Theme.of(context).colorScheme.tertiary,
-            alignment: Alignment.center,
-            width: buttonWidth,
-            child: Text(
-              actionText,
-              style: style,
-            ),
-          ),
-        ),
-      ],
-    );
-
-    /*
-    return Stack(
-      children: [
-        GestureDetector(
-          onTap: () {
-            toggleAction([playerNum, actionNum]);
-            },
-          child: Stack(
-            children: [
-              CustomPaint(
-                size: Size(buttonWidth, size.height*(1/5)),
-                painter: ButtonCustomPainter(color, playerNum, actionNum, numberOfActions),
-              ),
-              Container(
-                alignment: Alignment.bottomCenter,
-                margin: EdgeInsets.only(bottom: size.height*0.03),
-                width: buttonWidth,
-                child: Text(
-                  actionText,
-                  style: Theme.of(context).textTheme.bodyText2
-                      .merge(GoogleFonts.alegreyaSansSc())
-                      .copyWith(color: Theme.of(context).colorScheme.onPrimary),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-     */
-  }
-
-  /// Get style for a button text based on its state.
-  TextStyle _getActionButtonStyle(context, playerNum, actionNum) {
-    if (turnTracker.isActionAvailable(actionNum)
-        && turnTracker.isActionDone(playerNum, actionNum)) {
-
-      return Theme.of(context).textTheme.labelMedium
-          .merge(GoogleFonts.alegreyaSansSc());
-
-    } else {
-      return Theme.of(context).textTheme.labelSmall
-          .merge(GoogleFonts.alegreyaSansSc());
-    }
-  }
-
-  /// Get color for a button text based on its state.
-  Color _getActionButtonColor(context, playerNum, actionNum) {
-    if (turnTracker.isActionAvailable(actionNum)) {
-      if (turnTracker.isActionDone(playerNum, actionNum)) {
-        return Theme.of(context).colorScheme.secondary;
-      } else {
-        return Theme.of(context).colorScheme.primary;
-      }
-    } else {
-      return Theme.of(context).colorScheme.tertiary;
     }
   }
 }
