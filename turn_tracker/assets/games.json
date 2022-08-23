@@ -1,45 +1,75 @@
 {
   "games": [
+
     {
-      "name": "generic",
+      "name": "arkham horror: the card game",
       "type": "co-op",
       "phases": [
-        ""
+        "mythos phase",
+        "investigation phase",
+        "enemy phase",
+        "upkeep phase 1/2",
+        "upkeep phase 2/2"
       ],
       "phase_settings": [
+        [],
+        ["order"],
+        ["sym"],
+        ["sym"],
         []
       ],
       "actions": [
-        ["", "", ""]
+        ["", "", ""],
+        ["1st action", "2nd action", "3rd action"],
+        ["move hunter enemies", "resolve enemy attacks", ""],
+        ["ready exhausted cards", "engage ready enemies", ""],
+        ["draw 1 card", "gain 1 resource", "discard to 8 cards"]
       ]
     },
 
     {
-      "name": "spirit island",
+      "name": "dead of winter",
       "type": "co-op",
       "phases": [
-        "spirit phase",
-        "fast power phase",
-        "invader phase 1/2",
-        "invader phase 2/2",
-        "slow power phase",
-        "time passes"
+        "start phase",
+        "player turns phase",
+        "colony phase",
+        "end phase"
       ],
       "phase_settings": [
         [],
-        [],
+        ["order"],
         ["sym"],
-        ["sym"],
-        [],
-        []
+        ["sym"]
       ],
       "actions": [
-        ["growth", "gain energy", "play cards"],
-        ["resolve innate powers", "resolve card powers", ""],
-        ["blight effect", "event card", "fear card"],
-        ["invaders ravage", "invaders build", "invaders explore"],
-        ["resolve innate powers", "resolve card powers", ""],
-        ["discard cards and energy", "heal partial damage", ""]
+        ["reveal new crisis", "roll action dice", ""],
+        ["move survivors", "use action dice", "take a crossroads card"],
+        ["pay food and check waste", "resolve crisis", "add zombies"],
+        ["check main objective", "move round tracker", "pass first player token"]
+      ]
+    },
+
+    {
+      "name": "deception: murder in hong kong",
+      "type": "co-op",
+      "phases": [
+        "crime phase",
+        "investigation phase",
+        "investigation phase",
+        "investigation phase"
+      ],
+      "phase_settings": [
+        ["sym"],
+        ["sym"],
+        ["sym"],
+        ["sym"]
+      ],
+      "actions": [
+        ["murderer selects solution", "read the script", ""],
+        ["draw 6 tiles", "select tiles", "place 6 bullets"],
+        ["draw 1 tile", "replace tile and bullet", ""],
+        ["draw 1 tile", "replace tile and bullet", ""]
       ]
     },
 
@@ -90,6 +120,35 @@
     },
 
     {
+      "name": "spirit island",
+      "type": "co-op",
+      "phases": [
+        "spirit phase",
+        "fast power phase",
+        "invader phase 1/2",
+        "invader phase 2/2",
+        "slow power phase",
+        "time passes"
+      ],
+      "phase_settings": [
+        [],
+        [],
+        ["sym"],
+        ["sym"],
+        [],
+        []
+      ],
+      "actions": [
+        ["growth", "gain energy", "play cards"],
+        ["resolve innate powers", "resolve card powers", ""],
+        ["blight effect", "event card", "fear card"],
+        ["invaders ravage", "invaders build", "invaders explore"],
+        ["resolve innate powers", "resolve card powers", ""],
+        ["discard cards and energy", "heal partial damage", ""]
+      ]
+    },
+
+    {
       "name": "sub terra",
       "type": "co-op",
       "phases": [
@@ -109,78 +168,6 @@
         ["move horrors", "", ""],
         ["reveal new hazard", "complete hazard", ""],
         ["pass starting caver marker", "", ""]
-      ]
-    },
-
-    {
-      "name": "dead of winter",
-      "type": "co-op",
-      "phases": [
-        "start phase",
-        "player turns phase",
-        "colony phase",
-        "end phase"
-      ],
-      "phase_settings": [
-        [],
-        ["order"],
-        ["sym"],
-        ["sym"]
-      ],
-      "actions": [
-        ["reveal new crisis", "roll action dice", ""],
-        ["move survivors", "use action dice", "take a crossroads card"],
-        ["pay food and check waste", "resolve crisis", "add zombies"],
-        ["check main objective", "move round tracker", "pass first player token"]
-      ]
-    },
-
-    {
-      "name": "arkham horror: the card game",
-      "type": "co-op",
-      "phases": [
-        "mythos phase",
-        "investigation phase",
-        "enemy phase",
-        "upkeep phase 1/2",
-        "upkeep phase 2/2"
-      ],
-      "phase_settings": [
-        [],
-        ["order"],
-        ["sym"],
-        ["sym"],
-        []
-      ],
-      "actions": [
-        ["", "", ""],
-        ["1st action", "2nd action", "3rd action"],
-        ["move hunter enemies", "resolve enemy attacks", ""],
-        ["ready exhausted cards", "engage ready enemies", ""],
-        ["draw 1 card", "gain 1 resource", "discard to 8 cards"]
-      ]
-    },
-
-    {
-      "name": "deception: murder in hong kong",
-      "type": "co-op",
-      "phases": [
-        "crime phase",
-        "investigation phase",
-        "investigation phase",
-        "investigation phase"
-      ],
-      "phase_settings": [
-        ["sym"],
-        ["sym"],
-        ["sym"],
-        ["sym"]
-      ],
-      "actions": [
-        ["murderer selects solution", "read the script", ""],
-        ["draw 6 tiles", "select tiles", "place 6 bullets"],
-        ["draw 1 tile", "replace tile and bullet", ""],
-        ["draw 1 tile", "replace tile and bullet", ""]
       ]
     }
   ]
