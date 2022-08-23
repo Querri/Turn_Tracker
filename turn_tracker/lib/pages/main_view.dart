@@ -35,6 +35,7 @@ class _MainViewState extends State<MainView> {
     return list;
   }
 
+
   /// Change the selected game.
   void _changeSelection(String newSelection) {
     setState(() {
@@ -42,11 +43,14 @@ class _MainViewState extends State<MainView> {
     });
   }
 
+
+  /// Change the selected number of players.
   void _changePlayerCount(int newCount) {
     setState(() {
       _playerCount = newCount;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -73,9 +77,7 @@ class _MainViewState extends State<MainView> {
                             //color: _getButtonColor('playerCount', 1),
                             child: Text(
                               '${snapshot.data[index].name}',
-                              style: Theme.of(context).textTheme.labelSmall
-                                  .merge(GoogleFonts.roboto())
-                                  .copyWith(color: _getButtonColor('gameSelection', snapshot.data[index].name)),
+                              style: _getButtonStyle('gameSelection', snapshot.data[index].name),
                             ),
                             onPressed: () {
                               _changeSelection(snapshot.data[index].name);
@@ -92,26 +94,22 @@ class _MainViewState extends State<MainView> {
                           TextButton(
                             child: Text(
                               '1 PLAYER',
-                              style: Theme.of(context).textTheme.labelSmall
-                                  .merge(GoogleFonts.roboto())
-                                  .copyWith(color: _getButtonColor('playerCount', 1)),
+                              style: _getButtonStyle('playerCount', 1),
                             ),
                             onPressed: () {
                               setState(() {
-                                _playerCount = 1;
+                                _changePlayerCount(1);
                               });
                             },
                           ),
                           TextButton(
                             child: Text(
                               '2 PLAYERS',
-                              style: Theme.of(context).textTheme.labelSmall
-                                  .merge(GoogleFonts.roboto())
-                                  .copyWith(color: _getButtonColor('playerCount', 2)),
+                              style: _getButtonStyle('playerCount', 2),
                             ),
                             onPressed: () {
                               setState(() {
-                                _playerCount = 2;
+                                _changePlayerCount(2);
                               });
                             },
                           ),
@@ -159,9 +157,7 @@ class _MainViewState extends State<MainView> {
                                   },
                                   child: Text(
                                     'SETTINGS',
-                                    style: Theme.of(context).textTheme.labelSmall
-                                        .merge(GoogleFonts.roboto())
-                                        .copyWith(color: Theme.of(context).colorScheme.onBackground),
+                                    style: _getButtonStyle('settings', false),
                                   ),
                                 ),
                                 TextButton(
@@ -172,9 +168,7 @@ class _MainViewState extends State<MainView> {
                                   },
                                   child: Text(
                                     'SOUND',
-                                    style: Theme.of(context).textTheme.labelSmall
-                                        .merge(GoogleFonts.roboto())
-                                        .copyWith(color: Theme.of(context).colorScheme.onBackground),
+                                    style: _getButtonStyle('sound', false),
                                   ),
                                 ),
                               ],
@@ -214,15 +208,19 @@ class _MainViewState extends State<MainView> {
     super.initState();
   }
 
-  /// Get color for a button depending on its state.
-  Color _getButtonColor(option, buttonLabel) {
-    if (option == 'gameSelection' && buttonLabel == _selectedGame) {
-      return Theme.of(context).colorScheme.primary;
+  /// Get style for a button depending on its state.
+  TextStyle _getButtonStyle(option, buttonLabel) {
+    if ((option == 'gameSelection' && buttonLabel == _selectedGame)
+        || (option == 'playerCount' && buttonLabel == _playerCount)
+        ||(option == 'settings' && buttonLabel == true)
+        ||(option == 'sound' && buttonLabel == true))  {
+      return Theme.of(context).textTheme.labelMedium
+          .merge(GoogleFonts.alegreyaSansSc())
+          .copyWith(color: Theme.of(context).colorScheme.primary);
     }
-    else if (option == 'playerCount' && buttonLabel == _playerCount) {
-      return Theme.of(context).colorScheme.primary;
-    }
-    return Theme.of(context).colorScheme.onBackground;
+    return Theme.of(context).textTheme.labelSmall
+        .merge(GoogleFonts.alegreyaSansSc())
+        .copyWith(color: Theme.of(context).colorScheme.onBackground);
   }
 }
 

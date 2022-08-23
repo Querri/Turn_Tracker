@@ -49,7 +49,7 @@ ThemeData theme() {
       labelMedium: TextStyle(
         color: _colorScheme.primary,
         fontWeight: FontWeight.bold,
-        fontSize: 20,
+        fontSize: 25,
       ),
 
       /// inactive button
