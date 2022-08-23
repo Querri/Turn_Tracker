@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
 
 /// Theme for the app.
 ThemeData theme() {
-  final ThemeData base = ThemeData.light();
+  final ThemeData base = ThemeData.dark();
   return base.copyWith(
     colorScheme: _colorScheme,
 
