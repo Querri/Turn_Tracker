@@ -28,7 +28,7 @@ class _MainViewState extends State<MainView> {
     final jsonResponse = await json.decode(jsonString);
     List<Game> list = List<Game>();
 
-    for (int i=0; i<5; i++) {
+    for (int i=0; i<8; i++) {
       list.add(Game.fromJson(jsonResponse['games'][i]));
       print(list[i].name);
     }
@@ -65,62 +65,70 @@ class _MainViewState extends State<MainView> {
             future: _fetchGames(),
             builder: (context, snapshot) {
               return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-
-                  /// Select game
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
                   Expanded(
-                    child: snapshot.hasData ? ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return TextButton(
-                          //color: _getButtonColor('playerCount', 1),
-                          style: TextButton.styleFrom(
-                              primary: Theme.of(context).colorScheme.onBackground
-                          ),
-                          child: Text(
-                            '${snapshot.data[index].name}',
-                            style: _getButtonStyle('gameSelection', snapshot.data[index].name),
-                          ),
-                          onPressed: () {
-                            _changeSelection(snapshot.data[index].name);
-                          },
-                        );
-                      },
-                    ) : Text('no data'),
-                  ),
-
-                  /// Select number of players
-                  Expanded(
-                    child: ListView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        TextButton(
-                          style: TextButton.styleFrom(
-                              primary: Theme.of(context).colorScheme.onBackground
-                          ),
-                          child: Text(
-                            '1 PLAYER',
-                            style: _getButtonStyle('playerCount', 1),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _changePlayerCount(1);
-                            });
-                          },
+                        /// Select game
+                        Container(
+                          height: size.height*0.30,
+                          child: snapshot.hasData ? ListView.builder(
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return TextButton(
+                                //color: _getButtonColor('playerCount', 1),
+                                style: TextButton.styleFrom(
+                                    primary: Theme.of(context).colorScheme.onBackground
+                                ),
+                                child: Text(
+                                  '${snapshot.data[index].name}',
+                                  style: _getButtonStyle('gameSelection', snapshot.data[index].name),
+                                ),
+                                onPressed: () {
+                                  _changeSelection(snapshot.data[index].name);
+                                },
+                              );
+                            },
+                          ) : Text('no data'),
                         ),
-                        TextButton(
-                          style: TextButton.styleFrom(
-                              primary: Theme.of(context).colorScheme.onBackground
+
+                        /// Select number of players
+                        Container(
+                          height: 100,
+                          child: ListView(
+                            children: [
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                    primary: Theme.of(context).colorScheme.onBackground
+                                ),
+                                child: Text(
+                                  '1 PLAYER',
+                                  style: _getButtonStyle('playerCount', 1),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _changePlayerCount(1);
+                                  });
+                                },
+                              ),
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                    primary: Theme.of(context).colorScheme.onBackground
+                                ),
+                                child: Text(
+                                  '2 PLAYERS',
+                                  style: _getButtonStyle('playerCount', 2),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _changePlayerCount(2);
+                                  });
+                                },
+                              ),
+                            ],
                           ),
-                          child: Text(
-                            '2 PLAYERS',
-                            style: _getButtonStyle('playerCount', 2),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _changePlayerCount(2);
-                            });
-                          },
                         ),
                       ],
                     ),
