@@ -200,11 +200,9 @@ class _MainViewState extends State<MainView> {
                                   ),
                                 ),
                               ),
-
                             ],
                           ),
                         ),
-
                       ),
 
                       TextButton(
@@ -225,10 +223,8 @@ class _MainViewState extends State<MainView> {
               );
             }
           ),
-
         ),
       ),
-
     );
   }
 
