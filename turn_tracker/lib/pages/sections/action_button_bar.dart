@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 
 /// Button bar visible in main view and game view.
@@ -17,8 +15,8 @@ class ActionButtonBar extends StatelessWidget {
   }) : super(key: key);
 
   final int buttonCount;
-  final List<String> buttonTexts;
-  final List<TextStyle> buttonStyles;
+  final List<dynamic> buttonTexts;
+  final List<dynamic> buttonStyles;
   final ValueChanged<int> toggleButton;
 
 

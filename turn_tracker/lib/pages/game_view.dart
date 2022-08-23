@@ -123,6 +123,51 @@ class PlayerSection extends StatelessWidget {
   final ValueChanged<int> toggleReady;
   final ValueChanged<List<int>> toggleAction;
 
+
+  /// Add playerNum to toggleAction function call.
+  void _toggleActionButton(int buttonNum) {
+    toggleAction([playerNum, buttonNum]);
+  }
+
+
+  /// Get style for a button depending on its state.
+  TextStyle _getActionButtonStyle(context, playerNum, buttonNum) {
+    if (turnTracker.isActionAvailable(buttonNum)
+        && turnTracker.isActionDone(playerNum, buttonNum)) {
+
+      return Theme.of(context).textTheme.labelMedium
+          .merge(GoogleFonts.alegreyaSansSc())
+          .copyWith(color: Theme.of(context).colorScheme.primary);
+
+    } else {
+      return Theme.of(context).textTheme.labelSmall
+          .merge(GoogleFonts.alegreyaSansSc())
+          .copyWith(color: Theme.of(context).colorScheme.onBackground);
+    }
+  }
+
+
+  /// Get style for a button depending on its state.
+  List<TextStyle> _getActionButtonStyles(context, actionButtonCount, playerNum) {
+    List<TextStyle> buttonStyles = [];
+
+    for (int i=0; i<actionButtonCount; i++) {
+      if (turnTracker.isActionAvailable(i)) {
+        if (turnTracker.isActionDone(playerNum, i)) {
+          buttonStyles.add(Theme.of(context).textTheme.labelMedium
+          .merge(GoogleFonts.alegreyaSansSc())
+          .copyWith(color: Theme.of(context).colorScheme.primary));
+        } else {
+          buttonStyles.add(Theme.of(context).textTheme.labelSmall
+              .merge(GoogleFonts.alegreyaSansSc())
+              .copyWith(color: Theme.of(context).colorScheme.onBackground));
+        }
+      }
+    }
+    return buttonStyles;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -214,6 +259,13 @@ class PlayerSection extends StatelessWidget {
                         ),
                       ),
 
+                      /// Button row
+                      ActionButtonBar(
+                        buttonCount: actionButtonCount,
+                        buttonTexts: turnTracker.getActionText(),
+                        buttonStyles: _getActionButtonStyles(context, actionButtonCount, playerNum),
+                        toggleButton: _toggleActionButton,
+                      ),
 
 
 
