@@ -20,8 +20,8 @@
       "phases": [
         "spirit phase",
         "fast power phase",
-        "invader phase 1",
-        "invader phase 2",
+        "invader phase 1/2",
+        "invader phase 2/2",
         "slow power phase",
         "time passes"
       ],
@@ -35,10 +35,10 @@
       ],
       "actions": [
         ["growth", "gain energy", "play cards"],
-        ["innate powers", "card powers", ""],
+        ["resolve innate powers", "resolve card powers", ""],
         ["blight effect", "event card", "fear card"],
-        ["ravage", "build", "explore"],
-        ["innate powers", "card powers", ""],
+        ["invaders ravage", "invaders build", "invaders explore"],
+        ["resolve innate powers", "resolve card powers", ""],
         ["discard cards and energy", "heal partial damage", ""]
       ]
     },
@@ -66,6 +66,26 @@
         ["spend charm", "build creature", ""],
         ["move", "battle", ""],
         ["discard cards", "move counters", ""]
+      ]
+    },
+
+    {
+      "name": "forgotten waters",
+      "type": "co-op",
+      "phases": [
+        "planning phase",
+        "action phase",
+        "end of round"
+      ],
+      "phase_settings": [
+        [],
+        [],
+        ["sym"]
+      ],
+      "actions": [
+        ["choose action", "", ""],
+        ["resolve action", "", ""],
+        ["read round end entry", "", ""]
       ]
     },
 
@@ -112,6 +132,55 @@
         ["move survivors", "use action dice", "take a crossroads card"],
         ["pay food and check waste", "resolve crisis", "add zombies"],
         ["check main objective", "move round tracker", "pass first player token"]
+      ]
+    },
+
+    {
+      "name": "arkham horror: the card game",
+      "type": "co-op",
+      "phases": [
+        "mythos phase",
+        "investigation phase",
+        "enemy phase",
+        "upkeep phase 1/2",
+        "upkeep phase 2/2"
+      ],
+      "phase_settings": [
+        [],
+        ["order"],
+        ["sym"],
+        ["sym"],
+        []
+      ],
+      "actions": [
+        ["", "", ""],
+        ["1st action", "2nd action", "3rd action"],
+        ["move hunter enemies", "resolve enemy attacks", ""],
+        ["ready exhausted cards", "engage ready enemies", ""],
+        ["draw 1 card", "gain 1 resource", "discard to 8 cards"]
+      ]
+    },
+
+    {
+      "name": "deception: murder in hong kong",
+      "type": "co-op",
+      "phases": [
+        "crime phase",
+        "investigation phase",
+        "investigation phase",
+        "investigation phase"
+      ],
+      "phase_settings": [
+        ["sym"],
+        ["sym"],
+        ["sym"],
+        ["sym"]
+      ],
+      "actions": [
+        ["murderer selects solution", "read the script", ""],
+        ["draw 6 tiles", "select tiles", "place 6 bullets"],
+        ["draw 1 tile", "replace tile and bullet", ""],
+        ["draw 1 tile", "replace tile and bullet", ""]
       ]
     }
   ]

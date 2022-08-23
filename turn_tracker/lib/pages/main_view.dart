@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:spirit_island_app/pages/game_view.dart';
+import 'package:spirit_island_app/pages/main_view_animator.dart';
 import 'package:spirit_island_app/models/game.dart';
 
 
@@ -27,12 +28,13 @@ class _MainViewState extends State<MainView> {
     final jsonResponse = await json.decode(jsonString);
     List<Game> list = List<Game>();
 
-    for (int i=0; i<5; i++) {
+    for (int i=0; i<8; i++) {
       list.add(Game.fromJson(jsonResponse['games'][i]));
-      print(list[i].phases[0]);
+      print(list[i].name);
     }
     return list;
   }
+
 
   /// Change the selected game.
   void _changeSelection(String newSelection) {
@@ -41,93 +43,187 @@ class _MainViewState extends State<MainView> {
     });
   }
 
+
+  /// Change the selected number of players.
+  void _changePlayerCount(int newCount) {
+    setState(() {
+      _playerCount = newCount;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     //Screen.keepOn(false);
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: AppBar(
-        title: Text('Turn Tracker'),
-      ),
-      body: Center(
-        child: FutureBuilder(
-          future: _fetchGames(),
-          builder: (context, snapshot) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Spacer(
-                    flex: 4
-                ),
-                Text(
-                  'Choose game',
-                  style: Theme.of(context).textTheme.headlineMedium
-                      .merge(GoogleFonts.alegreyaSansSc()),
-                ),
-                snapshot.hasData ? DropdownSelection(
-                  games: snapshot.data,
-                  selectedGame: _selectedGame,
-                  changeSelection: _changeSelection,
-                ) : Text('no data'),
-                Spacer(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Spacer(
-                        flex: 2
-                    ),
-                    TextButton(
-                      //color: _getButtonColor('playerCount', 1),
-                      child: Text(
-                        '1 PLAYER',
-                        style: Theme.of(context).textTheme.bodySmall
-                            .merge(GoogleFonts.roboto())
-                            .copyWith(color: Theme.of(context).colorScheme.onPrimary),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _playerCount = 1;
-                        });
-                      },
-                    ),
-                    Spacer(),
-                    TextButton(
-                      //color: _getButtonColor('playerCount', 2),
-                      child: Text(
-                        '2 PLAYERS',
-                        style: Theme.of(context).textTheme.bodySmall
-                            .merge(GoogleFonts.roboto())
-                            .copyWith(color: Theme.of(context).colorScheme.onPrimary),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _playerCount = 2;
-                        });
-                      },
-                    ),
-                    Spacer(flex: 2),
-                  ],
-                ),
-                Spacer(),
-                TextButton(
-                  //color: Theme.of(context).colorScheme.primary,
-                  onPressed: () {
-                    Navigator.of(context).push(_createRoute(findGame(snapshot.data, _selectedGame), _playerCount));
-                  },
-                  child: Text(
-                    'START',
-                    style: Theme.of(context).textTheme.bodySmall
-                        .merge(GoogleFonts.alegreyaSansSc())
-                        .copyWith(color: Theme.of(context).colorScheme.onPrimary),
-                  ),
-                ),
-                Spacer(flex: 5),
-              ],
-            );
-          }
-        ),
+      body: SafeArea(
+        child: Center(
+          child: FutureBuilder(
+            future: _fetchGames(),
+            builder: (context, snapshot) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        /// Select game
+                        Container(
+                          height: size.height*0.30,
+                          child: snapshot.hasData ? ListView.builder(
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return TextButton(
+                                //color: _getButtonColor('playerCount', 1),
+                                style: TextButton.styleFrom(
+                                    primary: Theme.of(context).colorScheme.onBackground
+                                ),
+                                child: Text(
+                                  '${snapshot.data[index].name}',
+                                  style: _getButtonStyle('gameSelection', snapshot.data[index].name),
+                                ),
+                                onPressed: () {
+                                  _changeSelection(snapshot.data[index].name);
+                                },
+                              );
+                            },
+                          ) : Text('no data'),
+                        ),
 
+                        /// Select number of players
+                        Container(
+                          height: 100,
+                          child: ListView(
+                            children: [
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                    primary: Theme.of(context).colorScheme.onBackground
+                                ),
+                                child: Text(
+                                  '1 PLAYER',
+                                  style: _getButtonStyle('playerCount', 1),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _changePlayerCount(1);
+                                  });
+                                },
+                              ),
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                    primary: Theme.of(context).colorScheme.onBackground
+                                ),
+                                child: Text(
+                                  '2 PLAYERS',
+                                  style: _getButtonStyle('playerCount', 2),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _changePlayerCount(2);
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  Stack(
+                    children: [
+                      /// Big circular button
+                      Center(
+                        heightFactor: 1,
+                        child: AnimatedStart(
+                          isReady: false,
+                          shouldAnimateReady: false,
+                          buttonSize: size.width*0.8,
+                        ),
+                      ),
+                      /// Orange line above button row
+                      Positioned(
+                        bottom: size.height*0.10,
+                        left: 0,
+                        height: 6,
+                        width: size.width,
+                        child: Container(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      /// Button row
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        height: size.height*0.10,
+                        width: size.width,
+                        child: Container(
+                          color: Theme.of(context).colorScheme.tertiary,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Expanded(
+                                child: TextButton(
+                                  style: TextButton.styleFrom(
+                                      primary: Theme.of(context).colorScheme.onBackground
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      /// settings
+                                    });
+                                  },
+                                  child: Text(
+                                    'SETTINGS',
+                                    style: _getButtonStyle('settings', false),
+                                  ),
+                                ),
+                              ),
+
+                              Expanded(
+                                child: TextButton(
+                                  style: TextButton.styleFrom(
+                                      primary: Theme.of(context).colorScheme.onBackground
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      /// toggle sound
+                                    });
+                                  },
+                                  child: Text(
+                                    'SOUND',
+                                    style: _getButtonStyle('sound', false),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      TextButton(
+                        //color: Theme.of(context).colorScheme.primary,
+                        onPressed: () {
+                          Navigator.of(context).push(_createRoute(findGame(snapshot.data, _selectedGame), _playerCount));
+                        },
+                        child: Text(
+                          'START',
+                          style: Theme.of(context).textTheme.bodySmall
+                              .merge(GoogleFonts.alegreyaSansSc())
+                              .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            }
+          ),
+        ),
       ),
     );
   }
@@ -138,15 +234,19 @@ class _MainViewState extends State<MainView> {
     super.initState();
   }
 
-  /// Get color for a button depending on its state.
-  Color _getButtonColor(option, buttonLabel) {
-    if (option == 'gameSelection' && buttonLabel == _selectedGame) {
-      return Theme.of(context).colorScheme.secondary;
+  /// Get style for a button depending on its state.
+  TextStyle _getButtonStyle(option, buttonLabel) {
+    if ((option == 'gameSelection' && buttonLabel == _selectedGame)
+        || (option == 'playerCount' && buttonLabel == _playerCount)
+        ||(option == 'settings' && buttonLabel == true)
+        ||(option == 'sound' && buttonLabel == true))  {
+      return Theme.of(context).textTheme.labelMedium
+          .merge(GoogleFonts.alegreyaSansSc())
+          .copyWith(color: Theme.of(context).colorScheme.primary);
     }
-    else if (option == 'playerCount' && buttonLabel == _playerCount) {
-      return Theme.of(context).colorScheme.secondary;
-    }
-    return Theme.of(context).colorScheme.primary;
+    return Theme.of(context).textTheme.labelSmall
+        .merge(GoogleFonts.alegreyaSansSc())
+        .copyWith(color: Theme.of(context).colorScheme.onBackground);
   }
 }
 

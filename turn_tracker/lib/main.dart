@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
 
 /// Theme for the app.
 ThemeData theme() {
-  final ThemeData base = ThemeData.light();
+  final ThemeData base = ThemeData.dark();
   return base.copyWith(
     colorScheme: _colorScheme,
 
@@ -49,13 +49,13 @@ ThemeData theme() {
       labelMedium: TextStyle(
         color: _colorScheme.primary,
         fontWeight: FontWeight.bold,
-        fontSize: 20,
+        fontSize: 25,
       ),
 
       /// inactive button
       labelSmall: TextStyle(
         color: _colorScheme.secondary,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.bold,
         fontSize: 18,
       ),
 
