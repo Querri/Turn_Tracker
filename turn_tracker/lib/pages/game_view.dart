@@ -60,7 +60,7 @@ class _GameViewState extends State<GameView> {
 
   @override
   Widget build(BuildContext context) {
-    //Screen.keepOn(true);
+    final Size screenSize = MediaQuery.of(context).size;
 
     if (!_turnTracker.initDone) {
       _turnTracker.init(widget.game, widget.playerCount);
@@ -72,6 +72,10 @@ class _GameViewState extends State<GameView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
+            if (widget.playerCount == 1)
+              Container(
+                height: screenSize.height*0.5,
+              ),
             if (widget.playerCount == 2)
               PlayerSection(
                 turnTracker: _turnTracker,
@@ -131,28 +135,28 @@ class PlayerSection extends StatelessWidget {
 
   /// Get style for a button depending on its state.
   List<TextStyle> _getActionButtonStyles(context, actionButtonCount, playerNum) {
-    List<TextStyle> buttonStyles = [];
+    List<TextStyle> textStyles = [];
 
     for (int i=0; i<actionButtonCount; i++) {
       if (turnTracker.isActionAvailable(i)) {
         if (turnTracker.isActionDone(playerNum, i)) {
-          buttonStyles.add(Theme.of(context).textTheme.labelMedium
-          .merge(GoogleFonts.alegreyaSansSc())
-          .copyWith(color: Theme.of(context).colorScheme.primary));
-        } else {
-          buttonStyles.add(Theme.of(context).textTheme.labelSmall
+          textStyles.add(Theme.of(context).textTheme.labelSmall
               .merge(GoogleFonts.alegreyaSansSc())
               .copyWith(color: Theme.of(context).colorScheme.onBackground));
+        } else {
+          textStyles.add(Theme.of(context).textTheme.labelMedium
+              .merge(GoogleFonts.alegreyaSansSc())
+              .copyWith(color: Theme.of(context).colorScheme.primary));
         }
       }
     }
-    return buttonStyles;
+    return textStyles;
   }
 
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    final Size screenSize = MediaQuery.of(context).size;
     final actionButtonCount = turnTracker.getNumberOfActions();
 
     return Expanded(
@@ -209,16 +213,16 @@ class PlayerSection extends StatelessWidget {
                         child: AnimatedReady(
                           isReady: turnTracker.isPlayerReady(playerNum),
                           shouldAnimateReady: turnTracker.shouldAnimatePlayerReady(playerNum),
-                          buttonSize: size.width*0.8,
+                          buttonSize: screenSize.width*0.8,
                         ),
                       ),
 
                       /// Orange line above button row
                       Positioned(
-                        bottom: size.height*0.10,
+                        bottom: screenSize.height*0.10,
                         left: 0,
                         height: 6,
-                        width: size.width,
+                        width: screenSize.width,
                         child: Container(
                           color: Theme.of(context).colorScheme.primary,
                         ),

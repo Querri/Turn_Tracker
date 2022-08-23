@@ -31,70 +31,73 @@ class ActionButtonBar extends StatelessWidget {
       width: screenSize.width,
       child: Container(
         color: Theme.of(context).colorScheme.tertiary,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
 
-            if (buttonCount > 0)
-              Expanded(
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                      primary: Theme.of(context).colorScheme.onBackground
-                  ),
-                  onPressed: () {
-                    toggleButton(0);
-                  },
-                  child: Text(
-                    buttonTexts[0],
-                    style: buttonStyles[0],
+        child:TextButtonTheme(
+          data: TextButtonThemeData(
+            style: TextButton.styleFrom(
+              primary: Theme.of(context).colorScheme.onBackground,
+              alignment: Alignment.center,
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+
+              if (buttonCount > 0)
+                Expanded(
+                  child: TextButton(
+                    onPressed: () {
+                      toggleButton(0);
+                    },
+                    child: Text(
+                      buttonTexts[0],
+                      style: buttonStyles[0],
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
-              ),
 
-            if (buttonCount > 1)
-              Expanded(
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                      primary: Theme.of(context).colorScheme.onBackground
-                  ),
-                  onPressed: () {
-                    toggleButton(1);
-                  },
-                  child: Text(
-                    buttonTexts[1],
-                    style: buttonStyles[1],
+              if (buttonCount > 1)
+                Expanded(
+                  child: TextButton(
+                    onPressed: () {
+                      toggleButton(1);
+                    },
+                    child: Text(
+                      buttonTexts[1],
+                      style: buttonStyles[1],
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
-              ),
 
-            if (buttonCount > 2)
-              Expanded(
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                      primary: Theme.of(context).colorScheme.onBackground
-                  ),
-                  onPressed: () {
-                    toggleButton(2);
-                  },
-                  child: Text(
-                    buttonTexts[2],
-                    style: buttonStyles[2],
+              if (buttonCount > 2)
+                Expanded(
+                  child: TextButton(
+                    onPressed: () {
+                      toggleButton(2);
+                    },
+                    child: Text(
+                      buttonTexts[2],
+                      style: buttonStyles[2],
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
-              ),
 
-            /*
-            if (buttonCount > 0)
-              _ActionButton(
-                buttonNum: 0,
-                buttonText: buttonTexts[0],
-                buttonStyle: _getButtonStyle(context, buttonTexts[0], false),
-                toggleButton: _toggleButton,
-              ),
-            */
+              /*
+              if (buttonCount > 0)
+                _ActionButton(
+                  buttonNum: 0,
+                  buttonText: buttonTexts[0],
+                  buttonStyle: _getButtonStyle(context, buttonTexts[0], false),
+                  toggleButton: _toggleButton,
+                ),
+              */
 
-          ],
+            ],
+          ),
         ),
       ),
     );
