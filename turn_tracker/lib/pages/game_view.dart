@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:wakelock/wakelock.dart';
 
 import 'package:spirit_island_app/pages/game_view_animator.dart';
@@ -141,11 +140,9 @@ class PlayerSection extends StatelessWidget {
       if (turnTracker.isActionAvailable(i)) {
         if (turnTracker.isActionDone(playerNum, i)) {
           textStyles.add(Theme.of(context).textTheme.labelSmall
-              .merge(GoogleFonts.alegreyaSansSc())
               .copyWith(color: Theme.of(context).colorScheme.onBackground));
         } else {
           textStyles.add(Theme.of(context).textTheme.labelMedium
-              .merge(GoogleFonts.alegreyaSansSc())
               .copyWith(color: Theme.of(context).colorScheme.primary));
         }
       }
@@ -190,7 +187,6 @@ class PlayerSection extends StatelessWidget {
                       turnTracker.getPhaseText(),
                       key: ValueKey<String>(turnTracker.getPhaseText()),
                       style: Theme.of(context).textTheme.headlineLarge
-                          .merge(GoogleFonts.alegreyaSansSc()),
                     ),
                   ),
                   IconButton(

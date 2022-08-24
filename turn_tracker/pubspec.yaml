@@ -45,6 +45,13 @@ flutter:
     - 1024_ready_active.png
     - 1024_ready_pressed.png
     - games.json
+  fonts:
+    - family: AlegreyaSansSC
+      fonts:
+      - asset: assets/fonts/AlegreyaSansSC-Regular.ttf
+      - asset: assets/fonts/AlegreyaSansSC-Medium.ttf
+      - asset: assets/fonts/AlegreyaSansSC-Bold.ttf
+      - asset: assets/fonts/AlegreyaSansSC-ExtraBold.ttf
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
