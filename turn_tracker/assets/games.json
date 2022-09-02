@@ -20,10 +20,10 @@
       ],
       "actions": [
         ["", "", ""],
-        ["1st action", "2nd action", "3rd action"],
-        ["move hunter enemies", "resolve enemy attacks", ""],
-        ["ready exhausted cards", "engage ready enemies", ""],
-        ["draw 1 card", "gain 1 resource", "discard to 8 cards"]
+        ["1st \naction", "2nd \naction", "3rd \naction"],
+        ["move hunter \nenemies", "resolve \nenemy attacks", ""],
+        ["ready \ncards", "engage \nready enemies", ""],
+        ["draw \n1 card", "gain 1 \nresource", "discard to \n8 cards"]
       ]
     },
 
@@ -33,20 +33,23 @@
       "phases": [
         "start phase",
         "player turns phase",
-        "colony phase",
+        "colony phase: upkeep",
+        "colony phase: crisis",
         "end phase"
       ],
       "phase_settings": [
         [],
         ["order"],
         ["sym"],
+        ["sym"],
         ["sym"]
       ],
       "actions": [
-        ["reveal new crisis", "roll action dice", ""],
-        ["move survivors", "use action dice", "take a crossroads card"],
-        ["pay food and check waste", "resolve crisis", "add zombies"],
-        ["check main objective", "move round tracker", "pass first player token"]
+        ["reveal \nnew crisis", "roll \naction dice", ""],
+        ["move \nsurvivors", "use \naction dice", "crossroads \ncard"],
+        ["pay food", "check waste", ""],
+        ["resolve \ncrisis", "add \nzombies", ""],
+        ["main \nobjective", "round \ntracker", "starter \ntoken"]
       ]
     },
 
@@ -67,9 +70,9 @@
       ],
       "actions": [
         ["murderer selects solution", "read the script", ""],
-        ["draw 6 tiles", "select tiles", "place 6 bullets"],
-        ["draw 1 tile", "replace tile and bullet", ""],
-        ["draw 1 tile", "replace tile and bullet", ""]
+        ["draw \n6 tiles", "select \ntiles", "place \n6 bullets"],
+        ["draw \n1 tile", "replace tile \nand bullet", ""],
+        ["draw \n1 tile", "replace tile \nand bullet", ""]
       ]
     },
 
@@ -91,11 +94,11 @@
         []
       ],
       "actions": [
-        ["new a.i. card", "karn precence", "move enemies"],
-        ["choose player order", "play cards", ""],
-        ["spend charm", "build creature", ""],
+        ["new \na.i. card", "karn \nprecence", "move \nenemies"],
+        ["choose \nplayer order", "play cards", ""],
+        ["spend \ncharm", "build \ncreature", ""],
         ["move", "battle", ""],
-        ["discard cards", "move counters", ""]
+        ["discard \ncards", "move \ncounters", ""]
       ]
     },
 
@@ -139,12 +142,12 @@
         []
       ],
       "actions": [
-        ["growth", "gain energy", "play cards"],
-        ["resolve innate powers", "resolve card powers", ""],
-        ["blight effect", "event card", "fear cards"],
+        ["growth", "gain \nenergy", "play \ncards"],
+        ["resolve \ninnate powers", "resolve \ncard powers", ""],
+        ["blight \neffect", "event \ncard", "fear \ncards"],
         ["ravage", "build", "explore"],
-        ["resolve innate powers", "resolve card powers", ""],
-        ["discard cards and energy", "heal partial damage", ""]
+        ["resolve \ninnate powers", "resolve \ncard powers", ""],
+        ["discard cards \nand energy", "heal partial damage", ""]
       ]
     },
 
@@ -164,9 +167,9 @@
         ["sym"]
       ],
       "actions": [
-        ["ap", "ap", "exert ap"],
+        ["ap", "ap", "exert \nap"],
         ["move horrors", "", ""],
-        ["reveal new hazard", "complete hazard", ""],
+        ["reveal \nnew hazard", "complete \nhazard", ""],
         ["pass starting caver marker", "", ""]
       ]
     }

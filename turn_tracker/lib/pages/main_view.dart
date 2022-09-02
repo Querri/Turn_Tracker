@@ -73,8 +73,7 @@ class _MainViewState extends State<MainView> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-    //Screen.keepOn(false);
+    final Size screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -96,7 +95,7 @@ class _MainViewState extends State<MainView> {
                         children: [
                           /// Select game
                           Container(
-                            height: size.height*0.30,
+                            height: screenSize.height * 0.30,
                             child: snapshot.hasData ? ListView.builder(
                               itemCount: snapshot.data.length,
                               itemBuilder: (BuildContext context, int index) {
@@ -165,15 +164,15 @@ class _MainViewState extends State<MainView> {
                           child: AnimatedStart(
                             isReady: false,
                             shouldAnimateReady: false,
-                            buttonSize: size.width*0.8,
+                            buttonSize: screenSize.width * 0.8,
                           ),
                         ),
                         /// Orange line above button row
                         Positioned(
-                          bottom: size.height*0.10,
+                          bottom: 90,
                           left: 0,
                           height: 6,
-                          width: size.width,
+                          width: screenSize.width,
                           child: Container(
                             color: Theme.of(context).colorScheme.primary,
                           ),

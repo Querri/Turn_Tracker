@@ -82,6 +82,18 @@ class _GameViewState extends State<GameView> {
                 toggleReady: _toggleReady,
                 toggleAction: _toggleAction,
               ),
+            if (widget.playerCount ==2 && _turnTracker.isPhaseSymmetric())
+              Expanded(
+                child:
+                  Center(
+                    heightFactor: 1,
+                    child: AnimatedReady(
+                      isReady: _turnTracker.isPlayerReady(1),
+                      shouldAnimateReady: _turnTracker.shouldAnimatePlayerReady(1),
+                      buttonSize: screenSize.width * 0.8,
+                    ),
+                ),
+              ),
             PlayerSection(
               turnTracker: _turnTracker,
               playerNum: 0,
@@ -154,6 +166,7 @@ class PlayerSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
+
     final actionButtonCount = turnTracker.getNumberOfActions();
 
     return Expanded(
@@ -175,7 +188,7 @@ class PlayerSection extends StatelessWidget {
                     },
                   ),
                   AnimatedSwitcher(
-                    duration: Duration(seconds: 1),
+                    duration: Duration(milliseconds: 200),
                     transitionBuilder:
                         (Widget child, Animation<double> animation) {
                       return ScaleTransition(
@@ -204,18 +217,19 @@ class PlayerSection extends StatelessWidget {
                     children: [
 
                       /// Big circular ready button
-                      Center(
-                        heightFactor: 1,
-                        child: AnimatedReady(
-                          isReady: turnTracker.isPlayerReady(playerNum),
-                          shouldAnimateReady: turnTracker.shouldAnimatePlayerReady(playerNum),
-                          buttonSize: screenSize.width*0.8,
+                      if (!turnTracker.isPhaseSymmetric())
+                        Center(
+                          heightFactor: 1,
+                          child: AnimatedReady(
+                            isReady: turnTracker.isPlayerReady(playerNum),
+                            shouldAnimateReady: turnTracker.shouldAnimatePlayerReady(playerNum),
+                            buttonSize: screenSize.width * 0.8,
+                          ),
                         ),
-                      ),
 
                       /// Orange line above button row
                       Positioned(
-                        bottom: screenSize.height*0.10,
+                        bottom: 90,
                         left: 0,
                         height: 6,
                         width: screenSize.width,
@@ -233,14 +247,15 @@ class PlayerSection extends StatelessWidget {
                       ),
 
                       /// Temporary ready button
-                      Center(
-                        child: TextButton(
-                          onPressed: () {
-                            toggleReady(playerNum);
-                          },
-                          child: null,
+                      if (!turnTracker.isPhaseSymmetric())
+                        Center(
+                          child: TextButton(
+                            onPressed: () {
+                              toggleReady(playerNum);
+                            },
+                            child: null,
+                          ),
                         ),
-                      ),
                     ],
                   ),
                 ),

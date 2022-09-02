@@ -27,7 +27,7 @@ class ActionButtonBar extends StatelessWidget {
     return Positioned(
       bottom: 0,
       left: 0,
-      height: screenSize.height*0.10,
+      height: 90,
       width: screenSize.width,
       child: Container(
         color: Theme.of(context).colorScheme.tertiary,
