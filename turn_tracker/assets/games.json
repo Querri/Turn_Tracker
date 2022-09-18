@@ -1,45 +1,78 @@
 {
   "games": [
+
     {
-      "name": "generic",
+      "name": "arkham horror: the card game",
       "type": "co-op",
       "phases": [
-        ""
+        "mythos phase",
+        "investigation phase",
+        "enemy phase",
+        "upkeep phase 1/2",
+        "upkeep phase 2/2"
       ],
       "phase_settings": [
+        [],
+        ["order"],
+        ["sym"],
+        ["sym"],
         []
       ],
       "actions": [
-        ["", "", ""]
+        ["", "", ""],
+        ["1st \naction", "2nd \naction", "3rd \naction"],
+        ["move hunter \nenemies", "resolve \nenemy attacks", ""],
+        ["ready \ncards", "engage \nready enemies", ""],
+        ["draw \n1 card", "gain 1 \nresource", "discard to \n8 cards"]
       ]
     },
 
     {
-      "name": "spirit island",
+      "name": "dead of winter",
       "type": "co-op",
       "phases": [
-        "spirit phase",
-        "fast power phase",
-        "invader phase 1/2",
-        "invader phase 2/2",
-        "slow power phase",
-        "time passes"
+        "start phase",
+        "player turns phase",
+        "colony phase: upkeep",
+        "colony phase: crisis",
+        "end phase"
       ],
       "phase_settings": [
         [],
-        [],
+        ["order"],
         ["sym"],
         ["sym"],
-        [],
-        []
+        ["sym"]
       ],
       "actions": [
-        ["growth", "gain energy", "play cards"],
-        ["resolve innate powers", "resolve card powers", ""],
-        ["blight effect", "event card", "fear card"],
-        ["invaders ravage", "invaders build", "invaders explore"],
-        ["resolve innate powers", "resolve card powers", ""],
-        ["discard cards and energy", "heal partial damage", ""]
+        ["reveal \nnew crisis", "roll \naction dice", ""],
+        ["move \nsurvivors", "use \naction dice", "crossroads \ncard"],
+        ["pay food", "check waste", ""],
+        ["resolve \ncrisis", "add \nzombies", ""],
+        ["main \nobjective", "round \ntracker", "starter \ntoken"]
+      ]
+    },
+
+    {
+      "name": "deception: murder in hong kong",
+      "type": "co-op",
+      "phases": [
+        "crime phase",
+        "investigation phase",
+        "investigation phase",
+        "investigation phase"
+      ],
+      "phase_settings": [
+        ["sym"],
+        ["sym"],
+        ["sym"],
+        ["sym"]
+      ],
+      "actions": [
+        ["murderer selects solution", "read the script", ""],
+        ["draw \n6 tiles", "select \ntiles", "place \n6 bullets"],
+        ["draw \n1 tile", "replace tile \nand bullet", ""],
+        ["draw \n1 tile", "replace tile \nand bullet", ""]
       ]
     },
 
@@ -61,11 +94,11 @@
         []
       ],
       "actions": [
-        ["new a.i. card", "karn precence", "move enemies"],
-        ["choose player order", "play cards", ""],
-        ["spend charm", "build creature", ""],
+        ["new \na.i. card", "karn \npresence", "move \nenemies"],
+        ["choose \nplayer order", "play cards", ""],
+        ["spend \ncharm", "build \ncreature", ""],
         ["move", "battle", ""],
-        ["discard cards", "move counters", ""]
+        ["discard \ncards", "move \ncounters", ""]
       ]
     },
 
@@ -90,6 +123,35 @@
     },
 
     {
+      "name": "spirit island",
+      "type": "co-op",
+      "phases": [
+        "spirit phase",
+        "fast power phase",
+        "event phase",
+        "invader phase",
+        "slow power phase",
+        "time passes"
+      ],
+      "phase_settings": [
+        [],
+        [],
+        ["sym"],
+        ["sym"],
+        [],
+        []
+      ],
+      "actions": [
+        ["growth", "gain \nenergy", "play \ncards"],
+        ["resolve \ninnate powers", "resolve \ncard powers", ""],
+        ["blight \neffect", "event \ncard", "fear \ncards"],
+        ["ravage", "build", "explore"],
+        ["resolve \ninnate powers", "resolve \ncard powers", ""],
+        ["discard cards \nand energy", "heal partial damage", ""]
+      ]
+    },
+
+    {
       "name": "sub terra",
       "type": "co-op",
       "phases": [
@@ -105,82 +167,10 @@
         ["sym"]
       ],
       "actions": [
-        ["ap", "ap", "exert ap"],
+        ["ap", "ap", "exert \nap"],
         ["move horrors", "", ""],
-        ["reveal new hazard", "complete hazard", ""],
+        ["reveal \nnew hazard", "complete \nhazard", ""],
         ["pass starting caver marker", "", ""]
-      ]
-    },
-
-    {
-      "name": "dead of winter",
-      "type": "co-op",
-      "phases": [
-        "start phase",
-        "player turns phase",
-        "colony phase",
-        "end phase"
-      ],
-      "phase_settings": [
-        [],
-        ["order"],
-        ["sym"],
-        ["sym"]
-      ],
-      "actions": [
-        ["reveal new crisis", "roll action dice", ""],
-        ["move survivors", "use action dice", "take a crossroads card"],
-        ["pay food and check waste", "resolve crisis", "add zombies"],
-        ["check main objective", "move round tracker", "pass first player token"]
-      ]
-    },
-
-    {
-      "name": "arkham horror: the card game",
-      "type": "co-op",
-      "phases": [
-        "mythos phase",
-        "investigation phase",
-        "enemy phase",
-        "upkeep phase 1/2",
-        "upkeep phase 2/2"
-      ],
-      "phase_settings": [
-        [],
-        ["order"],
-        ["sym"],
-        ["sym"],
-        []
-      ],
-      "actions": [
-        ["", "", ""],
-        ["1st action", "2nd action", "3rd action"],
-        ["move hunter enemies", "resolve enemy attacks", ""],
-        ["ready exhausted cards", "engage ready enemies", ""],
-        ["draw 1 card", "gain 1 resource", "discard to 8 cards"]
-      ]
-    },
-
-    {
-      "name": "deception: murder in hong kong",
-      "type": "co-op",
-      "phases": [
-        "crime phase",
-        "investigation phase",
-        "investigation phase",
-        "investigation phase"
-      ],
-      "phase_settings": [
-        ["sym"],
-        ["sym"],
-        ["sym"],
-        ["sym"]
-      ],
-      "actions": [
-        ["murderer selects solution", "read the script", ""],
-        ["draw 6 tiles", "select tiles", "place 6 bullets"],
-        ["draw 1 tile", "replace tile and bullet", ""],
-        ["draw 1 tile", "replace tile and bullet", ""]
       ]
     }
   ]

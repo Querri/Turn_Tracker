@@ -38,11 +38,13 @@ ThemeData theme() {
         color: _colorScheme.onBackground,
         fontWeight: FontWeight.bold,
         fontSize: 35,
+        fontFamily: 'AlegreyaSansSC'
       ),
 
       headlineMedium: TextStyle(
         color: _colorScheme.onBackground,
         fontWeight: FontWeight.bold,
+        fontFamily: 'AlegreyaSansSC'
       ),
 
       /// active button
@@ -50,6 +52,7 @@ ThemeData theme() {
         color: _colorScheme.primary,
         fontWeight: FontWeight.bold,
         fontSize: 25,
+        fontFamily: 'AlegreyaSansSC'
       ),
 
       /// inactive button
@@ -57,12 +60,14 @@ ThemeData theme() {
         color: _colorScheme.secondary,
         fontWeight: FontWeight.bold,
         fontSize: 18,
+        fontFamily: 'AlegreyaSansSC'
       ),
 
       /// random text
       bodySmall: TextStyle(
         color: _colorScheme.onBackground,
         fontSize: 18,
+        fontFamily: 'AlegreyaSansSC'
       ),
     ),
 

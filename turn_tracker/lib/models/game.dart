@@ -45,7 +45,6 @@ class Game {
 
   /// True if a phase is symmetric.
   bool isPhaseSymmetric(phaseNum) {
-    // TODO probably needs fixing for multiple settings per phase.
     for (String settings in phaseSettings[phaseNum]) {
       if (settings == "sym") return true;
     }
