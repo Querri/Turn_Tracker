@@ -94,7 +94,7 @@
         []
       ],
       "actions": [
-        ["new \na.i. card", "karn \nprecence", "move \nenemies"],
+        ["new \na.i. card", "karn \npresence", "move \nenemies"],
         ["choose \nplayer order", "play cards", ""],
         ["spend \ncharm", "build \ncreature", ""],
         ["move", "battle", ""],

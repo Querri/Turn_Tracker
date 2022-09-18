@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:wakelock/wakelock.dart';
 
 import 'package:spirit_island_app/pages/game_view_animator.dart';
+import 'package:spirit_island_app/pages/sections/player_section.dart';
+import 'package:spirit_island_app/pages/sections/player_section_symmetric.dart';
 import 'package:spirit_island_app/pages/sections/action_button_bar.dart';
 import 'package:spirit_island_app/turn_tracker.dart';
 import 'package:spirit_island_app/models/game.dart';
@@ -67,41 +69,64 @@ class _GameViewState extends State<GameView> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            if (widget.playerCount == 1)
-              Container(
-                height: screenSize.height*0.5,
-              ),
-            if (widget.playerCount == 2)
-              PlayerSection(
-                turnTracker: _turnTracker,
-                playerNum: 1,
-                toggleReady: _toggleReady,
-                toggleAction: _toggleAction,
-              ),
-            if (widget.playerCount ==2 && _turnTracker.isPhaseSymmetric())
-              Expanded(
-                child:
-                  Center(
-                    heightFactor: 1,
-                    child: AnimatedReady(
-                      isReady: _turnTracker.isPlayerReady(1),
-                      shouldAnimateReady: _turnTracker.shouldAnimatePlayerReady(1),
-                      buttonSize: screenSize.width * 0.8,
-                    ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+
+          /// Turn with 1 player.
+          if (widget.playerCount == 1)
+            Column(
+              children: [
+                SizedBox(
+                  height: screenSize.height / 2,
                 ),
-              ),
-            PlayerSection(
-              turnTracker: _turnTracker,
-              playerNum: 0,
-              toggleReady: _toggleReady,
-              toggleAction: _toggleAction,
+                PlayerSection(
+                  turnTracker: _turnTracker,
+                  playerNum: 0,
+                  toggleReady: _toggleReady,
+                  toggleAction: _toggleAction,
+                ),
+              ],
             ),
-          ],
-        ),
+
+          /// Asymmetric turn with 2 players.
+          if ((widget.playerCount == 2) && (!_turnTracker.isPhaseSymmetric()))
+            Column(
+              children: [
+                PlayerSection(
+                  turnTracker: _turnTracker,
+                  playerNum: 1,
+                  toggleReady: _toggleReady,
+                  toggleAction: _toggleAction,
+                ),
+                PlayerSection(
+                  turnTracker: _turnTracker,
+                  playerNum: 0,
+                  toggleReady: _toggleReady,
+                  toggleAction: _toggleAction,
+                ),
+              ],
+            ),
+
+          /// Symmetric turn with 2 players.
+          if ((widget.playerCount == 2) && (_turnTracker.isPhaseSymmetric()))
+            Column(
+              children: [
+                PlayerSectionSymmetric(
+                  turnTracker: _turnTracker,
+                  playerNum: 1,
+                  toggleAction: _toggleAction,
+                ),
+                PlayerSectionSymmetric(
+                  turnTracker: _turnTracker,
+                  playerNum: 0,
+                  toggleAction: _toggleAction,
+                ),
+              ],
+            ),
+        ],
       ),
     );
   }
@@ -125,162 +150,3 @@ class _GameViewState extends State<GameView> {
   }
 }
 
-
-/// Section for a player.
-///
-/// Player 0 is right way up and player 1 is upside down.
-class PlayerSection extends StatelessWidget {
-  PlayerSection({this.turnTracker, this.playerNum,
-    @required this.toggleReady, @required this.toggleAction});
-  final turnTracker;
-  final playerNum;
-  final ValueChanged<int> toggleReady;
-  final ValueChanged<List<int>> toggleAction;
-
-
-  /// Add playerNum to toggleAction function call.
-  void _toggleActionButton(int buttonNum) {
-    toggleAction([playerNum, buttonNum]);
-  }
-
-
-  /// Get style for a button depending on its state.
-  List<TextStyle> _getActionButtonStyles(context, actionButtonCount, playerNum) {
-    List<TextStyle> textStyles = [];
-
-    for (int i=0; i<actionButtonCount; i++) {
-      if (turnTracker.isActionAvailable(i)) {
-        if (turnTracker.isActionDone(playerNum, i)) {
-          textStyles.add(Theme.of(context).textTheme.labelSmall
-              .copyWith(color: Theme.of(context).colorScheme.onBackground));
-        } else {
-          textStyles.add(Theme.of(context).textTheme.labelMedium
-              .copyWith(color: Theme.of(context).colorScheme.primary));
-        }
-      }
-    }
-    return textStyles;
-  }
-
-
-  @override
-  Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-
-    final actionButtonCount = turnTracker.getNumberOfActions();
-
-    return Expanded(
-      child: RotatedBox(
-        quarterTurns: _getRotation(playerNum),
-        child: Container(
-          width: double.infinity,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.arrow_left),
-                    color: Theme.of(context).colorScheme.onBackground,
-                    onPressed: () {
-                      toggleReady(-1);
-                    },
-                  ),
-                  AnimatedSwitcher(
-                    duration: Duration(milliseconds: 200),
-                    transitionBuilder:
-                        (Widget child, Animation<double> animation) {
-                      return ScaleTransition(
-                        child: child,
-                        scale: animation,
-                      );
-                    },
-                    child: Text(
-                      turnTracker.getPhaseText(),
-                      key: ValueKey<String>(turnTracker.getPhaseText()),
-                      style: Theme.of(context).textTheme.headlineLarge
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.arrow_right),
-                    color: Theme.of(context).colorScheme.onBackground,
-                    onPressed: () {
-                      toggleReady(-2);
-                    },
-                  ),
-                ],
-              ),
-              Expanded(
-                child: Container(
-                  child: Stack(
-                    children: [
-
-                      /// Big circular ready button
-                      if (!turnTracker.isPhaseSymmetric())
-                        Center(
-                          heightFactor: 1,
-                          child: AnimatedReady(
-                            isReady: turnTracker.isPlayerReady(playerNum),
-                            shouldAnimateReady: turnTracker.shouldAnimatePlayerReady(playerNum),
-                            buttonSize: screenSize.width * 0.8,
-                          ),
-                        ),
-
-                      /// Orange line above button row
-                      Positioned(
-                        bottom: 90,
-                        left: 0,
-                        height: 6,
-                        width: screenSize.width,
-                        child: Container(
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-
-                      /// Button row
-                      ActionButtonBar(
-                        buttonCount: actionButtonCount,
-                        buttonTexts: turnTracker.getActionText(),
-                        buttonStyles: _getActionButtonStyles(context, actionButtonCount, playerNum),
-                        toggleButton: _toggleActionButton,
-                      ),
-
-                      /// Temporary ready button
-                      if (!turnTracker.isPhaseSymmetric())
-                        Center(
-                          child: TextButton(
-                            onPressed: () {
-                              toggleReady(playerNum);
-                            },
-                            child: null,
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  /// Get rotation value for each player.
-  ///
-  /// Used to rotate player 1 180 degrees.
-  int _getRotation(playerNum) {
-    if (playerNum == 1) return 2;
-    else return 0;
-  }
-
-  /// Get color for a button based on its state.
-  Color _getReadyButtonColor(context, playerNum) {
-    if (turnTracker.checkReadiness(playerNum)) {
-      return Theme.of(context).colorScheme.secondary;
-    } else {
-      return Color(0xFF232323);
-    }
-  }
-}

@@ -85,17 +85,6 @@ class ActionButtonBar extends StatelessWidget {
                     ),
                   ),
                 ),
-
-              /*
-              if (buttonCount > 0)
-                _ActionButton(
-                  buttonNum: 0,
-                  buttonText: buttonTexts[0],
-                  buttonStyle: _getButtonStyle(context, buttonTexts[0], false),
-                  toggleButton: _toggleButton,
-                ),
-              */
-
             ],
           ),
         ),
@@ -104,39 +93,3 @@ class ActionButtonBar extends StatelessWidget {
   }
 }
 
-
-/*
-/// An action button.
-class _ActionButton extends StatelessWidget {
-
-  _ActionButton({
-    @required this.buttonNum,
-    @required this.buttonText,
-    @required this.buttonStyle,
-    @required this.toggleButton
-  });
-
-  final int buttonNum;
-  final String buttonText;
-  final TextStyle buttonStyle;
-  final ValueChanged<int> toggleButton;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: TextButton(
-        style: TextButton.styleFrom(
-            primary: Theme.of(context).colorScheme.onBackground
-        ),
-        onPressed: () {
-          toggleButton(buttonNum);
-        },
-        child: Text(
-          buttonText,
-          style: buttonStyle,
-        ),
-      ),
-    );
-  }
-}
- */
