@@ -31,7 +31,7 @@ class ActionButtonBar extends StatelessWidget {
       width: screenSize.width,
       child: Container(
         color: Theme.of(context).colorScheme.tertiary,
-
+        height: 90,
         child:TextButtonTheme(
           data: TextButtonThemeData(
             style: TextButton.styleFrom(

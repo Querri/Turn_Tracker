@@ -89,6 +89,17 @@ class PlayerSection extends StatelessWidget {
                   height: screenSize.height / 2 - 100,
                 ),
 
+                /// Orange line above button row
+                Positioned(
+                  bottom: 90,
+                  left: 0,
+                  height: 6,
+                  width: screenSize.width,
+                  child: Container(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+
                 /// Button row
                 ActionButtonBar(
                   buttonCount: actionButtonCount,

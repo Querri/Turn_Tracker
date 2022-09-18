@@ -56,36 +56,43 @@ class PlayerSectionSymmetric extends StatelessWidget {
       height: screenSize.height / 2,
       child: RotatedBox(
         quarterTurns: _getRotation(playerNum),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Stack(
           children: [
-            Container(
-              padding: EdgeInsets.all(20),
-              child: Text(
-                  turnTracker.getPhaseText(),
-                  key: ValueKey<String>(turnTracker.getPhaseText()),
-                  style: Theme.of(context).textTheme.headlineLarge
+            Positioned(
+              bottom: 96,
+              width: screenSize.width,
+              child: Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.all(20),
+                child: Text(
+                    turnTracker.getPhaseText(),
+                    key: ValueKey<String>(turnTracker.getPhaseText()),
+                    style: Theme.of(context).textTheme.headlineLarge
+                ),
               ),
             ),
 
-            Stack(
-              children: [
-                /// Ready button
-                Container(
-                  height: 90,
-                  child: ActionButtonBar(
-                    buttonCount: actionButtonCount,
-                    buttonTexts: turnTracker.getActionText(),
-                    buttonStyles: _getActionButtonStyles(context, actionButtonCount, playerNum),
-                    toggleButton: _toggleActionButton,
-                  ),
-                ),
-              ],
+            /// Orange line above button row
+            Positioned(
+              bottom: 90,
+              left: 0,
+              height: 6,
+              width: screenSize.width,
+              child: Container(
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+
+            /// Button row
+            ActionButtonBar(
+              buttonCount: actionButtonCount,
+              buttonTexts: turnTracker.getActionText(),
+              buttonStyles: _getActionButtonStyles(context, actionButtonCount, playerNum),
+              toggleButton: _toggleActionButton,
             ),
           ],
         ),
+
       ),
     );
   }
