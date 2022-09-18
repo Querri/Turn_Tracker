@@ -72,13 +72,18 @@ class PlayerSection extends StatelessWidget {
         child: Stack(
           children: [
             /// Ready button
-            AnimatedReady(
-              isReady: false,
-              shouldAnimateReady: false,
-              buttonSize: screenSize.width * 0.8,
-              useCroppedImage: true,
+            Positioned(
+              bottom: 0,
+              left: 0,
+              width: screenSize.width,
+              child: AnimatedReady(
+                isReady: false,
+                shouldAnimateReady: false,
+                buttonSize: screenSize.width * 0.8,
+                useCroppedImage: true,
+              ),
             ),
-
+            
             /// Orange line above button row
             Positioned(
               bottom: 90,
