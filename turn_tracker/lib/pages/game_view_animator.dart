@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 
 /// Custom animations for ready button.
 class AnimatedReady extends StatefulWidget {
-  AnimatedReady({Key key, this.isReady, this.shouldAnimateReady, this.buttonSize}) : super(key: key);
+  AnimatedReady({Key key, this.isReady, this.shouldAnimateReady,
+    this.buttonSize, this.useCroppedImage}) : super(key: key);
   final bool isReady;
   final bool shouldAnimateReady;
   final double buttonSize;
+  final bool useCroppedImage;
 
   @override
   _AnimatedReadyState createState() => _AnimatedReadyState();
@@ -30,14 +32,22 @@ class _AnimatedReadyState extends State<AnimatedReady> with TickerProviderStateM
   Widget build(BuildContext context) {
 
     if (widget.isReady) {
-      readyImage = AssetImage('1024_ready_inactive.png');
+      if (widget.useCroppedImage) {
+        readyImage = AssetImage('1024_ready_inactive_cropped.png');
+      } else {
+        readyImage = AssetImage('1024_ready_inactive.png');
+      }
       if (widget.shouldAnimateReady) {
         _controller.reset();
         _controller.forward().orCancel;
       }
     } else {
       //TODO check when toggled
-      readyImage = AssetImage('1024_ready_active.png');
+      if (widget.useCroppedImage) {
+        readyImage = AssetImage('1024_ready_active_cropped.png');
+      } else {
+        readyImage = AssetImage('1024_ready_active.png');
+      }
       _controller.reset();
       _controller.reverse().orCancel;
     }

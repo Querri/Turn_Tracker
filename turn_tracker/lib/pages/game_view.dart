@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:wakelock/wakelock.dart';
 
 import 'package:spirit_island_app/pages/game_view_animator.dart';
+import 'package:spirit_island_app/pages/main_view_animator.dart';
 import 'package:spirit_island_app/pages/sections/player_section.dart';
 import 'package:spirit_island_app/pages/sections/player_section_symmetric.dart';
 import 'package:spirit_island_app/pages/sections/action_button_bar.dart';
@@ -113,12 +114,21 @@ class _GameViewState extends State<GameView> {
           /// Symmetric turn with 2 players.
           if ((widget.playerCount == 2) && (_turnTracker.isPhaseSymmetric()))
             Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 PlayerSectionSymmetric(
                   turnTracker: _turnTracker,
                   playerNum: 1,
                   toggleAction: _toggleAction,
                 ),
+
+                AnimatedReady(
+                  isReady: false,
+                  shouldAnimateReady: false,
+                  buttonSize: screenSize.width * 0.8,
+                  useCroppedImage: false,
+                ),
+
                 PlayerSectionSymmetric(
                   turnTracker: _turnTracker,
                   playerNum: 0,

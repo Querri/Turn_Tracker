@@ -30,14 +30,14 @@ class _AnimatedStartState extends State<AnimatedStart> with TickerProviderStateM
   Widget build(BuildContext context) {
 
     if (widget.isReady) {
-      readyImage = AssetImage('1024_ready_inactive.png');
+      readyImage = AssetImage('1024_ready_inactive_cropped.png');
       if (widget.shouldAnimateReady) {
         _controller.reset();
         _controller.forward().orCancel;
       }
     } else {
       //TODO check when toggled
-      readyImage = AssetImage('1024_ready_active.png');
+      readyImage = AssetImage('1024_ready_active_cropped.png');
       _controller.reset();
       _controller.reverse().orCancel;
     }

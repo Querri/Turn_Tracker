@@ -53,7 +53,7 @@ class PlayerSectionSymmetric extends StatelessWidget {
 
 
     return SizedBox(
-      height: screenSize.height / 2,
+      height: screenSize.height / 2 - screenSize.width * 0.4,
       child: RotatedBox(
         quarterTurns: _getRotation(playerNum),
         child: Stack(

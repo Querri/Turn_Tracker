@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:spirit_island_app/pages/sections/action_button_bar.dart';
+import 'package:spirit_island_app/pages/game_view_animator.dart';
 
 
 /// Section for a player.
@@ -67,47 +69,46 @@ class PlayerSection extends StatelessWidget {
       height: screenSize.height / 2,
       child: RotatedBox(
         quarterTurns: _getRotation(playerNum),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Stack(
           children: [
-            Container(
-              padding: EdgeInsets.all(0),
-              child: Text(
-                  turnTracker.getPhaseText(),
-                  key: ValueKey<String>(turnTracker.getPhaseText()),
-                  style: Theme.of(context).textTheme.headlineLarge
+            /// Ready button
+            AnimatedReady(
+              isReady: false,
+              shouldAnimateReady: false,
+              buttonSize: screenSize.width * 0.8,
+              useCroppedImage: true,
+            ),
+
+            /// Orange line above button row
+            Positioned(
+              bottom: 90,
+              left: 0,
+              height: 6,
+              width: screenSize.width,
+              child: Container(
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
 
-            Stack(
-              children: [
-                /// Ready button
-                Container(
-                  color: Colors.red,
-                  height: screenSize.height / 2 - 100,
-                ),
+            /// Button row
+            ActionButtonBar(
+              buttonCount: actionButtonCount,
+              buttonTexts: turnTracker.getActionText(),
+              buttonStyles: _getActionButtonStyles(context, actionButtonCount, playerNum),
+              toggleButton: _toggleActionButton,
+            ),
 
-                /// Orange line above button row
-                Positioned(
-                  bottom: 90,
-                  left: 0,
-                  height: 6,
-                  width: screenSize.width,
-                  child: Container(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
+            /// Phase text
+            Positioned(
+              top: 0,
+              width: screenSize.width,
+              child: Center(
+                child: Text(
+                    turnTracker.getPhaseText(),
+                    key: ValueKey<String>(turnTracker.getPhaseText()),
+                    style: Theme.of(context).textTheme.headlineLarge
                 ),
-
-                /// Button row
-                ActionButtonBar(
-                  buttonCount: actionButtonCount,
-                  buttonTexts: turnTracker.getActionText(),
-                  buttonStyles: _getActionButtonStyles(context, actionButtonCount, playerNum),
-                  toggleButton: _toggleActionButton,
-                ),
-              ],
+              ),
             ),
           ],
         ),

@@ -42,7 +42,9 @@ dev_dependencies:
 flutter:
   assets:
     - 1024_ready_inactive.png
+    - 1024_ready_inactive_cropped.png
     - 1024_ready_active.png
+    - 1024_ready_active_cropped.png
     - 1024_ready_pressed.png
     - games.json
   fonts:
