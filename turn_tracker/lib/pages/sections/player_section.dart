@@ -83,7 +83,7 @@ class PlayerSection extends StatelessWidget {
                 useCroppedImage: true,
               ),
             ),
-            
+
             /// Orange line above button row
             Positioned(
               bottom: 90,

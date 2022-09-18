@@ -113,29 +113,57 @@ class _GameViewState extends State<GameView> {
 
           /// Symmetric turn with 2 players.
           if ((widget.playerCount == 2) && (_turnTracker.isPhaseSymmetric()))
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Stack(
               children: [
-                PlayerSectionSymmetric(
-                  turnTracker: _turnTracker,
-                  playerNum: 1,
-                  toggleAction: _toggleAction,
+
+                /// Orange line
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  height: screenSize.height,
+                  width: 6,
+                  child: Container(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
 
-                AnimatedReady(
-                  isReady: false,
-                  shouldAnimateReady: false,
-                  buttonSize: screenSize.width * 0.8,
-                  useCroppedImage: false,
+                /// Orange line
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  height: screenSize.height,
+                  width: 6,
+                  child: Container(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
 
-                PlayerSectionSymmetric(
-                  turnTracker: _turnTracker,
-                  playerNum: 0,
-                  toggleAction: _toggleAction,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    PlayerSectionSymmetric(
+                      turnTracker: _turnTracker,
+                      playerNum: 1,
+                      toggleAction: _toggleAction,
+                    ),
+
+                    AnimatedReady(
+                      isReady: false,
+                      shouldAnimateReady: false,
+                      buttonSize: screenSize.width * 0.8,
+                      useCroppedImage: false,
+                    ),
+
+                    PlayerSectionSymmetric(
+                      turnTracker: _turnTracker,
+                      playerNum: 0,
+                      toggleAction: _toggleAction,
+                    ),
+                  ],
                 ),
               ],
             ),
+
         ],
       ),
     );
